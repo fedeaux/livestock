@@ -1,0 +1,11 @@
+import Model from "<%= frontend_framework_path %>model";
+import <%= singular_class_name %>Schema from "<%= frontend_generated_path %>schemas/<%= singular_underscore_name %>";
+
+export default class <%= singular_class_name %> extends Model {
+  static schema = <%= singular_class_name %>Schema;
+
+  // Fill-in your attribute overrides
+  static attributesDefinitions() {
+    return {};
+  }
+}

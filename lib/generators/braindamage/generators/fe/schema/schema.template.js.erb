@@ -1,0 +1,5 @@
+export default {
+<%- exposed_attributes.each do |attribute| -%>
+  <%= attribute.name.camelcase(:lower) %>: { type: "<%= attribute.type %>" },
+<%- end -%>
+}

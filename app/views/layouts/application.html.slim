@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
+    title
+    = csrf_meta_tags
+    = csp_meta_tag
+    link href="/favicon.ico" rel=("shortcut icon") type="image/x-icon" /
+    link href="/favicon.ico" rel="icon" type="image/x-icon" /
+    /! <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"
+    meta content="telephone=no" name="format-detection" /
+    meta content="no" name="msapplication-tap-highlight" /
+    meta content="initial-scale=1, width=device-width, viewport-fit=cover" name="viewport" /
+    = javascript_pack_tag "application"
+    meta content="yes" name="apple-mobile-web-app-capable" /
+    meta content="yes" name="mobile-web-app-capable" /
+    css:
+      html, body, #spa {
+        height: 100%;
+      }
+  body
+    = yield
