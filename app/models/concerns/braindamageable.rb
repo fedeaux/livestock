@@ -5,7 +5,15 @@ module Braindamageable
     self.exposed_attributes = {}
 
     columns.each do |column|
-      expose column.name, { name: column.name, type: column.type }
+      expose column.name, {
+        name: column.name,
+        type: column.type,
+        default: column.default
+      }
+    end
+
+    if self.exposed_attributes["id"]
+      self.exposed_attributes["id"].writeable = false
     end
   end
 

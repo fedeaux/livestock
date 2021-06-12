@@ -12,7 +12,7 @@ class FeGenerator < BaseGenerator
   end
 
   def framework_path
-    "#{frontend_base_path}framework/"
+    "#{frontend_base_path}braindamage/"
   end
 
   def name_map

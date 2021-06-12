@@ -3,7 +3,11 @@ import { attributeAsProperty, setAttributeValue } from "braindamage/model/helper
 export default class Model {
   constructor(attributes = {}) {
     Object.entries(this.constructor.attributes()).forEach(([name, properties]) => {
-      this[name] = attributes[name];
+      if(attributes.hasOwnProperty(name)) {
+        this[name] = attributes[name];
+      } else {
+        this[name] = properties.default;
+      }
     });
   }
 

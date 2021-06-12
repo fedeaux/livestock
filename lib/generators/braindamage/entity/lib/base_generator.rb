@@ -4,7 +4,7 @@ class BaseGenerator
   include Nameable
   attr_reader :braindamage_generator
   delegate :name, :template, to: :braindamage_generator
-  delegate :exposed_attributes, to: :model
+  delegate :exposed_attributes, :validators, to: :model
 
   def initialize(braindamage_generator)
     @braindamage_generator = braindamage_generator

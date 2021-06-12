@@ -21,6 +21,12 @@ Bundler.require(*Rails.groups)
 
 module LiveStock
   class Application < Rails::Application
+    excluded_routes = ->(env) { !env["PATH_INFO"].match(%r{^/api}) }
+    config.middleware.use OliveBranch::Middleware,
+      inflection:       "camel",
+      exclude_params:   excluded_routes,
+      exclude_response: excluded_routes
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 

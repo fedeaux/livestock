@@ -1,3 +1,5 @@
+import { parseISO } from 'date-fns';
+
 export function attributeAsProperty(name, properties) {
   return {
     get: function() {
@@ -10,8 +12,28 @@ export function attributeAsProperty(name, properties) {
 };
 
 export function setAttributeValue(instance, name, value, properties) {
-  instance["@"+name] = value;
+  const parser = getAttributeParser(properties);
+
+  instance["@"+name] = parser(value);
 };
+
+
+function getAttributeParser(properties) {
+  if(properties.type === "integer") {
+    return (value) => parseInt(value)
+  }
+  if(properties.type === "datetime") {
+    return (value) => {
+      try {
+        return parseISO(value);
+      } catch(e) {
+        return properties.default;
+      }
+    }
+  }
+
+  return (value) => value;
+}
 
 // let model, type, v;
 

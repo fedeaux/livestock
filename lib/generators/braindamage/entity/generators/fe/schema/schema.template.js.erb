@@ -1,12 +1,26 @@
 export default {
   attributes: {
     <%- exposed_attributes.each do |name, attribute| -%>
-    <%= attribute.name.camelcase(:lower) %>: { type: "<%= attribute.type %>" },
+    <%= attribute.name.to_s.camelcase(:lower) %>: {
+      type: <%= attribute.type.to_json %>,
+      writeable: <%= attribute.writeable.to_json %>,
+      default: <%= attribute.default.to_json %>,
+    },
     <%- end -%>
   },
   names: {
     <%- name_map.each do |name_method, value| -%>
     <%= name_method %>: "<%= value -%>",
     <%- end -%>
-  }
+  },
+  validators: [
+    <%- validators.each do |validator| -%>
+    {
+      name: "<%= validator.class.name %>",
+      // TODO: Print this prettier
+      options: <%= validator.options.to_json %>,
+      attributes: <%= validator.attributes.to_json %>,
+    }
+    <%- end -%>
+  ]
 }
