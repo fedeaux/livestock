@@ -29,7 +29,7 @@ class BaseGenerator
   end
 
   def root_path
-    Pathname.new "#{__dir__}/../../../.."
+    Pathname.new "#{__dir__}/../../../../.."
   end
 
   def base_name
