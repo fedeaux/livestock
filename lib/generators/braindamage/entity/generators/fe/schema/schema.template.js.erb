@@ -1,5 +1,12 @@
 export default {
-<%- exposed_attributes.each do |attribute| -%>
-  <%= attribute.name.camelcase(:lower) %>: { type: "<%= attribute.type %>" },
-<%- end -%>
+  attributes: {
+    <%- exposed_attributes.each do |name, attribute| -%>
+    <%= attribute.name.camelcase(:lower) %>: { type: "<%= attribute.type %>" },
+    <%- end -%>
+  },
+  names: {
+    <%- name_map.each do |name_method, value| -%>
+    <%= name_method %>: "<%= value -%>",
+    <%- end -%>
+  }
 }

@@ -1,6 +1,6 @@
 module Generators
   module Fe
-    class Schema < BaseGenerator
+    class Schema < FeGenerator
       def generate
         target = root_path.join "app/javascript/generated/schemas/#{singular_underscore_name}.js"
         source = "fe/schema/schema.template.js.erb"

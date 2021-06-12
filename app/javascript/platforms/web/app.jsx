@@ -1,5 +1,5 @@
 import React from 'react'
-import StocksIndex from './screens/stocks/index'
+import StocksIndex from 'platforms/web/screens/stocks/index'
 
 export default function App() {
   return <StocksIndex />;

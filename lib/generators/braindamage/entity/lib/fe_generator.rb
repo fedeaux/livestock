@@ -17,7 +17,7 @@ class FeGenerator < BaseGenerator
 
   def name_map
     name_methods.map do |name_method|
-      [name_method.to_s.camelize(:lower), send(name_method)]
+      [name_method.to_s.camelize(:lower).gsub(/Name$/, ''), send(name_method)]
     end.to_h
   end
 end

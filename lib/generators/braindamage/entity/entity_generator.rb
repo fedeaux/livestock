@@ -31,7 +31,6 @@ class Braindamage::EntityGenerator < Rails::Generators::NamedBase
   end
 
   def path_2_generator(path)
-    puts path.split(BASE_PATH).last.split("/").map(&:camelize).join("::")
     path.split(BASE_PATH).last.split("/").map(&:camelize).join("::").constantize
   end
 end

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
-    resources :stocks
-    resources :user_stocks
+    resources :stocks, except: %i[new edit]
+    resources :user_stocks, except: %i[new edit]
   end
 
   root to: 'spa#index'

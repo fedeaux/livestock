@@ -1,29 +1,6 @@
-import Stock from '../../../../models/stock'
-import SidePanel from '../../../../ui/side_panel'
-
-function withApiData(Component, path) {
-  return (props) => {
-    const [data, setData] = useState(null);
-
-    useEffect(() => {
-      fetch(path).then((response) => {
-        return response.json()
-      }).then((data) => {
-        setData(data);
-      })
-    }, [path]);
-
-    return <Component {...data} {...props} />;
-  }
-}
-
-function withModelIndex(Component, Model) {
-  return withApiData(Component, Model.indexPath());
-}
-
-function withStockIndex(Component) {
-  return withModelIndex(Component, Stock);
-}
+import Stock from 'models/stock'
+import SidePanel from 'ui/side_panel'
+import { withStocks } from 'generated/api/query_hooks'
 
 function StockListItem({ stock, onClick=noop }) {
   const handleOnClick = useCallback(() => {
@@ -70,7 +47,7 @@ export default function StocksScreen() {
   return (
     <View>
       <StockSidePanel stock={selectedStock}/>
-      {withStockIndex(StockList)({ onListItemClick: onStockListItemClick })}
+      {withStocks(StockList)({ onListItemClick: onStockListItemClick })}
     </View>
   )
 }

@@ -1,11 +1,7 @@
 class Braindamage::Attribute
-  attr_accessor :name
-  attr_accessor :type
-  attr_accessor :writeable
+  delegate :name, :type, :writeable, to: :@options
 
-  def initialize(name, type, writeable = true)
-    self.name = name.to_s
-    self.type = type.to_s
-    self.writeable = writeable
+  def initialize(options)
+    @options = Braindamage::AttributeOptions.new options
   end
 end
