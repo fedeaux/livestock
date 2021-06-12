@@ -1,3 +1,5 @@
+const path = require('path');
+
 const { environment } = require('@rails/webpacker')
 
 const webpack = require('webpack');
@@ -23,14 +25,24 @@ environment.resolve = {
   }
 }
 
-environment.plugins.append('Provide', new webpack.ProvidePlugin({
+const providedModules = [
+  ['react-native-web', 'View'],
+  ['react-native-web', 'Text'],
+  ['react', 'useCallback'],
+  ['react', 'useEffect'],
+  ['react', 'useState'],
+];
+
+const provided = {
   React: 'react',
-  View: ['react-native-web', 'View'],
-  Text: ['react-native-web', 'Text'],
-  tw: 'tailwind-rn'
-  // Button: ['react-native', 'Button'],
-  // Pressable: ['react-native', 'Pressable'],
-  // ScrollView: ['react-native', 'ScrollView']
-}));
+  tw: [path.resolve('app/styles/tw'), 'tailwind'],
+  noop: [path.resolve('app/javascript/util/noop'), 'noop'],
+};
+
+providedModules.forEach((providedModule) => {
+  provided[providedModule[providedModule.length - 1]] = providedModule;
+});
+
+environment.plugins.append('Provide', new webpack.ProvidePlugin(provided));
 
 module.exports = environment
