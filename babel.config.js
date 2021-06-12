@@ -81,7 +81,12 @@ module.exports = function(api) {
         {
           removeImport: true
         }
-      ]
+      ],
+      ["module-resolver", {
+        "alias": {
+          "^react-native$": "react-native-web"
+        }
+      }],
     ].filter(Boolean)
   }
 }

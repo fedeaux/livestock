@@ -1,4 +1,5 @@
 require_relative "./lib/base_generator"
+require_relative "./lib/fe_generator"
 
 class BraindamageGenerator < Rails::Generators::NamedBase
   BASE_PATH = "/lib/generators/braindamage/".freeze # ugly!

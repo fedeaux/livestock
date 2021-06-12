@@ -1,5 +1,5 @@
-import Model from "views/react_on_rails/framework/model";
-import UserStockSchema from "views/react_on_rails/generated/schemas/user_stock";
+import Model from "framework/model";
+import UserStockSchema from "generated/schemas/user_stock";
 
 export default class UserStock extends Model {
   static schema = UserStockSchema;
@@ -8,4 +8,22 @@ export default class UserStock extends Model {
   static attributesDefinitions() {
     return {};
   }
+
+
+  static singularUnderscoreName = "user_stock";
+
+  static pluralUnderscoreName = "user_stocks";
+
+  static singularDashName = "user-stock";
+
+  static pluralDashName = "user-stocks";
+
+  static singularCamelName = "userStock";
+
+  static pluralCamelName = "userStocks";
+
+  static singularClassName = "UserStock";
+
+  static pluralClassName = "UserStocks";
+
 }

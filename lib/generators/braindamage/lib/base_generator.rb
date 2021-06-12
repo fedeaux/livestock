@@ -1,14 +1,15 @@
 class BaseGenerator
-  attr_reader :react_on_rails_generator
-  delegate :name, :template, to: :react_on_rails_generator
-  delegate :columns, to: :underlying_model
+  attr_reader :braindamage_generator
+  delegate :name, :template, to: :braindamage_generator
+  delegate :projector, to: :model
+  delegate :exposed_attributes, to: :projector
 
-  def initialize(react_on_rails_generator)
-    @react_on_rails_generator = react_on_rails_generator
+  def initialize(braindamage_generator)
+    @braindamage_generator = braindamage_generator
   end
 
   def frontend_base_path
-    "views/react_on_rails/"
+    ""
   end
 
   def frontend_generated_path
@@ -23,12 +24,7 @@ class BaseGenerator
     "#{frontend_base_path}framework/"
   end
 
-  def exposed_attributes
-    # TODO: Let the backend work with this list before
-    columns
-  end
-
-  def underlying_model
+  def model
     name.split('/').map(&:camelize).join('::').constantize
   end
 
@@ -70,5 +66,18 @@ class BaseGenerator
 
   def plural_class_name
     plural_underscore_name.camelize
+  end
+
+  def name_methods
+    %i[
+      singular_underscore_name
+      plural_underscore_name
+      singular_dash_name
+      plural_dash_name
+      singular_camel_name
+      plural_camel_name
+      singular_class_name
+      plural_class_name
+      ]
   end
 end

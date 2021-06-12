@@ -4,4 +4,5 @@ export default {
   stockId: { type: "integer" },
   createdAt: { type: "datetime" },
   updatedAt: { type: "datetime" },
+  link: { type: "string" },
 }

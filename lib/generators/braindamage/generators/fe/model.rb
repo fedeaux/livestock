@@ -1,6 +1,6 @@
 module Generators
   module Fe
-    class Model < BaseGenerator
+    class Model < FeGenerator
       def generate
         target = root_path.join "app/javascript/models/#{singular_underscore_name}.js"
         source = "fe/model/model.template.js.erb"

@@ -1,0 +1,5 @@
+json.<%= plural_underscore_name %> do
+  json.array! @<%= plural_underscore_name %> do |<%= singular_underscore_name %>|
+    json.partial! "member", <%= singular_underscore_name %>: <%= singular_underscore_name %>
+  end
+end
