@@ -10,7 +10,12 @@ export default {
       Object.entries(this.schema.attributes).forEach(([name, properties]) => {
         const attributeDefinition = attributesDefinitions[name] || {};
         this.attributesCache[name] = { ...attributeDefinition, ...properties };
+        delete attributesDefinitions[name];
       })
+
+      Object.entries(attributesDefinitions).forEach(([name, properties]) => {
+        this.attributesCache[name] = { name, ...properties };
+      });
     }
 
     return this.attributesCache;
@@ -21,6 +26,8 @@ export default {
   },
 
   defineAttributes() {
+    console.log("this.attributes()", this.attributes(), this)
+
     Object.values(this.attributes()).forEach((attribute) => {
       this.defineAttributeProperties(attribute);
     })
@@ -57,6 +64,15 @@ function getAttributeParser(attribute) {
     return (value) => {
       try {
         return parseISO(value);
+      } catch(e) {
+        return attribute.default || null;
+      }
+    }
+  }
+  if(attribute.type === "belongs_to") {
+    return (value) => {
+      try {
+        return new attribute.class(value);
       } catch(e) {
         return attribute.default || null;
       }

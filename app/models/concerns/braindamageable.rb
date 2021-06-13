@@ -16,6 +16,17 @@ module Braindamageable
     if self.exposed_attributes["id"]
       self.exposed_attributes["id"].writeable = false
     end
+
+    # Other duct tape (Declare belongs_to fields)
+    # reflections.values.select do |reflection|
+    #   reflection.macro == :belongs_to
+    # end.each do |belongs_to_reflection|
+    #   return unless attribute = exposed_attributes[belongs_to_reflection.name.to_s]
+
+    #   if
+    #     puts
+    #   end
+    # end
   end
 
   module ClassMethods

@@ -1,6 +1,8 @@
 class Stock < ApplicationRecord
   include Braindamageable
-  validates :code, presence: { message: "Please provide a code" }
+  validates :code, presence: {
+    message: "Please provide a code"
+  }
 
   exposed_enum risk: {
     0 => :none,

@@ -1,26 +1,31 @@
 export default {
   attributes: {
     id: {
+      name: "id",
       type: "integer",
       writeable: false,
       default: null,
     },
     userId: {
+      name: "userId",
       type: "integer",
       writeable: true,
       default: null,
     },
     stockId: {
+      name: "stockId",
       type: "integer",
       writeable: true,
       default: null,
     },
     createdAt: {
+      name: "createdAt",
       type: "datetime",
       writeable: true,
       default: null,
     },
     updatedAt: {
+      name: "updatedAt",
       type: "datetime",
       writeable: true,
       default: null,
@@ -38,16 +43,24 @@ export default {
   },
   validators: [
     {
-      name: "ActiveRecord::Validations::PresenceValidator",
-      // TODO: Print this prettier
-      options: {"message":"required"},
-      attributes: ["user"],
+      className: "ActiveRecord::Validations::PresenceValidator",
+      options: {
+        message: "required",
+      },
+      attributes: [
+        "user",
+      ],
     },
     {
-      name: "ActiveRecord::Validations::PresenceValidator",
-      // TODO: Print this prettier
-      options: {"message":"required"},
-      attributes: ["stock"],
+      className: "ActiveRecord::Validations::PresenceValidator",
+      options: {
+        message: "required",
+      },
+      attributes: [
+        "stock",
+      ],
     }
-  ]
+  ],
+  enums: {
+  },
 }

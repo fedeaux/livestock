@@ -1,4 +1,5 @@
-User.where(id: 1).first_or_create.update(email: 'phec06@gmail.com', name: 'Pedro')
+user = User.where(id: 1).first_or_create
+user.update(email: 'phec06@gmail.com', name: 'Pedro')
 
 %w[
   BPAC11
@@ -16,5 +17,8 @@ User.where(id: 1).first_or_create.update(email: 'phec06@gmail.com', name: 'Pedro
   WEGE3
   ].each do |stock_code|
   risk = Stock.risks.keys.sample
-  Stock.where(code: stock_code).first_or_create.update(risk: risk)
+  stock = Stock.where(code: stock_code).first_or_create
+  stock.update(risk: risk)
+
+  UserStock.where(stock: stock, user: user).first_or_create
 end
