@@ -15,5 +15,6 @@ User.where(id: 1).first_or_create.update(email: 'phec06@gmail.com', name: 'Pedro
   TGAR11
   WEGE3
   ].each do |stock_code|
-  Stock.where(code: stock_code).first_or_create
+  risk = Stock.risks.keys.sample
+  Stock.where(code: stock_code).first_or_create.update(risk: risk)
 end

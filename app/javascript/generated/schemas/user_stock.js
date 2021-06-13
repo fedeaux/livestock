@@ -42,7 +42,7 @@ export default {
       // TODO: Print this prettier
       options: {"message":"required"},
       attributes: ["user"],
-    }
+    },
     {
       name: "ActiveRecord::Validations::PresenceValidator",
       // TODO: Print this prettier

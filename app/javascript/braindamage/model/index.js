@@ -1,6 +1,9 @@
-import { attributeAsProperty, setAttributeValue } from "braindamage/model/helpers";
+import Enumerable from "braindamage/model/enumerable";
+import Attributable from "braindamage/model/attributable";
+import Nameable from "braindamage/model/nameable";
+// import Validateable from "braindamage/model/validateable";
 
-export default class Model {
+class Model {
   constructor(attributes = {}) {
     Object.entries(this.constructor.attributes()).forEach(([name, properties]) => {
       if(attributes.hasOwnProperty(name)) {
@@ -11,39 +14,17 @@ export default class Model {
     });
   }
 
-  static attributes() {
-    if(!this.attributesCache) {
-      this.attributesCache = {};
-      const attributesDefinitions = this.attributesDefinitions();
-
-      Object.entries(this.schema.attributes).forEach(([name, properties]) => {
-        const attributeDefinition = attributesDefinitions[name] || {};
-        this.attributesCache[name] = { ...attributeDefinition, ...properties };
-      })
-    }
-
-    return this.attributesCache;
-  }
-
-  static attributesDefinition() {
-    return {};
-  }
-
   static define() {
-    const attributes = this.attributes();
-    const names = this.schema.names;
-    const definedProperties = {};
-
-    Object.entries(attributes).forEach(([name, properties]) => {
-      definedProperties[name] = attributeAsProperty(name, properties);
-    })
-
-    Object.entries(names).forEach(([name, value]) => {
-      this[`${name}Name`] = value;
-    })
-
-    Object.defineProperties(Model.prototype, definedProperties);
+    this.defineAttributes();
+    this.defineEnums();
+    this.defineNames();
 
     return this;
   }
 }
+
+Object.assign(Model, Attributable);
+Object.assign(Model, Enumerable);
+Object.assign(Model, Nameable);
+
+export default Model;

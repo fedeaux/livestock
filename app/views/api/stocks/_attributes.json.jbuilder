@@ -3,4 +3,5 @@ json.extract! stock,
               :name,
               :code,
               :updated_at,
+              :risk,
               :link

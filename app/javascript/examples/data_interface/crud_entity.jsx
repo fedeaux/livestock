@@ -1,29 +1,33 @@
-import { withCrudProjectCollection } from "somewhere";
-import { ProjectListItem } from "projects/list-item";
+import { withCreateProjectApi } from "somewhere";
+import { withGetProjectIndex } from "probably/somewhere/else";
 
 function ProjectCollection({
   projects,
   canCreateProject,
-  createProject,
-  // isCreatingProject, unused but present
-  // formProject,
+  createProject
 }) {
   const [showForm, setShowForm] = useState(false)
 
   return (
     <div>
-      {
-        projects.map((project) => {
-          return <ProjectListItem project={project} />;
+      <div>
+        {
+          projects.map((project) => {
+            return <ProjectListItem project={project} />;
+          })
         }
-      )}
+      </div>
+      {showForm && <ProjectForm save={createProject} />}
       {
-        canCreateProject &&
-          <ProjectForm save={createProject} />
+        !showForm && canCreateProject &&
+          <Button onClick={() => { setShowForm(true) }} > New Project </Button>
       }
     </div>
   )
 }
+
+export default withGetProjectIndex(withCreateProjectApi(ProjectCollection));
+
 
 function ProjectForm({ project, save }) {
   const onSave = useCallback(() => {
