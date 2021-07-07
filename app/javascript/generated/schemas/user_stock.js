@@ -30,6 +30,12 @@ export default {
       writeable: true,
       default: null,
     },
+    code: {
+      name: "code",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
   },
   names: {
     singularUnderscore: "user_stock",
@@ -59,7 +65,7 @@ export default {
       attributes: [
         "stock",
       ],
-    }
+    },
   ],
   enums: {
   },

@@ -52,6 +52,14 @@ module Braindamageable
       end
     end
 
+    def exposed_delegate(*methods, to: nil, prefix: nil, allow_nil: nil)
+      methods.each do |method|
+        exposed_attributes[method.to_s] = Braindamage::Attribute.new({ name: method })
+      end
+
+      delegate(*methods, to: to, prefix: prefix, allow_nil: allow_nil)
+    end
+
     def expose(name, properties = {})
       exposed_attributes[name.to_s] = Braindamage::Attribute.new(properties.merge(name: name))
     end

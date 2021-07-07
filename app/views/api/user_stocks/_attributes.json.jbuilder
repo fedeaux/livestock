@@ -3,4 +3,5 @@ json.extract! user_stock,
               :user_id,
               :stock_id,
               :created_at,
-              :updated_at
+              :updated_at,
+              :code

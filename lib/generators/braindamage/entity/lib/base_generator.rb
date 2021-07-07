@@ -30,7 +30,7 @@ class BaseGenerator
     Pathname.new "#{__dir__}/../../../../.."
   end
 
-  def pretty_print(thing, indent)
+  def pretty_print_thing(thing, indent)
     indentation = '  '*indent
 
     lines = []
@@ -44,7 +44,7 @@ class BaseGenerator
                         else
                           key.to_s.gsub(/^_+/, '').camelize(:lower)
                         end
-        lines.push "  #{printable_key}: #{pretty_print(value, indent + 1)},"
+        lines.push "  #{printable_key}: #{pretty_print_thing(value, indent + 1)},"
       end
 
       lines.push "}"
@@ -52,7 +52,7 @@ class BaseGenerator
       lines.push "["
       # key_value_lines = []
       thing.each do |value|
-        lines.push "  #{pretty_print(value, indent + 1)},"
+        lines.push "  #{pretty_print_thing(value, indent + 1)},"
       end
       lines.push "]"
     elsif thing.is_a?(Numeric) || thing.in?([true, false])
@@ -64,13 +64,13 @@ class BaseGenerator
     lines.join "\n#{indentation}"
   end
 
-  def pretty_print_object_methods(object, indent, methods)
+  def pretty_print_thing_object_methods(object, indent, methods)
     hash = {}
 
     methods.each do |method|
       hash[method] = object.send(method)
     end
 
-    pretty_print hash, indent
+    pretty_print_thing hash, indent
   end
 end

@@ -14,14 +14,6 @@ export default {
     <%= name_method %>: "<%= value -%>",
     <%- end -%>
   },
-  validators: [
-    <%- validators.each do |validator| -%>
-    <%= pretty_print({
-      class_name: validator.class.name,
-      options: validator.options,
-      attributes: validator.attributes
-    }, 2) %>
-    <%- end -%>
-  ],
-  enums: <%= pretty_print(exposed_enums, 1) %>,
+  validators: <%= pretty_print_thing(printable_validators, 1) %>,
+  enums: <%= pretty_print_thing(exposed_enums, 1) %>,
 }

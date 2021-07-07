@@ -9,6 +9,8 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise'
 gem 'dotenv-rails'
 gem 'jbuilder', '~> 2.7'
+gem 'google_drive'
+gem 'olive_branch'
 gem 'omniauth'
 gem 'omniauth-google-oauth2', '>= 0.6'
 gem 'pg', '~> 1.1'
@@ -20,7 +22,6 @@ gem 'slim'
 gem 'table_print', '~> 1.5'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
-gem 'olive_branch'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

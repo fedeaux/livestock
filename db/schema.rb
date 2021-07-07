@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_13_012450) do
+ActiveRecord::Schema.define(version: 2021_07_15_184215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,29 @@ ActiveRecord::Schema.define(version: 2021_06_13_012450) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "risk"
+  end
+
+  create_table "user_stock_dividends", force: :cascade do |t|
+    t.bigint "user_stock_id", null: false
+    t.decimal "total", precision: 15, scale: 2
+    t.decimal "per_stock", precision: 15, scale: 2
+    t.integer "stock_count"
+    t.date "received_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_stock_id"], name: "index_user_stock_dividends_on_user_stock_id"
+  end
+
+  create_table "user_stock_operations", force: :cascade do |t|
+    t.integer "nature"
+    t.bigint "user_stock_id", null: false
+    t.integer "stock_count"
+    t.decimal "stock_price", precision: 15, scale: 2
+    t.decimal "total", precision: 15, scale: 2
+    t.date "executed_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_stock_id"], name: "index_user_stock_operations_on_user_stock_id"
   end
 
   create_table "user_stocks", force: :cascade do |t|
@@ -39,6 +62,8 @@ ActiveRecord::Schema.define(version: 2021_06_13_012450) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "user_stock_dividends", "user_stocks"
+  add_foreign_key "user_stock_operations", "user_stocks"
   add_foreign_key "user_stocks", "stocks"
   add_foreign_key "user_stocks", "users"
 end

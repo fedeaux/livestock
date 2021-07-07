@@ -5,8 +5,6 @@ import { formatRelative } from "date-fns"
 
 function StockListItem({ stock, onClick=noop }) {
   const handleOnClick = useCallback(() => {
-    console.log(stock);
-    console.log(stock.isLowRisk);
     onClick({ stock });
   })
 
@@ -18,19 +16,17 @@ function StockListItem({ stock, onClick=noop }) {
   )
 }
 
-function StockList({ stocks, onListItemClick, ...other }) {
+function StockList({ stocks, onStockListItemClick, ...other }) {
   if(!stocks) {
     return null;
   }
-
-  console.log(stocks[0]);
 
   return <View style={ tw("p-4") }>
            {stocks.map((stock) => {
              return <StockListItem
                       key={stock.id}
                       stock={stock}
-                      onClick={onListItemClick}
+                      onClick={onStockListItemClick}
                     />
            })}
          </View>;
