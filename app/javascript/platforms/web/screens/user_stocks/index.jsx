@@ -1,15 +1,15 @@
 import Stock from 'models/stock'
 import SidePanel from 'ui/side_panel'
-import { withUserStocks, withUserStockDividends } from 'generated/api/query_hooks'
+import { withUserStocks, withUserStockEarnings } from 'generated/api/query_hooks'
 import { formatRelative } from "date-fns"
 
-function UserStockDividendList({ userStockDividends }) {
+function UserStockEarningList({ userStockDividends }) {
   console.log("userStockDividends", userStockDividends);
 
   return null;
 }
 
-const WithUserStockDividends = withUserStockDividends(UserStockDividendList);
+const WithUserStockEarnings = withUserStockEarnings(UserStockEarningList);
 
 function UserStockListItem({ userStock, onClick=noop }) {
   const handleOnClick = useCallback(() => {
@@ -50,7 +50,7 @@ function UserStockSidePanel({ userStock }) {
   return (
     <SidePanel isVisible={userStock}>
       { userStock && <Text> { userStock.code } </Text> }
-      <WithUserStockDividends />
+      <WithUserStockEarnings />
     </SidePanel>
   )
 }

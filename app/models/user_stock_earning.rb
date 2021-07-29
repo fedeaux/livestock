@@ -1,4 +1,4 @@
-class UserStockDividend < ApplicationRecord
+class UserStockEarning < ApplicationRecord
   include Braindamageable
 
   belongs_to :user_stock
