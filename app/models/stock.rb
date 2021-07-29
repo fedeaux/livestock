@@ -2,7 +2,7 @@ class Stock < ApplicationRecord
   include Braindamageable
   has_many :user_stocks, dependent: :destroy
   has_many :stock_earnings, dependent: :destroy
-  belongs_to :company
+  belongs_to :company, optional: true
 
   validates :code, presence: {
     message: "Please provide a code"

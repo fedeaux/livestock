@@ -7,7 +7,15 @@ class Seeders::UserStockOperations
 
   def seed
     user_stock_operations_data.each do |user_stock_operation_attributes|
-      stock = Stock.where(code: user_stock_operation_attributes.code).first_or_create
+      code = user_stock_operation_attributes.code
+      stock = Stock.find_by(code: code)
+
+      unless stock
+        sector = Sector.where(name: "Manual").first_or_create
+        company = Company.where(name: code, sector: sector).first_or_create
+        stock = Stock.where(code: code, company_id: company.id).first_or_create
+      end
+
       user_stock = user.user_stocks.where(stock_id: stock.id).first_or_create
       user_stock.user_stock_operations.where(user_stock_operation_attributes.to_h.except(:code)).first_or_create
     end
