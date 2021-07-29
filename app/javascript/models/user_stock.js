@@ -1,4 +1,6 @@
 import Model from "braindamage/model";
+
+// <%= singular_class_name %>Schema
 import UserStockSchema from "generated/schemas/user_stock";
 import Stock from "models/stock";
 
@@ -17,3 +19,8 @@ class UserStock extends Model {
 }
 
 export default UserStock.define();
+
+// 3.0.1 :019 > UserStock.reflections.values.last.name
+//   => :stock
+// 3.0.1 :020 > UserStock.reflections.values.last.macro
+//   => :belongs_to

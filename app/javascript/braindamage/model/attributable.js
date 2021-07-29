@@ -26,8 +26,6 @@ export default {
   },
 
   defineAttributes() {
-    console.log("this.attributes()", this.attributes(), this)
-
     Object.values(this.attributes()).forEach((attribute) => {
       this.defineAttributeProperties(attribute);
     })
@@ -62,6 +60,10 @@ function getAttributeParser(attribute) {
   }
   if(attribute.type === "datetime") {
     return (value) => {
+      if (value instanceof Date) {
+        return value;
+      }
+
       try {
         return parseISO(value);
       } catch(e) {

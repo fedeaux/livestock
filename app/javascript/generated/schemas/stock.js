@@ -62,11 +62,11 @@ export default {
     risk: {
       name: "risk",
       valueMap: {
-        "0": "none",
-        "10": "low",
-        "20": "moderate",
-        "30": "high",
-        "40": "incredible",
+        none: 0,
+        low: 10,
+        moderate: 20,
+        high: 30,
+        incredible: 40,
       },
       options: {
         suffix: true,

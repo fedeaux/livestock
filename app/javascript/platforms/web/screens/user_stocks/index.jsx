@@ -22,6 +22,8 @@ function UserStockList({ userStocks, onListItemClick, ...other }) {
   }
 
   console.log(userStocks[0]);
+  console.log('user_stock.updatedAt = "2021-01-01T10:00:00"')
+  window.user_stock = userStocks[0];
 
   return null;
 }
