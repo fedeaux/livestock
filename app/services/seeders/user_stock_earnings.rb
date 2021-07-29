@@ -1,4 +1,4 @@
-class Seeders::UserStockDividends
+class Seeders::UserStockEarnings
   attr_reader :user
 
   def initialize(user:)
@@ -6,10 +6,10 @@ class Seeders::UserStockDividends
   end
 
   def seed
-    user_stock_dividends_data.each do |user_stock_dividend_attributes|
+    user_stock_earnings_data.each do |user_stock_dividend_attributes|
       stock = Stock.where(code: user_stock_dividend_attributes.code).first_or_create
       user_stock = user.user_stocks.where(stock_id: stock.id).first_or_create
-      user_stock.user_stock_dividends.where(user_stock_dividend_attributes.to_h.except(:code)).first_or_create
+      user_stock.user_stock_earnings.where(user_stock_dividend_attributes.to_h.except(:code)).first_or_create
     end
   end
 
@@ -17,7 +17,7 @@ class Seeders::UserStockDividends
     @session ||= GoogleDrive::Session.from_config("config.json")
   end
 
-  def user_stock_dividends_data
+  def user_stock_earnings_data
     ws = session.spreadsheet_by_key("1HnWicYIjRqrK35Sik3gnjhUmpamgbGPEv0P51wjXnvw").worksheets.find do |ws|
       ws.title == "Dividends"
     end

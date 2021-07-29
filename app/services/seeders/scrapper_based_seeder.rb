@@ -2,6 +2,7 @@ require 'fileutils'
 
 class Seeders::ScrapperBasedSeeder
   CACHE_DIR = "tmp/cache/seeders/"
+  DATA_DIR = "app/services/seeders/data/"
 
   def cache_file_name(url)
     cache_key = url.gsub(/[^\w]+/, '-')
@@ -32,5 +33,23 @@ class Seeders::ScrapperBasedSeeder
 
   def parsed_html(url)
     Nokogiri::HTML fetch url
+  end
+
+  def parsed_html_file(file)
+    Nokogiri::HTML File.read Rails.root.join(DATA_DIR, "#{file}.html")
+  end
+
+  def parse_dmy_string(date_string)
+    Date.strptime(date_string&.strip, "%d/%m/%Y")
+  rescue
+    nil
+  end
+
+  def parse_money_string(money_string)
+    partial_money_string = money_string&.gsub(/[^\d\.\,]/, "")&.gsub(",", '.')&.strip
+
+    return unless partial_money_string
+
+    partial_money_string.to_f.round(2)
   end
 end

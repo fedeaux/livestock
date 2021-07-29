@@ -1,15 +1,11 @@
 class Stock < ApplicationRecord
   include Braindamageable
   has_many :user_stocks, dependent: :destroy
+  has_many :stock_earnings, dependent: :destroy
   belongs_to :company
 
   validates :code, presence: {
     message: "Please provide a code"
-  }
-
-  exposed_enum category: {
-    market: 0,
-    real_state: 1
   }
 
   expose :link
@@ -17,6 +13,10 @@ class Stock < ApplicationRecord
 
   def link
     "https://www.marketwatch.com/investing/stock/#{code}"
+  end
+
+  def self.real_state
+    includes(company: :sector).where(sector: { category: 1 })
   end
 end
 

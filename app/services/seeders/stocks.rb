@@ -1,7 +1,12 @@
 class Seeders::Stocks < Seeders::ScrapperBasedSeeder
   def seed
+    seed_funds
+    seed_earnings
+  end
+
+  def seed_funds
     sectors_data[:sectors].each do |sector_data|
-      sector = Sector.where(name: sector_data[:name]).first_or_create
+      sector = Sector.where(name: sector_data[:name], category: :market).first_or_create
 
       sector_data[:companies].each do |company_data|
         company = Company.where(name: company_data[:name], sector: sector).first_or_create
@@ -11,6 +16,28 @@ class Seeders::Stocks < Seeders::ScrapperBasedSeeder
         end
       end
     end
+  end
+
+  def seed_earnings
+    parsed_html_file('all_earnings').css('.info.w-100').each do |row|
+      code = row.css("h4 span").first.text.strip
+
+      stock = Stock.find_by(code: code)
+
+      next unless stock
+
+      # category = row.css("div div")[4].css("span.value")&.text&.strip == "JCP" ? :interest_on_equity : :dividends
+      category = row.css("div div")[4].css("span.value")&.text&.strip == "JCP" ? 1 : 0
+      received_at = parse_dmy_string(row.css("div div")[3].css("span.value")&.text)
+
+      stock.stock_earnings.where(
+        received_at: received_at,
+        category: category,
+        per_stock: parse_money_string(row.css("div div span")&.first&.text)
+      ).first_or_create
+    end
+
+    nil
   end
 
   def sectors_data
