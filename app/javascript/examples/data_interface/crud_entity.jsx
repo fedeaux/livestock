@@ -1,8 +1,7 @@
 import { withCreateProjectApi } from "somewhere";
 import { withGetProjectIndex } from "probably/somewhere/else";
 
-function ProjectCollection({
-  projects,
+function CreateProjectButton({
   canCreateProject,
   createProject
 }) {
@@ -10,26 +9,18 @@ function ProjectCollection({
 
   return (
     <div>
-      <div>
-        {
-          projects.map((project) => {
-            return <ProjectListItem project={project} />;
-          })
-        }
-      </div>
-      {showForm && <ProjectForm save={createProject} />}
       {
         !showForm && canCreateProject &&
           <Button onClick={() => { setShowForm(true) }} > New Project </Button>
       }
+      {showForm && <ProjectForm save={createProject} />}
     </div>
   )
 }
 
-export default withGetProjectIndex(withCreateProjectApi(ProjectCollection));
+export default withCreateProjectApi(CreateProjectButton);
 
-
-function ProjectForm({ project, save }) {
+function ProjectForm({ project, save, isValid }) {
   const onSave = useCallback(() => {
     save(project)
   });
@@ -38,17 +29,19 @@ function ProjectForm({ project, save }) {
     <>
       <ProjectFields
         project={project}
-        onChange={project.change}
+        errors={errors}
       />
       <Button
-        enabled={project.isValid}
+        enabled={isValid}
         onClick={onSave}
       />
     </>
   )
 }
 
-function ProjectFields({ project, onChange }) {
+export withProjectForm(ProjectForm)
+
+function ProjectFields({ project }) {
   return (
     <>
       <FormTextField
