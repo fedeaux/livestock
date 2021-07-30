@@ -1,9 +1,6 @@
 require 'fileutils'
 
-class Seeders::ScrapperBasedSeeder
-  CACHE_DIR = "tmp/cache/seeders/"
-  DATA_DIR = "app/services/seeders/data/"
-
+class Seeders::ScrapperBasedSeeder < Seeders::BaseSeeder
   def cache_file_name(url)
     cache_key = url.gsub(/[^\w]+/, '-')
 
@@ -20,10 +17,9 @@ class Seeders::ScrapperBasedSeeder
 
   def fetch(url)
     cache_file = cache_file_name(url)
+    cached = fetch_cache cache_file
 
-    if File.exist? cache_file
-      return File.read cache_file
-    end
+    return cached if cached
 
     html = HTTParty.get(url).force_encoding('utf-8')
     add_to_cache cache_file, html

@@ -1,8 +1,8 @@
 export default {
   attributes: {
     <%- exposed_attributes.each do |name, attribute| -%>
-    <%= attribute.name.to_s.camelcase(:lower) %>: {
-      name: <%= attribute.name.to_s.camelcase(:lower).to_json %>,
+    <%= attribute.fe_name %>: {
+      name: <%= attribute.fe_name.to_json %>,
       type: <%= attribute.type.to_json %>,
       writeable: <%= attribute.writeable.to_json %>,
       default: <%= attribute.default.to_json %>,

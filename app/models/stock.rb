@@ -2,7 +2,9 @@ class Stock < ApplicationRecord
   include Braindamageable
   has_many :user_stocks, dependent: :destroy
   has_many :stock_earnings, dependent: :destroy
-  belongs_to :company, optional: true
+  has_many :stock_prices, dependent: :destroy
+  belongs_to :company
+  exposed_delegate :category, to: :company
 
   validates :code, presence: {
     message: "Please provide a code"
@@ -13,6 +15,14 @@ class Stock < ApplicationRecord
 
   def link
     "https://www.marketwatch.com/investing/stock/#{code}"
+  end
+
+  def international_code
+    "#{code}.SA"
+  end
+
+  def last_price
+    stock_prices.order("day DESC").limit(1).last
   end
 
   def self.real_state

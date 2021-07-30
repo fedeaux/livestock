@@ -1,10 +1,10 @@
 import React from 'react'
-import UserStocksIndex from 'platforms/web/screens/user_stocks/index'
+import DashboardIndex from 'platforms/web/screens/dashboard/index'
 
 export default function App() {
   return (
     <>
-      <UserStocksIndex />
+      <DashboardIndex />
     </>
   );
 }

@@ -58,6 +58,11 @@ function getAttributeParser(attribute) {
   if(attribute.type === "integer") {
     return (value) => parseInt(value)
   }
+
+  if(attribute.type === "decimal") {
+    return (value) => parseFloat(value)
+  }
+
   if(attribute.type === "datetime") {
     return (value) => {
       if (value instanceof Date) {
@@ -71,6 +76,7 @@ function getAttributeParser(attribute) {
       }
     }
   }
+
   if(attribute.type === "belongs_to") {
     return (value) => {
       try {

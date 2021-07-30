@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_29_165853) do
+ActiveRecord::Schema.define(version: 2021_07_30_155825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,19 @@ ActiveRecord::Schema.define(version: 2021_07_29_165853) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["stock_id"], name: "index_stock_earnings_on_stock_id"
+  end
+
+  create_table "stock_prices", force: :cascade do |t|
+    t.decimal "open", precision: 15, scale: 2, null: false
+    t.decimal "high", precision: 15, scale: 2, null: false
+    t.decimal "low", precision: 15, scale: 2, null: false
+    t.decimal "close", precision: 15, scale: 2, null: false
+    t.integer "volume", default: 0, null: false
+    t.date "day", null: false
+    t.bigint "stock_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stock_id"], name: "index_stock_prices_on_stock_id"
   end
 
   create_table "stocks", force: :cascade do |t|
@@ -78,6 +91,12 @@ ActiveRecord::Schema.define(version: 2021_07_29_165853) do
     t.bigint "stock_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "stock_count"
+    t.decimal "average_price_per_stock", precision: 15, scale: 2
+    t.decimal "total_price", precision: 15, scale: 2
+    t.decimal "market_price_per_stock", precision: 15, scale: 2
+    t.decimal "total_market_price", precision: 15, scale: 2
+    t.decimal "total_earnings", precision: 15, scale: 2
     t.index ["stock_id"], name: "index_user_stocks_on_stock_id"
     t.index ["user_id"], name: "index_user_stocks_on_user_id"
   end
@@ -91,6 +110,7 @@ ActiveRecord::Schema.define(version: 2021_07_29_165853) do
 
   add_foreign_key "companies", "sectors"
   add_foreign_key "stock_earnings", "stocks"
+  add_foreign_key "stock_prices", "stocks"
   add_foreign_key "stocks", "companies"
   add_foreign_key "user_stock_earnings", "user_stocks"
   add_foreign_key "user_stock_operations", "user_stocks"
