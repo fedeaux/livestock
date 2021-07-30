@@ -1,7 +1,7 @@
 import { withModelQuery } from 'braindamage/query_hooks';
 import Stock from 'models/stock';
 import UserStock from 'models/user_stock';
-import UserStockEarning from 'models/user_stock_dividend';
+import UserStockEarning from 'models/user_stock_earning';
 
 export function withStocks(Component, params = {}, options = {}) {
   return withModelQuery(Component, Stock, "/api/stocks.json", params, options);

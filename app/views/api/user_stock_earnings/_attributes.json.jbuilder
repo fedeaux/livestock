@@ -1,4 +1,4 @@
-json.extract! user_stock_dividend,
+json.extract! user_stock_earning,
               :id,
               :user_stock_id,
               :total,

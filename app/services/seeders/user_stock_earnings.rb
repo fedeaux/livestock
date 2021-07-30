@@ -6,8 +6,8 @@ class Seeders::UserStockEarnings
   end
 
   def seed
-    user_stock_earnings_data.each do |user_stock_dividend_attributes|
-      code = user_stock_dividend_attributes.code
+    user_stock_earnings_data.each do |user_stock_earning_attributes|
+      code = user_stock_earning_attributes.code
       stock = Stock.where(code: code).first
 
       unless stock
@@ -17,7 +17,7 @@ class Seeders::UserStockEarnings
       end
 
       user_stock = user.user_stocks.where(stock_id: stock.id).first_or_create
-      user_stock.user_stock_earnings.where(user_stock_dividend_attributes.to_h.except(:code)).first_or_create
+      user_stock.user_stock_earnings.where(user_stock_earning_attributes.to_h.except(:code)).first_or_create
     end
   end
 
@@ -27,7 +27,7 @@ class Seeders::UserStockEarnings
 
   def user_stock_earnings_data
     ws = session.spreadsheet_by_key("1HnWicYIjRqrK35Sik3gnjhUmpamgbGPEv0P51wjXnvw").worksheets.find do |ws|
-      ws.title == "Dividends"
+      ws.title == "Earnings"
     end
 
     (1..ws.num_rows).map do |i|
