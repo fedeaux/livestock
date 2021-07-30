@@ -8,7 +8,13 @@ class UserStock extends Model {
   static attributesDefinitions() {
     return {
       totalPrice: {
-        type: "integer"
+        type: "decimal"
+      },
+      currentMarketResult: {
+        type: "decimal"
+      },
+      currentPayout: {
+        type: "decimal"
       }
     };
   }

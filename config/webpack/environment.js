@@ -35,7 +35,7 @@ const providedModules = [
 
 const provided = {
   React: 'react',
-  tw: [path.resolve('app/styles/tw'), 'tailwind'],
+  tw: [path.resolve('app/styles/tw'), 'tw'],
   noop: [path.resolve('app/javascript/util/noop'), 'noop'],
 };
 

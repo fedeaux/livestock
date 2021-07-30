@@ -13,4 +13,7 @@ json.extract! user_stock,
               :code,
               :category,
               :inactive?,
-              :active?
+              :active?,
+              :current_market_result,
+              :current_payout,
+              :current_payout_rate

@@ -9,7 +9,8 @@ export default {
 
       Object.entries(this.schema.attributes).forEach(([name, properties]) => {
         const attributeDefinition = attributesDefinitions[name] || {};
-        this.attributesCache[name] = { ...attributeDefinition, ...properties };
+
+        this.attributesCache[name] = { ...properties, ...attributeDefinition };
         delete attributesDefinitions[name];
       })
 

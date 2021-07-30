@@ -90,6 +90,24 @@ export default {
       writeable: true,
       default: null,
     },
+    currentMarketResult: {
+      name: "currentMarketResult",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
+    currentPayout: {
+      name: "currentPayout",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
+    currentPayoutRate: {
+      name: "currentPayoutRate",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
   },
   names: {
     singularUnderscore: "user_stock",
