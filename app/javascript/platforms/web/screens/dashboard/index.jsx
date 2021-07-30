@@ -39,10 +39,9 @@ function useDashboardData() {
 
 export default function DashboardIndex() {
   const { userStocks } = useDashboardData();
-  console.log("userStock", userStocks[0]);
 
   return (
-    <View style={ tw(["p-4"].join(" ")) }>
+    <View style={ tw("p-4") }>
       <UserStockListItem userStocks={userStocks} />
     </View>
   );

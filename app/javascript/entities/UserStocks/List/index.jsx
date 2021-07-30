@@ -16,8 +16,14 @@ function processUserStocks(userStocks, options) {
   const processedUserStocks = userStocks.filter((userStock) => {
     return (!options.showActiveOnly || userStock.isActive);
   }).sort((usa, usb) => {
-    // return usa.code.localeCompare(usb.code);
-    return usb.currentPayoutRate - usa.currentPayoutRate;
+    const sortValueA = usa[options.sortBy];
+    const sortValueB = usb[options.sortBy];
+
+    if (typeof sortValueA === "string") {
+      return sortValueA.localeCompare(sortValueB);
+    } else {
+      return sortValueB - sortValueA;
+    }
   });
 
   return processedUserStocks;
@@ -123,6 +129,18 @@ function UserStockWallets({ wallet }) {
   );
 }
 
+function UserStockListHeader({ position, sortKey, label, setSortBy }) {
+  const onClick = useCallback(() => {
+    if(sortKey && setSortBy) {
+      setSortBy(sortKey);
+    }
+  }, [sortKey, setSortBy])
+
+  return (
+    <Text onClick={onClick} style={ tw("text-gray-400 font-bold text-center", tableGrid[position]) }>{label}</Text>
+  )
+}
+
 export default function UserStockList({ userStocks }) {
   const [processedUserStocks, setProcessedUserStocks] = useState([]);
   const [results, setResults] = useState(null);
@@ -135,19 +153,19 @@ export default function UserStockList({ userStocks }) {
     setProcessedUserStocks(processedUserStocks);
     setResults(evalResults(processedUserStocks));
     setWallet(evalWallet(processedUserStocks));
-  }, [userStocks])
+  }, [userStocks, sortBy])
 
   return (
     <View>
       <MainTitle>All Assets</MainTitle>
       <View style={ tw("px-4 py-2 flex flex-row border-b border-gray-300") }>
-        <Text style={ tw(tableGrid[0]) } />
-        <Text style={ tw("text-gray-400 font-bold text-center", tableGrid[1]) }>Count</Text>
-        <Text style={ tw("text-gray-400 font-bold text-center", tableGrid[2]) }>Price</Text>
-        <Text style={ tw("text-gray-400 font-bold text-center", tableGrid[3]) }>Market Price</Text>
-        <Text style={ tw("text-gray-400 font-bold text-center", tableGrid[4]) }>Earnings</Text>
-        <Text style={ tw("text-gray-400 font-bold text-center", tableGrid[5]) }>Payout</Text>
-        <Text style={ tw("text-gray-400 font-bold text-center", tableGrid[6]) }>Category</Text>
+        <UserStockListHeader position={0} label="Code" sortKey="code" setSortBy={setSortBy} sortBy={sortBy} />
+        <UserStockListHeader position={1} label="Count" />
+        <UserStockListHeader position={2} label="Price" />
+        <UserStockListHeader position={3} label="Market Price" />
+        <UserStockListHeader position={4} label="Earnings" sortKey="totalEarnings" setSortBy={setSortBy} sortBy={sortBy} />
+        <UserStockListHeader position={5} label="Payout" sortKey="currentPayout" setSortBy={setSortBy} sortBy={sortBy} />
+        <UserStockListHeader position={6} label="Category" />
       </View>
 
       {
