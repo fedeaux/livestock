@@ -64,7 +64,7 @@ function getAttributeParser(attribute) {
     return (value) => parseFloat(value)
   }
 
-  if(attribute.type === "datetime") {
+  if(attribute.type === "datetime" || attribute.type === "date") {
     return (value) => {
       if (value instanceof Date) {
         return value;
@@ -81,8 +81,12 @@ function getAttributeParser(attribute) {
   if(attribute.type === "belongs_to") {
     return (value) => {
       try {
+        if (Array.isArray(value)) {
+          return value.map((v) => new attribute.class(v));
+        }
         return new attribute.class(value);
       } catch(e) {
+        console.log(e);
         return attribute.default || null;
       }
     }

@@ -18,14 +18,20 @@ export default {
       writeable: true,
       default: null,
     },
+    companyId: {
+      name: "companyId",
+      type: "integer",
+      writeable: true,
+      default: null,
+    },
     updatedAt: {
       name: "updatedAt",
       type: "datetime",
       writeable: true,
       default: null,
     },
-    risk: {
-      name: "risk",
+    category: {
+      name: "category",
       type: "string",
       writeable: true,
       default: null,
@@ -51,26 +57,22 @@ export default {
     {
       className: "ActiveRecord::Validations::PresenceValidator",
       options: {
+        message: "required",
+      },
+      attributes: [
+        "company",
+      ],
+    },
+    {
+      className: "ActiveRecord::Validations::PresenceValidator",
+      options: {
         message: "Please provide a code",
       },
       attributes: [
         "code",
       ],
-    }
+    },
   ],
   enums: {
-    risk: {
-      name: "risk",
-      valueMap: {
-        none: 0,
-        low: 10,
-        moderate: 20,
-        high: 30,
-        incredible: 40,
-      },
-      options: {
-        suffix: true,
-      },
-    },
   },
 }

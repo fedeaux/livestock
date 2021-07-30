@@ -9,6 +9,7 @@ import formatMoney from "ui/formatters/money";
 import formatPercentage from "ui/formatters/percentage";
 import ColoredAmountAndRate from "ui/typography/ColoredAmountAndRate";
 import tableGrid from "entities/UserStocks/List/tableGrid";
+import { Link } from 'react-router-dom';
 
 function UserStockListItemPayout({ userStock }) {
   return (
@@ -37,7 +38,11 @@ function UserStockListItemEarnings({ userStock }) {
 export default function UserStockListItem({ userStock }) {
   return (
     <View style={ tw("px-4 py-2 flex flex-row border-b border-gray-200") }>
-      <Text style={ tw("text-gray-600 font-semibold text-center", tableGrid[0]) }>{userStock.code}</Text>
+      <Link style={ tw("text-center no-underline", tableGrid[0]) } to={userStock.clientPath}>
+        <Text style={ tw("text-gray-600 font-semibold") } >
+          {userStock.code}
+        </Text>
+      </Link>
       <Text style={ tw("text-gray-600 text-center", tableGrid[1]) }>{userStock.stockCount}</Text>
       <Text style={ tw("text-gray-600 text-center", tableGrid[2]) }>
         {formatMoney(userStock.totalPrice)} | {formatMoney(userStock.averagePricePerStock)}

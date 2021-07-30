@@ -6,8 +6,10 @@ import React, {
 
 export default function MainTitle({ className = "", children }) {
   return (
-    <Text style={ tw("text-lg mt-4 mb-2 font-semibold text-gray-600", className) }>
-      { children }
-    </Text>
+    <View style={ tw("m-4 mt-8", className) }>
+      <Text style={ tw("text-3xl font-thin text-gray-600") }>
+        { children }
+      </Text>
+    </View>
   );
 }

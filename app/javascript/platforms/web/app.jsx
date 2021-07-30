@@ -1,19 +1,20 @@
 import React from 'react'
-import DashboardIndex from 'platforms/web/screens/dashboard/index'
-import AnalyticsIndex from 'platforms/web/screens/analytics/index'
+import DashboardIndex from 'platforms/web/screens/dashboard'
+import AnalyticsIndex from 'platforms/web/screens/analytics'
+import StockShowIndex from 'platforms/web/screens/stock_show'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 function MenuItem({ to, children }) {
   return (
-    <Link style={ tw("px-4 py-3 mr-2 text-gray-400") } to={to}>
-      {children}
+    <Link style={ tw("no-underline px-4 py-3 mr-2") } to={to}>
+      <Text style={ tw("text-gray-400") }>{children}</Text>
     </Link>
   )
 }
 
 function Menu() {
   return (
-    <View style={ tw("px-12 flex flex-row") }>
+    <View style={ tw("sticky px-12 flex flex-row") }>
       <MenuItem to="/"> Dashboard </MenuItem>
       <MenuItem to="/analytics"> Analytics </MenuItem>
     </View>
@@ -23,12 +24,15 @@ function Menu() {
 export default function App() {
   return (
     <Router>
-      <View style={ tw("flex flex-col h-screen") }>
+      <View style={ tw("flex flex-col h-full") }>
         <Menu />
-        <Switch>
-          <Route exact path='/' component={DashboardIndex} />
-          <Route path='/analytics' component={AnalyticsIndex} />
-        </Switch>
+        <View style={ tw("flex flex-grow") }>
+          <Switch>
+            <Route exact path='/' component={DashboardIndex} />
+            <Route path='/analytics' component={AnalyticsIndex} />
+            <Route path='/stocks/:id' component={StockShowIndex} />
+          </Switch>
+        </View>
       </View>
     </Router>
   );

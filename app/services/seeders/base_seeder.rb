@@ -20,4 +20,8 @@ class Seeders::BaseSeeder
   def nuke_cache(cache_file)
     FileUtils.rm(cache_file)
   end
+
+  def stocks_with_user_stocks
+    Stock.find(UserStock.distinct.pluck(:stock_id))
+  end
 end

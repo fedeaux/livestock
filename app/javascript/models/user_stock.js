@@ -18,6 +18,10 @@ class UserStock extends Model {
       }
     };
   }
+
+  get clientPath() {
+    return `/stocks/${this.code}`
+  }
 }
 
 export default UserStock.define();

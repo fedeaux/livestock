@@ -82,7 +82,6 @@ export default function UserStockWallet({ userStocks }) {
   const [wallet, setWallet] = useState(null);
 
   useEffect(() => {
-    console.log("userStocks", userStocks);
     setWallet(evalWallet(userStocks));
   }, [userStocks])
 

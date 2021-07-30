@@ -1,12 +1,18 @@
 import Model from "braindamage/model";
 import StockSchema from "generated/schemas/stock";
+import StockEarning from "models/stock_earning";
 
 class Stock extends Model {
   static schema = StockSchema;
 
   // Fill-in your attribute overrides
   static attributesDefinitions() {
-    return {};
+    return {
+      stockEarnings: {
+        type: "belongs_to",
+        class: StockEarning
+      }
+    };
   }
 }
 

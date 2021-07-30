@@ -4,9 +4,7 @@ class Seeders::StockPrices < Seeders::BaseSeeder
   end
 
   def seed_prices
-    UserStock.find_each.map(&:stock).pluck(:code).uniq.map do |code|
-      Stock.find_by(code: code)
-    end.each do |stock|
+    stocks_with_user_stocks.each do |stock|
       stock_prices_attributes = stock_price_data(stock.international_code)
 
       stock_prices_attributes.each do |stock_price_attributes|
