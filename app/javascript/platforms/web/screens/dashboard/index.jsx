@@ -6,7 +6,7 @@ import React, {
 } from "react";
 
 import UserStock from "models/user_stock";
-import UserStockListItem from "entities/UserStocks/List";
+import UserStockList from "entities/UserStocks/List";
 
 async function apiUserStocksIndex() {
   return fetch("api/user_stocks.json").then((response) => {
@@ -42,7 +42,7 @@ export default function DashboardIndex() {
 
   return (
     <View style={ tw("p-4") }>
-      <UserStockListItem userStocks={userStocks} />
+      <UserStockList userStocks={userStocks} />
     </View>
   );
 }
