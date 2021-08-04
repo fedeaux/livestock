@@ -7,17 +7,18 @@ import React, {
 
 import UserStock from "models/user_stock";
 import UserStockList from "entities/UserStocks/List";
+import MainTitle from "ui/typography/MainTitle";
 
 async function apiUserStocksIndex() {
   return fetch("api/user_stocks.json").then((response) => {
-    return response.json()
+    return response.json();
   }).then((data) => {
     const instances = data.userStocks.map((attributes) => {
       return new UserStock(attributes);
-    })
+    });
 
     return { ...data, userStocks: instances };
-  })
+  });
 }
 
 function useUserStocksIndex() {
@@ -42,6 +43,7 @@ export default function DashboardIndex() {
 
   return (
     <View style={ tw("p-4") }>
+      <MainTitle>All Assets</MainTitle>
       <UserStockList userStocks={userStocks} />
     </View>
   );

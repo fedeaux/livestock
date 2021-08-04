@@ -14,6 +14,10 @@ class Stock extends Model {
       }
     };
   }
+
+  get clientPath() {
+    return `/stocks/${this.code}`
+  }
 }
 
 export default Stock.define();

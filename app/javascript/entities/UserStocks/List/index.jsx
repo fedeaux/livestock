@@ -9,9 +9,10 @@ import UserStockListItem from "entities/UserStocks/List/Item";
 import formatMoney from "ui/formatters/money";
 import formatPercentage from "ui/formatters/percentage";
 import ColoredAmountAndRate from "ui/typography/ColoredAmountAndRate";
-import MainTitle from "ui/typography/MainTitle";
 import tableGrid from "entities/UserStocks/List/tableGrid";
 import UserStockWallet from "entities/UserStocks/Wallet";
+import TableHeader from "ui/Table/Header";
+import TableRow from "ui/Table/Row";
 
 function processUserStocks(userStocks, options) {
   const processedUserStocks = userStocks.filter((userStock) => {
@@ -56,11 +57,11 @@ function UserStockListHeader({ position, sortKey, label, setSortBy }) {
     if(sortKey && setSortBy) {
       setSortBy(sortKey);
     }
-  }, [sortKey, setSortBy])
+  }, [sortKey, setSortBy]);
 
   return (
-    <Text onClick={onClick} style={ tw("text-gray-400 font-bold text-center", tableGrid[position]) }>{label}</Text>
-  )
+    <TableHeader twp={tableGrid[position]} onClick={onClick}>{label}</TableHeader>
+  );
 }
 
 export default function UserStockList({ userStocks }) {
@@ -73,30 +74,30 @@ export default function UserStockList({ userStocks }) {
     const processedUserStocks = processUserStocks(userStocks, { showActiveOnly, sortBy });
     setProcessedUserStocks(processedUserStocks);
     setResults(evalResults(processedUserStocks));
-  }, [userStocks, sortBy])
+  }, [userStocks, sortBy]);
 
   return (
     <View>
-      <MainTitle>All Assets</MainTitle>
-      <View style={ tw("px-4 py-2 flex flex-row border-b border-gray-300") }>
+      <TableRow>
         <UserStockListHeader position={0} label="Code" sortKey="code" setSortBy={setSortBy} sortBy={sortBy} />
         <UserStockListHeader position={1} label="Count" />
         <UserStockListHeader position={2} label="Price" />
         <UserStockListHeader position={3} label="Market Price" />
         <UserStockListHeader position={4} label="Earnings" sortKey="totalEarnings" setSortBy={setSortBy} sortBy={sortBy} />
         <UserStockListHeader position={5} label="Payout" sortKey="currentPayout" setSortBy={setSortBy} sortBy={sortBy} />
-        <UserStockListHeader position={6} label="Category" />
-      </View>
+        <UserStockListHeader position={6} label="%" sortKey="walletRatio" setSortBy={setSortBy} sortBy={sortBy} />
+        <UserStockListHeader position={7} label="Category" sortKey="category" setSortBy={setSortBy} sortBy={sortBy} />
+      </TableRow>
 
       {
         processedUserStocks.map((userStock) => {
-          return <UserStockListItem key={userStock.id} userStock={userStock} />
+          return <UserStockListItem key={userStock.id} userStock={userStock} />;
         })
       }
 
       {
         results ?
-          <View style={ tw("px-4 py-2 flex flex-row border-t border-b border-gray-300") }>
+          <TableRow>
             <Text style={ tw("text-gray-400 text-lg font-bold text-center", tableGrid[0]) } >TOTAL</Text>
             <Text style={ tw(tableGrid[1]) } />
             <Text style={ tw("text-gray-600 text-lg text-center", tableGrid[2]) }>{ formatMoney(results.totalPrice) }</Text>
@@ -108,7 +109,8 @@ export default function UserStockList({ userStocks }) {
               className={["w-60 text-lg text-center", tableGrid[5]].join(" ")}
             />
             <Text style={ tw("text-gray-400 text-lg font-bold text-center", tableGrid[6]) } />
-          </View> : null
+            <Text style={ tw("text-gray-400 text-lg font-bold text-center", tableGrid[7]) } />
+          </TableRow> : null
       }
 
       {

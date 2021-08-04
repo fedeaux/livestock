@@ -18,6 +18,10 @@ class UserStock < ApplicationRecord
 
   before_save :ensure_math
 
+  scope :active, -> {
+    where("stock_count > 0")
+  }
+
   def inactive?
     stock_count == 0
   end

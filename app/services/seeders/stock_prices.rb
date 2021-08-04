@@ -1,4 +1,8 @@
 class Seeders::StockPrices < Seeders::BaseSeeder
+  def initialize
+    @i = 0
+  end
+
   def seed
     seed_prices
   end
@@ -15,6 +19,8 @@ class Seeders::StockPrices < Seeders::BaseSeeder
 
     UserStock.find_each do |user_stock|
       last_stock_price = user_stock.stock.last_price
+      puts "------ #{user_stock.code} -------"
+      ap last_stock_price
       user_stock.market_price_per_stock = last_stock_price.close
       user_stock.save
     end
@@ -23,7 +29,7 @@ class Seeders::StockPrices < Seeders::BaseSeeder
   end
 
   def stock_price_data(code)
-    cache_key = "stock_prices/alphavantage/TIME_SERIES_DAILY/#{code}/#{Date.today.to_s}.json"
+    cache_key = "stock_prices/alphavantage/TIME_SERIES_DAILY/#{Date.today.to_s}/#{code}.json"
     cache_file = Rails.root.join(CACHE_DIR, cache_key).to_s
 
     cached = fetch_cache cache_file
@@ -32,6 +38,7 @@ class Seeders::StockPrices < Seeders::BaseSeeder
       url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=#{code}&apikey=#{ENV['ALPHA_VANTAGE_API_KEY']}"
 
       result = HTTParty.get(url)
+      @i += 1
       puts "-> Sem cache"
 
       if result.parsed_response["Error Message"] || result.parsed_response["Note"]
@@ -41,6 +48,10 @@ class Seeders::StockPrices < Seeders::BaseSeeder
         puts "-> Deu certo"
         cached = add_to_cache cache_file, result.body
       end
+
+      puts @i
+
+      sleep 61 if @i % 5 == 0
     end
 
     parsed_cache = JSON.parse(cached)

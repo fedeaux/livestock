@@ -66,6 +66,12 @@ export default {
       writeable: true,
       default: null,
     },
+    walletRatio: {
+      name: "walletRatio",
+      type: "decimal",
+      writeable: true,
+      default: "0.0",
+    },
     code: {
       name: "code",
       type: "string",

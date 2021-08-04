@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_30_155825) do
+ActiveRecord::Schema.define(version: 2021_07_31_194105) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 2021_07_30_155825) do
     t.decimal "market_price_per_stock", precision: 15, scale: 2
     t.decimal "total_market_price", precision: 15, scale: 2
     t.decimal "total_earnings", precision: 15, scale: 2
+    t.decimal "wallet_ratio", precision: 15, scale: 2, default: "0.0"
     t.index ["stock_id"], name: "index_user_stocks_on_stock_id"
     t.index ["user_id"], name: "index_user_stocks_on_user_id"
   end

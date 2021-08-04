@@ -4,6 +4,6 @@ class Api::StocksController < ApiController
   end
 
   def index
-    @stocks = Stock.all
+    @stocks = Stock.all.limit(20)
   end
 end

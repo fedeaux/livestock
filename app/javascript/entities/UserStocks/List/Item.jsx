@@ -4,7 +4,7 @@ import React, {
   useState,
 } from "react";
 
-import { formatRelative } from "date-fns"
+import { formatRelative } from "date-fns";
 import formatMoney from "ui/formatters/money";
 import formatPercentage from "ui/formatters/percentage";
 import ColoredAmountAndRate from "ui/typography/ColoredAmountAndRate";
@@ -52,7 +52,8 @@ export default function UserStockListItem({ userStock }) {
       </Text>
       <UserStockListItemEarnings userStock={userStock} />
       <UserStockListItemPayout userStock={userStock} />
-      <Text style={ tw("text-gray-600 w-40 text-center", tableGrid[6]) }>{userStock.category}</Text>
+      <Text style={ tw("text-gray-600 text-center", tableGrid[6]) }>{formatPercentage(userStock.walletRatio)}</Text>
+      <Text style={ tw("text-gray-600 text-center", tableGrid[7]) }>{userStock.category}</Text>
     </View>
   );
 }

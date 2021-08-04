@@ -1,7 +1,8 @@
-import React from 'react'
-import DashboardIndex from 'platforms/web/screens/dashboard'
-import AnalyticsIndex from 'platforms/web/screens/analytics'
-import StockShowIndex from 'platforms/web/screens/stock_show'
+import React from 'react';
+import DashboardIndex from 'platforms/web/screens/dashboard';
+import AnalyticsIndex from 'platforms/web/screens/analytics';
+import StockShowIndex from 'platforms/web/screens/stock_show';
+import Stocks from 'platforms/web/screens/stocks';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 function MenuItem({ to, children }) {
@@ -9,7 +10,7 @@ function MenuItem({ to, children }) {
     <Link style={ tw("no-underline px-4 py-3 mr-2") } to={to}>
       <Text style={ tw("text-gray-400") }>{children}</Text>
     </Link>
-  )
+  );
 }
 
 function Menu() {
@@ -17,8 +18,9 @@ function Menu() {
     <View style={ tw("sticky px-12 flex flex-row") }>
       <MenuItem to="/"> Dashboard </MenuItem>
       <MenuItem to="/analytics"> Analytics </MenuItem>
+      <MenuItem to="/stocks"> Stocks </MenuItem>
     </View>
-  )
+  );
 }
 
 export default function App() {
@@ -31,6 +33,7 @@ export default function App() {
             <Route exact path='/' component={DashboardIndex} />
             <Route path='/analytics' component={AnalyticsIndex} />
             <Route path='/stocks/:id' component={StockShowIndex} />
+            <Route path='/stocks' component={Stocks} />
           </Switch>
         </View>
       </View>
