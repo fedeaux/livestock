@@ -5,14 +5,15 @@ import React, {
   useState,
 } from "react";
 
-import UserStockListItem from "entities/UserStocks/List/Item";
-import formatMoney from "ui/formatters/money";
-import formatPercentage from "ui/formatters/percentage";
 import ColoredAmountAndRate from "ui/typography/ColoredAmountAndRate";
-import tableGrid from "entities/UserStocks/List/tableGrid";
-import UserStockWallet from "entities/UserStocks/Wallet";
+import MainTitle from "ui/typography/MainTitle";
 import TableHeader from "ui/Table/Header";
 import TableRow from "ui/Table/Row";
+import UserStockListItem from "entities/UserStocks/List/Item";
+import UserStockWallet from "entities/UserStocks/Wallet";
+import formatMoney from "ui/formatters/money";
+import formatPercentage from "ui/formatters/percentage";
+import tableGrid from "entities/UserStocks/List/tableGrid";
 
 function processUserStocks(userStocks, options) {
   const processedUserStocks = userStocks.filter((userStock) => {

@@ -1,7 +1,7 @@
 class Seeders::RealState < Seeders::ScrapperBasedSeeder
   def seed
     seed_funds
-    seed_earnings
+    # seed_earnings
   end
 
   def seed_funds
@@ -18,14 +18,14 @@ class Seeders::RealState < Seeders::ScrapperBasedSeeder
     end
   end
 
-  def seed_earnings
-    Stock.real_state.each do |stock|
-      earnings_data(stock).each do |stock_earning_attributes|
-        stock_earning = stock.stock_earnings.where(received_at: stock_earning_attributes[:received_at]).first_or_create
-        stock_earning.update(stock_earning_attributes)
-      end
-    end
-  end
+  # def seed_earnings
+  #   Stock.real_state.each do |stock|
+  #     earnings_data(stock).each do |stock_earning_attributes|
+  #       stock_earning = stock.stock_earnings.where(received_at: stock_earning_attributes[:received_at]).first_or_create
+  #       stock_earning.update(stock_earning_attributes)
+  #     end
+  #   end
+  # end
 
   def earnings_data(stock)
     tbody = parsed_html("https://fiibrasil.com/fundo/#{stock.code}")

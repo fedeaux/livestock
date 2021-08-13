@@ -31,6 +31,8 @@ class UserStock < ApplicationRecord
   end
 
   def ensure_math
+    return unless stock_count && market_price_per_stock
+
     self.total_market_price = stock_count * market_price_per_stock
   end
 
