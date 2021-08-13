@@ -35,7 +35,8 @@ class Seeders::UserStockEarnings
         code: ws[i, 1].strip,
         stock_count: ws[i, 2].to_i,
         total: ws[i, 3].gsub("R$", "").strip.to_f,
-        received_at: Date.strptime(ws[i, 6], "%d/%m/%Y")
+        received_at: Date.strptime(ws[i, 4], "%d/%m/%Y")
+        # TODO: Nature
       )
     end
   end

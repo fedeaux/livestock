@@ -6,4 +6,5 @@ json.extract! user_stock_earning,
               :stock_count,
               :received_at,
               :created_at,
-              :updated_at
+              :updated_at,
+              :code
