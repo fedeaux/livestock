@@ -1,5 +1,5 @@
 class UserStockEarning < ApplicationRecord
-  include Braindamageable
+  include Braindamage::Braindamageable
 
   belongs_to :user_stock
   before_save :ensure_per_stock

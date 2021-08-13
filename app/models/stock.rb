@@ -1,5 +1,5 @@
 class Stock < ApplicationRecord
-  include Braindamageable
+  include Braindamage::Braindamageable
   has_many :user_stocks, dependent: :destroy
   has_many :stock_earnings, dependent: :destroy
   has_many :stock_prices, dependent: :destroy

@@ -1,5 +1,5 @@
 class Sector < ApplicationRecord
-  include Braindamageable
+  include Braindamage::Braindamageable
   has_many :companies, dependent: :destroy
 
   exposed_enum category: {

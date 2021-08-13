@@ -1,4 +1,4 @@
 class StockEarning < ApplicationRecord
-  include Braindamageable
+  include Braindamage::Braindamageable
   belongs_to :stock
 end

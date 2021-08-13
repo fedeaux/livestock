@@ -1,4 +1,4 @@
-module Braindamageable
+module Braindamage::Braindamageable
   extend ActiveSupport::Concern
 
   included do

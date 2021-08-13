@@ -1,5 +1,5 @@
 class UserStock < ApplicationRecord
-  include Braindamageable
+  include Braindamage::Braindamageable
 
   belongs_to :user
   belongs_to :stock
