@@ -1,14 +1,8 @@
-import React, {
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
-
 import { formatRelative } from "date-fns";
 import formatMoney from "ui/formatters/money";
 import formatPercentage from "ui/formatters/percentage";
 import ColoredAmountAndRate from "ui/typography/ColoredAmountAndRate";
-import tableGrid from "entities/UserStocks/List/tableGrid";
+import tableGrid from "entities/UserStocks/Table/grid";
 import { Link } from 'react-router-dom';
 
 function UserStockListItemPayout({ userStock }) {

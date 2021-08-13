@@ -6,7 +6,7 @@ import React, {
 } from "react";
 
 import UserStock from "models/user_stock";
-import UserStockList from "entities/UserStocks/List";
+import UserStockTable from "entities/UserStocks/Table";
 import MainTitle from "ui/typography/MainTitle";
 
 async function apiUserStocksIndex() {
@@ -44,7 +44,7 @@ export default function DashboardIndex() {
   return (
     <View style={ tw("p-4") }>
       <MainTitle>All Assets</MainTitle>
-      <UserStockList userStocks={userStocks} />
+      <UserStockTable userStocks={userStocks} />
     </View>
   );
 }
