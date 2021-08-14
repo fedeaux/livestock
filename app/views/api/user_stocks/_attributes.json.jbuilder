@@ -11,10 +11,12 @@ json.extract! user_stock,
               :total_market_price,
               :total_earnings,
               :wallet_ratio,
+              :wallet_id,
               :code,
               :category,
               :inactive?,
               :active?,
               :current_market_result,
               :current_payout,
-              :current_payout_rate
+              :current_payout_rate,
+              :wallet_name

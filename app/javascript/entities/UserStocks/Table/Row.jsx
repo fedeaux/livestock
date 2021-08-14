@@ -40,19 +40,17 @@ export default function UserStockTableRow({ userStock }) {
       </Link>
       <TableCell twp={tableGrid[1]}>{userStock.stockCount}</TableCell>
       <TableCell twp={tableGrid[2]}>
-        {formatMoney(userStock.totalPrice)} |{" "}
-        {formatMoney(userStock.averagePricePerStock)}
+        {formatMoney(userStock.totalPrice)}
       </TableCell>
       <TableCell twp={tableGrid[3]}>
-        {formatMoney(userStock.totalMarketPrice)} |{" "}
-        {formatMoney(userStock.marketPricePerStock)}
+        {formatMoney(userStock.totalMarketPrice)}
       </TableCell>
       <UserStockTableCellEarnings userStock={userStock} />
       <UserStockTableCellPayout userStock={userStock} />
+      <TableCell twp={tableGrid[7]}>{userStock.walletName}</TableCell>
       <TableCell twp={tableGrid[6]}>
         {formatPercentage(userStock.walletRatio)}
       </TableCell>
-      <TableCell twp={tableGrid[7]}>{userStock.category}</TableCell>
     </View>
   );
 }

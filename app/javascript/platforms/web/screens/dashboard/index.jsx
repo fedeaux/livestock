@@ -5,6 +5,7 @@ import UserStockTable from "entities/UserStocks/Table";
 import WalletTable from "entities/Wallets/Table";
 
 import MainTitle from "ui/typography/MainTitle";
+import SecondaryTitle from "ui/typography/SecondaryTitle";
 import { useApiUserStocks, useApiWallets } from "generated/api";
 
 export default function DashboardIndex() {
@@ -16,8 +17,10 @@ export default function DashboardIndex() {
   return (
     <View style={tw("p-4")}>
       <MainTitle>Dashboard</MainTitle>
+      <SecondaryTitle>Wallets</SecondaryTitle>
       <WalletTable wallets={wallets} />
-      <View style={tw("h-12")} />
+      <View style={tw("h-8")} />
+      <SecondaryTitle>Assets</SecondaryTitle>
       <UserStockTable userStocks={userStocks} />
     </View>
   );

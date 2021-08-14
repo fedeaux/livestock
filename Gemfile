@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.0.1'
 gem 'rails', '~> 6.1.3', '>= 6.1.3.2'
 
+gem 'annotate'
 gem 'awesome_print', '~> 1.8'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'capybara'

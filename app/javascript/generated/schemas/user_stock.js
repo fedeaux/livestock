@@ -72,6 +72,12 @@ export default {
       writeable: true,
       default: "0.0",
     },
+    walletId: {
+      name: "walletId",
+      type: "integer",
+      writeable: true,
+      default: null,
+    },
     code: {
       name: "code",
       type: "string",
@@ -114,6 +120,12 @@ export default {
       writeable: true,
       default: null,
     },
+    walletName: {
+      name: "walletName",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
   },
   names: {
     singularUnderscore: "user_stock",
@@ -142,6 +154,15 @@ export default {
       },
       attributes: [
         "stock",
+      ],
+    },
+    {
+      className: "ActiveRecord::Validations::PresenceValidator",
+      options: {
+        message: "required",
+      },
+      attributes: [
+        "wallet",
       ],
     },
   ],
