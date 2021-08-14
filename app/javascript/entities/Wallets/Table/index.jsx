@@ -3,10 +3,10 @@ import TableHeader from "ui/Table/Header";
 import TableRow from "ui/Table/Row";
 import ColoredAmountAndRate from "ui/typography/ColoredAmountAndRate";
 import formatMoneyAndPercentage from "ui/formatters/money_and_percentage";
+import formatMoney from "../../../ui/formatters/money";
+const tableGrid = ["w-2/10", "w-2/10", "w-2/10", "w-2/10", "w-2/10"];
 
-const tableGrid = ["w-1/10", "w-3/10", "w-3/10", "w-3/10"];
-
-function WalletTableRow({ label, wallets, formatter }) {
+function WalletTableRow({ label, wallets, formatter, after = "" }) {
   return (
     <TableRow>
       <TableHeader twp={tableGrid[0]}> {label} </TableHeader>
@@ -17,52 +17,100 @@ function WalletTableRow({ label, wallets, formatter }) {
           </TableCell>
         );
       })}
+      <TableCell twp={["font-semibold", tableGrid[wallets.length + 1]]}>
+        {after}
+      </TableCell>
     </TableRow>
   );
 }
 
+function evalTotals(wallets) {
+  const totals = {
+    price: 0,
+    marketPrice: 0,
+    marketResult: 0,
+    earnings: 0,
+    payout: 0,
+    marketResultRatio: 0,
+    payoutRatio: 0,
+  };
+
+  wallets.forEach((wallet) => {
+    totals.price += wallet.price;
+    totals.marketPrice += wallet.marketPrice;
+    totals.marketResult += wallet.marketResult;
+    totals.earnings += wallet.earnings;
+    totals.payout += wallet.payout;
+  });
+
+  totals.payoutRatio = totals.payout / totals.price;
+  totals.marketResultRatio = totals.marketResult / totals.price;
+
+  return totals;
+}
+
 export default function WalletTable({ wallets }) {
+  const totals = evalTotals(wallets);
+
   return (
     <View>
       <TableRow>
         <TableHeader twp={tableGrid[0]} />
         {wallets.map((wallet, index) => {
           return (
-            <TableHeader
-              twp="w-3/12"
-              key={wallet.id}
-              twp={tableGrid[index + 1]}
-            >
+            <TableHeader key={wallet.id} twp={tableGrid[index + 1]}>
               {wallet.name}
             </TableHeader>
           );
         })}
+        <TableHeader twp={tableGrid[wallets.length + 1]}>Total</TableHeader>
       </TableRow>
       <WalletTableRow
         label="Price"
         formatter={(wallet) => {
-          return formatMoneyAndPercentage(wallet.totalPrice, wallet.priceRatio);
+          return formatMoneyAndPercentage(wallet.price, wallet.priceRatio);
         }}
+        after={formatMoney(totals.price)}
         wallets={wallets}
       />
       <WalletTableRow
         label="Market Price"
         formatter={(wallet) => {
           return formatMoneyAndPercentage(
-            wallet.totalMarketPrice,
+            wallet.marketPrice,
             wallet.marketPriceRatio
           );
         }}
+        after={formatMoney(totals.marketPrice)}
+        wallets={wallets}
+      />
+      <WalletTableRow
+        label="Result"
+        formatter={(wallet) => {
+          return (
+            <ColoredAmountAndRate
+              amount={wallet.marketResult}
+              rate={wallet.marketResultRatio}
+            />
+          );
+        }}
+        after={
+          <ColoredAmountAndRate
+            amount={totals.marketResult}
+            rate={totals.marketResultRatio}
+          />
+        }
         wallets={wallets}
       />
       <WalletTableRow
         label="Earnings"
         formatter={(wallet) => {
           return formatMoneyAndPercentage(
-            wallet.totalEarnings,
+            wallet.earnings,
             wallet.earningsRatio
           );
         }}
+        after={formatMoney(totals.earnings)}
         wallets={wallets}
       />
       <WalletTableRow
@@ -70,21 +118,19 @@ export default function WalletTable({ wallets }) {
         formatter={(wallet) => {
           return (
             <ColoredAmountAndRate
-              amount={wallet.currentPayout}
-              rate={wallet.currentPayoutRate}
+              amount={wallet.payout}
+              rate={wallet.payoutRatio}
             />
           );
         }}
+        after={
+          <ColoredAmountAndRate
+            amount={totals.payout}
+            rate={totals.payoutRatio}
+          />
+        }
         wallets={wallets}
       />
     </View>
   );
 }
-
-// wallet.marketPriceRatio
-// wallet.priceRatio
-// wallet.currentPayout
-// wallet.currentPayoutRatio
-// wallet.totalEarnings
-// wallet.totalMarketPrice
-// wallet.totalPrice

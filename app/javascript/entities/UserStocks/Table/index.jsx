@@ -48,15 +48,16 @@ export default function UserStockTable({ userStocks }) {
         <UserStockTableHeader position={1} label="Count" />
         <UserStockTableHeader position={2} label="Price" />
         <UserStockTableHeader position={3} label="Market Price" />
+        <UserStockTableHeader position={4} label="Result" />
         <UserStockTableHeader
-          position={4}
+          position={5}
           label="Earnings"
           sortKey="totalEarnings"
           setSortBy={setSortBy}
           sortBy={sortBy}
         />
         <UserStockTableHeader
-          position={5}
+          position={6}
           label="Payout"
           sortKey="currentPayout"
           setSortBy={setSortBy}
@@ -70,7 +71,7 @@ export default function UserStockTable({ userStocks }) {
           sortBy={sortBy}
         />
         <UserStockTableHeader
-          position={6}
+          position={8}
           label="%"
           sortKey="walletRatio"
           setSortBy={setSortBy}
@@ -84,30 +85,3 @@ export default function UserStockTable({ userStocks }) {
     </View>
   );
 }
-
-// {
-//   results ?
-//     <TableRow>
-//       <Text style={ tw("text-gray-400 text-lg font-bold text-center", tableGrid[0]) } >TOTAL</Text>
-//       <Text style={ tw(tableGrid[1]) } />
-//       <Text style={ tw("text-gray-600 text-lg text-center", tableGrid[2]) }>{ formatMoney(results.totalPrice) }</Text>
-//       <Text style={ tw("text-gray-600 text-lg text-center", tableGrid[3]) }>{ formatMoney(results.totalMarketPrice) }</Text>
-//       <Text style={ tw("text-gray-600 text-lg text-center", tableGrid[4]) }>{ formatMoney(results.totalEarnings) }</Text>
-//       <ColoredAmountAndRate
-//         amount={results.totalPayout}
-//         rate={results.totalPayoutRate}
-//         className={["w-60 text-lg text-center", tableGrid[5]].join(" ")}
-//       />
-//       <Text style={ tw("text-gray-400 text-lg font-bold text-center", tableGrid[6]) } />
-//       <Text style={ tw("text-gray-400 text-lg font-bold text-center", tableGrid[7]) } />
-//     </TableRow> : null
-// }
-
-// {
-//   processedUserStocks ? (
-//     <View>
-//       <MainTitle> Wallet </MainTitle>
-//       <UserStockWallet userStocks={processedUserStocks} />
-//     </View>
-//   ) : null
-// }

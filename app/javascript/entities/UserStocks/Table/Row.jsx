@@ -5,27 +5,37 @@ import tableGrid from "entities/UserStocks/Table/grid";
 import { Link } from "react-router-dom";
 import TableCell from "ui/Table/Cell";
 
-function UserStockTableCellPayout({ userStock }) {
+function UserStockTableCellResults({ userStock }) {
   return (
     <ColoredAmountAndRate
-      amount={userStock.currentPayout}
-      rate={userStock.currentPayoutRate}
-      className={["text-center", tableGrid[5]].join(" ")}
+      amount={userStock.marketResult}
+      rate={userStock.marketResultRatio}
+      className={["text-center", tableGrid[4]].join(" ")}
     />
   );
 }
 
 function UserStockTableCellEarnings({ userStock }) {
-  let value = userStock.totalEarnings;
+  let value = userStock.earnings;
 
   if (value == 0) {
     value = "-";
   } else {
-    value = formatMoney(userStock.totalEarnings);
+    value = formatMoney(userStock.earnings);
   }
 
   return (
-    <Text style={tw("text-gray-600 text-center", tableGrid[4])}>{value}</Text>
+    <Text style={tw("text-gray-600 text-center", tableGrid[5])}>{value}</Text>
+  );
+}
+
+function UserStockTableCellPayout({ userStock }) {
+  return (
+    <ColoredAmountAndRate
+      amount={userStock.payout}
+      rate={userStock.payoutRatio}
+      className={["text-center", tableGrid[6]].join(" ")}
+    />
   );
 }
 
@@ -39,16 +49,15 @@ export default function UserStockTableRow({ userStock }) {
         <Text style={tw("text-gray-600 font-semibold")}>{userStock.code}</Text>
       </Link>
       <TableCell twp={tableGrid[1]}>{userStock.stockCount}</TableCell>
-      <TableCell twp={tableGrid[2]}>
-        {formatMoney(userStock.totalPrice)}
-      </TableCell>
+      <TableCell twp={tableGrid[2]}>{formatMoney(userStock.price)}</TableCell>
       <TableCell twp={tableGrid[3]}>
-        {formatMoney(userStock.totalMarketPrice)}
+        {formatMoney(userStock.marketPrice)}
       </TableCell>
+      <UserStockTableCellResults userStock={userStock} />
       <UserStockTableCellEarnings userStock={userStock} />
       <UserStockTableCellPayout userStock={userStock} />
       <TableCell twp={tableGrid[7]}>{userStock.walletName}</TableCell>
-      <TableCell twp={tableGrid[6]}>
+      <TableCell twp={tableGrid[8]}>
         {formatPercentage(userStock.walletRatio)}
       </TableCell>
     </View>

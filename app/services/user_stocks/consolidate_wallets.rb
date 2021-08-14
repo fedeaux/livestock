@@ -8,22 +8,22 @@ class UserStocks::ConsolidateWallets
   def do
     duct_tapped_ensure_user_stock_wallets
     wallets = user.wallets
-    total_price = 0
-    total_market_price = 0
-    total_earnings = 0
+    price = 0
+    market_price = 0
+    earnings = 0
 
     wallets.each do |wallet|
       consolidate_wallet wallet
 
-      total_price += wallet.total_price
-      total_market_price += wallet.total_market_price
-      total_earnings += wallet.total_earnings
+      price += wallet.price
+      market_price += wallet.market_price
+      earnings += wallet.earnings
     end
 
     wallets.each do |wallet|
-      wallet.price_ratio = wallet.total_price / total_price
-      wallet.market_price_ratio = wallet.total_market_price / total_market_price
-      wallet.earnings_ratio = wallet.total_earnings / total_earnings
+      wallet.price_ratio = wallet.price / price
+      wallet.market_price_ratio = wallet.market_price / market_price
+      wallet.earnings_ratio = wallet.earnings / earnings
     end
 
     wallets.each(&:save)
@@ -33,14 +33,14 @@ class UserStocks::ConsolidateWallets
     wallet.reset
 
     wallet.user_stocks.active.each do |user_stock|
-      wallet.total_price += user_stock.total_price
-      wallet.total_market_price += user_stock.total_market_price
-      wallet.total_earnings += user_stock.total_earnings
-      wallet.current_payout += user_stock.current_payout
+      wallet.price += user_stock.price
+      wallet.market_price += user_stock.market_price
+      wallet.earnings += user_stock.earnings
+      wallet.payout += user_stock.payout
     end
 
     wallet.user_stocks.active.each do |user_stock|
-      user_stock.wallet_ratio = user_stock.total_market_price / wallet.total_market_price
+      user_stock.wallet_ratio = user_stock.market_price / wallet.market_price
       user_stock.save
     end
   end

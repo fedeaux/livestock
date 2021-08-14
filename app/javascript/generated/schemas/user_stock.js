@@ -42,8 +42,8 @@ export default {
       writeable: true,
       default: null,
     },
-    totalPrice: {
-      name: "totalPrice",
+    price: {
+      name: "price",
       type: "decimal",
       writeable: true,
       default: null,
@@ -54,14 +54,14 @@ export default {
       writeable: true,
       default: null,
     },
-    totalMarketPrice: {
-      name: "totalMarketPrice",
+    marketPrice: {
+      name: "marketPrice",
       type: "decimal",
       writeable: true,
       default: null,
     },
-    totalEarnings: {
-      name: "totalEarnings",
+    earnings: {
+      name: "earnings",
       type: "decimal",
       writeable: true,
       default: null,
@@ -77,6 +77,30 @@ export default {
       type: "integer",
       writeable: true,
       default: null,
+    },
+    marketResult: {
+      name: "marketResult",
+      type: "decimal",
+      writeable: true,
+      default: "0.0",
+    },
+    marketResultRatio: {
+      name: "marketResultRatio",
+      type: "decimal",
+      writeable: true,
+      default: "0.0",
+    },
+    payout: {
+      name: "payout",
+      type: "decimal",
+      writeable: true,
+      default: "0.0",
+    },
+    payoutRatio: {
+      name: "payoutRatio",
+      type: "decimal",
+      writeable: true,
+      default: "0.0",
     },
     code: {
       name: "code",
@@ -98,24 +122,6 @@ export default {
     },
     isActive: {
       name: "isActive",
-      type: "string",
-      writeable: true,
-      default: null,
-    },
-    currentMarketResult: {
-      name: "currentMarketResult",
-      type: "string",
-      writeable: true,
-      default: null,
-    },
-    currentPayout: {
-      name: "currentPayout",
-      type: "string",
-      writeable: true,
-      default: null,
-    },
-    currentPayoutRate: {
-      name: "currentPayoutRate",
       type: "string",
       writeable: true,
       default: null,

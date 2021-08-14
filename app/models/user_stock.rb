@@ -13,9 +13,6 @@ class UserStock < ApplicationRecord
 
   expose :inactive?
   expose :active?
-  expose :current_market_result
-  expose :current_payout
-  expose :current_payout_rate
   expose :wallet_name
 
   before_save :ensure_math
@@ -40,24 +37,44 @@ class UserStock < ApplicationRecord
   def ensure_math
     return unless stock_count && market_price_per_stock
 
-    self.total_market_price = stock_count * market_price_per_stock
-  end
-
-  def current_market_result
-    return 0 if inactive?
-
-    total_market_price - total_price
-  end
-
-  def current_payout
-    return 0 if inactive?
-
-    current_market_result + total_earnings
-  end
-
-  def current_payout_rate
-    return 0 if total_price == 0
-
-    current_payout / total_price
+    self.market_price = stock_count * market_price_per_stock
+    self.market_result = market_price - price
+    self.market_result_ratio = market_result / price
+    self.payout = market_result + earnings
+    self.payout_ratio = payout / price
   end
 end
+
+# == Schema Information
+#
+# Table name: user_stocks
+#
+#  id                      :bigint           not null, primary key
+#  average_price_per_stock :decimal(15, 2)
+#  earnings                :decimal(15, 2)
+#  market_price            :decimal(15, 2)
+#  market_price_per_stock  :decimal(15, 2)
+#  market_result           :decimal(15, 2)   default(0.0)
+#  market_result_ratio     :decimal(15, 8)   default(0.0)
+#  payout                  :decimal(15, 2)   default(0.0)
+#  payout_ratio            :decimal(15, 8)   default(0.0)
+#  price                   :decimal(15, 2)
+#  stock_count             :integer
+#  wallet_ratio            :decimal(15, 8)   default(0.0)
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  stock_id                :bigint           not null
+#  user_id                 :bigint           not null
+#  wallet_id               :bigint
+#
+# Indexes
+#
+#  index_user_stocks_on_stock_id   (stock_id)
+#  index_user_stocks_on_user_id    (user_id)
+#  index_user_stocks_on_wallet_id  (wallet_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (stock_id => stocks.id)
+#  fk_rails_...  (user_id => users.id)
+#

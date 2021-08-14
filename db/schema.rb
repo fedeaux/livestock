@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_14_174501) do
+ActiveRecord::Schema.define(version: 2021_08_14_193109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,12 +93,16 @@ ActiveRecord::Schema.define(version: 2021_08_14_174501) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "stock_count"
     t.decimal "average_price_per_stock", precision: 15, scale: 2
-    t.decimal "total_price", precision: 15, scale: 2
+    t.decimal "price", precision: 15, scale: 2
     t.decimal "market_price_per_stock", precision: 15, scale: 2
-    t.decimal "total_market_price", precision: 15, scale: 2
-    t.decimal "total_earnings", precision: 15, scale: 2
+    t.decimal "market_price", precision: 15, scale: 2
+    t.decimal "earnings", precision: 15, scale: 2
     t.decimal "wallet_ratio", precision: 15, scale: 8, default: "0.0"
     t.bigint "wallet_id"
+    t.decimal "market_result", precision: 15, scale: 2, default: "0.0"
+    t.decimal "market_result_ratio", precision: 15, scale: 8, default: "0.0"
+    t.decimal "payout", precision: 15, scale: 2, default: "0.0"
+    t.decimal "payout_ratio", precision: 15, scale: 8, default: "0.0"
     t.index ["stock_id"], name: "index_user_stocks_on_stock_id"
     t.index ["user_id"], name: "index_user_stocks_on_user_id"
     t.index ["wallet_id"], name: "index_user_stocks_on_wallet_id"
@@ -114,14 +118,16 @@ ActiveRecord::Schema.define(version: 2021_08_14_174501) do
   create_table "wallets", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id", null: false
-    t.decimal "total_price", precision: 15, scale: 2, default: "0.0"
-    t.decimal "total_market_price", precision: 15, scale: 2, default: "0.0"
-    t.decimal "total_earnings", precision: 15, scale: 2, default: "0.0"
-    t.decimal "current_payout", precision: 15, scale: 2, default: "0.0"
+    t.decimal "price", precision: 15, scale: 2, default: "0.0"
     t.decimal "price_ratio", precision: 15, scale: 8, default: "0.0"
+    t.decimal "market_price", precision: 15, scale: 2, default: "0.0"
     t.decimal "market_price_ratio", precision: 15, scale: 8, default: "0.0"
+    t.decimal "market_result", precision: 15, scale: 2, default: "0.0"
+    t.decimal "market_result_ratio", precision: 15, scale: 8, default: "0.0"
+    t.decimal "earnings", precision: 15, scale: 2, default: "0.0"
     t.decimal "earnings_ratio", precision: 15, scale: 8, default: "0.0"
-    t.decimal "current_payout_rate", precision: 15, scale: 8, default: "0.0"
+    t.decimal "payout", precision: 15, scale: 2, default: "0.0"
+    t.decimal "payout_ratio", precision: 15, scale: 8, default: "0.0"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_wallets_on_user_id"
