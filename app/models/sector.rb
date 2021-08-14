@@ -4,6 +4,6 @@ class Sector < ApplicationRecord
 
   exposed_enum category: {
     market: 0,
-    real_state: 1
+    real_estate: 1
   }
 end

@@ -10,32 +10,30 @@ module Generators
     end
 
     def generate
-      models_to_import = endpoints.map do |endpoint|
-        endpoint.entities.map(&:singular_class_name)
-      end.flatten.compact.uniq.sort
-
-      ap models_to_import
-
       target = root_path.join "app/javascript/generated/api.js"
       source = "api/api.template.js.erb"
 
-      # template source, target
+      template source, target
     end
 
     def models_imports
-      "import UserStockEarning from 'models/user_stock_earning';"
+      unique_entities = {}
+
+      endpoints.each do |endpoint|
+        endpoint.entities.each do |entity|
+          unique_entities[entity.singular_camel_name] = entity
+        end
+      end
+
+      unique_entities.values.map(&:fe_import_model).sort.join "\n"
     end
 
     def hooks
-      "export function useUserStockEarnings() {
-  return useQuery(getModelCollection, ['user_stock_earnings', UserStockEarning]);
+      endpoints.select(&:read?).map do |endpoint|
+        "export function #{endpoint.hook_signature} {
+  return useQuery(#{endpoint.abstract_api_function}, [#{endpoint.parameterized_api_path}, #{endpoint.instantiable_model_name}]);
 }"
+      end.join("\n\n").strip
     end
   end
 end
-
-# Honorable mentions
-# ap underlying_model.attributes_to_define_after_schema_loads
-# ap underlying_model.local_stored_attributes
-# ap underlying_model.stored_attributes
-# ap underlying_model.attributes_builder

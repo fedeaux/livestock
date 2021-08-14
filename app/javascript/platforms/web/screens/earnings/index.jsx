@@ -7,7 +7,7 @@ import formatMoney from "ui/formatters/money";
 import TableRow from "ui/Table/Row";
 import TableCell from "ui/Table/Cell";
 import TableHeader from "ui/Table/Header";
-import { useUserStockEarnings } from "generated/api";
+import { useApiUserStockEarnings } from "generated/api";
 
 function evalUserStockEarningsByMonth(userStockEarnings) {
   const earningsByMonth = [];
@@ -42,7 +42,7 @@ function evalUserStockEarningsByMonth(userStockEarnings) {
 }
 
 export default function EarningsIndex() {
-  const { userStockEarnings, isLoading } = useUserStockEarnings();
+  const { userStockEarnings, isLoading } = useApiUserStockEarnings();
 
   if (isLoading) return null;
 

@@ -11,11 +11,11 @@ class Entity
   end
 
   def fe_model_path
-    "#{fe_generated_path}models/#{singular_underscore_name}"
+    "models/#{singular_underscore_name}"
   end
 
   def fe_import_model
-    "import #{singular_class_name} from '#{fe_model_path}'";
+    "import #{singular_class_name} from '#{fe_model_path}';"
   end
 
   def fe_schema_path
@@ -23,6 +23,6 @@ class Entity
   end
 
   def fe_import_schema
-    "import #{singular_class_name}Schema from '#{fe_schema_path}'";
+    "import #{singular_class_name}Schema from '#{fe_schema_path}';"
   end
 end

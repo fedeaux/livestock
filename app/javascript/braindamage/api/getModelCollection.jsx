@@ -1,5 +1,5 @@
 export default async function getModelCollection(path, Model) {
-  return fetch(`api/${path}.json`)
+  return fetch(`${path}.json`)
     .then((response) => {
       return response.json();
     })

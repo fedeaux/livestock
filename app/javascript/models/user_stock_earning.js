@@ -1,5 +1,5 @@
 import Model from "braindamage/model";
-import UserStockEarningSchema from "generated/schemas/user_stock_earning";
+import UserStockEarningSchema from 'generated/schemas/user_stock_earning'
 
 class UserStockEarning extends Model {
   static schema = UserStockEarningSchema;
