@@ -3,6 +3,7 @@ class UserStock < ApplicationRecord
 
   belongs_to :user
   belongs_to :stock
+  belongs_to :wallet
 
   has_many :user_stock_earnings
   has_many :user_stock_operations

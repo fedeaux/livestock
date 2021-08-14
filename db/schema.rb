@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_31_194105) do
+ActiveRecord::Schema.define(version: 2021_08_14_174501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,8 +98,10 @@ ActiveRecord::Schema.define(version: 2021_07_31_194105) do
     t.decimal "total_market_price", precision: 15, scale: 2
     t.decimal "total_earnings", precision: 15, scale: 2
     t.decimal "wallet_ratio", precision: 15, scale: 8, default: "0.0"
+    t.bigint "wallet_id"
     t.index ["stock_id"], name: "index_user_stocks_on_stock_id"
     t.index ["user_id"], name: "index_user_stocks_on_user_id"
+    t.index ["wallet_id"], name: "index_user_stocks_on_wallet_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -107,6 +109,21 @@ ActiveRecord::Schema.define(version: 2021_07_31_194105) do
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "wallets", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.decimal "total_price", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_market_price", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_earnings", precision: 15, scale: 2, default: "0.0"
+    t.decimal "current_payout", precision: 15, scale: 2, default: "0.0"
+    t.decimal "price_ratio", precision: 15, scale: 8, default: "0.0"
+    t.decimal "market_price_ratio", precision: 15, scale: 8, default: "0.0"
+    t.decimal "current_payout_ratio", precision: 15, scale: 8, default: "0.0"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_wallets_on_user_id"
   end
 
   add_foreign_key "companies", "sectors"
@@ -117,4 +134,5 @@ ActiveRecord::Schema.define(version: 2021_07_31_194105) do
   add_foreign_key "user_stock_operations", "user_stocks"
   add_foreign_key "user_stocks", "stocks"
   add_foreign_key "user_stocks", "users"
+  add_foreign_key "wallets", "users"
 end
