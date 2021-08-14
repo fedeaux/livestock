@@ -2,13 +2,13 @@ import React, {
   useCallback,
   useMemo,
   useState,
-} from "react";
+} from 'react';
 
-import formatMoney from "ui/formatters/money";
-import formatPercentage from "ui/formatters/percentage";
+import formatMoney from 'ui/formatters/money';
+import formatPercentage from 'ui/formatters/percentage';
 
-export default function ColoredAmountAndRate({ amount, rate, className="" }) {
-  const color = amount < 0 ? "text-red-600" : "text-green-600";
+export default function ColoredAmountAndRate({ amount, rate, className='' }) {
+  const color = amount < 0 ? 'text-red-600' : 'text-green-600';
 
   return (
     <Text style={ tw(className, color) }>

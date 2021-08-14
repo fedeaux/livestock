@@ -1,6 +1,6 @@
-import TableHeader from "ui/Table/Header";
-import TableRow from "ui/Table/Row";
-import UserStockEarningListItem from "entities/UserStockEarnings/List/Item";
+import TableHeader from 'ui/Table/Header';
+import TableRow from 'ui/Table/Row';
+import UserStockEarningListItem from 'entities/UserStockEarnings/List/Item';
 
 export default function UserStockEarningList({ userStockEarnings }) {
   return (

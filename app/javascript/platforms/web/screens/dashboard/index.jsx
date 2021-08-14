@@ -3,14 +3,14 @@ import React, {
   useEffect,
   useMemo,
   useState,
-} from "react";
+} from 'react';
 
-import UserStock from "models/user_stock";
-import UserStockTable from "entities/UserStocks/Table";
-import MainTitle from "ui/typography/MainTitle";
+import UserStock from 'models/user_stock';
+import UserStockTable from 'entities/UserStocks/Table';
+import MainTitle from 'ui/typography/MainTitle';
 
 async function apiUserStocksIndex() {
-  return fetch("api/user_stocks.json").then((response) => {
+  return fetch('api/user_stocks.json').then((response) => {
     return response.json();
   }).then((data) => {
     const instances = data.userStocks.map((attributes) => {
@@ -42,7 +42,7 @@ export default function DashboardIndex() {
   const { userStocks } = useDashboardData();
 
   return (
-    <View style={ tw("p-4") }>
+    <View style={ tw('p-4') }>
       <MainTitle>All Assets</MainTitle>
       <UserStockTable userStocks={userStocks} />
     </View>

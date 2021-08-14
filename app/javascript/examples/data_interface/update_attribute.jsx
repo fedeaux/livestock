@@ -1,5 +1,5 @@
-import { withUpdateProjectDeliveryDate } from "somewhere";
-import { CalendarInput } from "inputs/calendar";
+import { withUpdateProjectDeliveryDate } from 'somewhere';
+import { CalendarInput } from 'inputs/calendar';
 
 function ProjectDeliveryDate({
   project,
@@ -16,7 +16,7 @@ function ProjectDeliveryDate({
         // if currentUser.isAdmin or if !project.complete
       />
     </div>
-  )
+  );
 }
 
 export default withUpdateProjectDeliveryDate(ProjectDeliveryDate);

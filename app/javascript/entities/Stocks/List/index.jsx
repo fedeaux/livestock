@@ -1,6 +1,6 @@
-import StockListItem from "entities/Stocks/List/Item";
-import TableHeader from "ui/Table/Header";
-import TableRow from "ui/Table/Row";
+import StockListItem from 'entities/Stocks/List/Item';
+import TableHeader from 'ui/Table/Header';
+import TableRow from 'ui/Table/Row';
 
 export default function StockList({ stocks }) {
   return (

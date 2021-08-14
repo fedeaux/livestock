@@ -1,7 +1,7 @@
-import TableRow from "ui/Table/Row";
-import UserStockTableRow from "entities/UserStocks/Table/Row";
-import UserStockTableHeader from "entities/UserStocks/Table/Header";
-import tableGrid from "entities/UserStocks/Table/grid";
+import TableRow from 'ui/Table/Row';
+import UserStockTableRow from 'entities/UserStocks/Table/Row';
+import UserStockTableHeader from 'entities/UserStocks/Table/Header';
+import tableGrid from 'entities/UserStocks/Table/grid';
 
 function processUserStocks(userStocks, options) {
   const processedUserStocks = userStocks.filter((userStock) => {
@@ -10,7 +10,7 @@ function processUserStocks(userStocks, options) {
     const sortValueA = usa[options.sortBy];
     const sortValueB = usb[options.sortBy];
 
-    if (typeof sortValueA === "string") {
+    if (typeof sortValueA === 'string') {
       return sortValueA.localeCompare(sortValueB);
     } else {
       return sortValueB - sortValueA;
@@ -23,7 +23,7 @@ function processUserStocks(userStocks, options) {
 export default function UserStockTable({ userStocks }) {
   const [processedUserStocks, setProcessedUserStocks] = useState([]);
   const [showActiveOnly, setShowActiveOnly] = useState(true);
-  const [sortBy, setSortBy] = useState("code");
+  const [sortBy, setSortBy] = useState('code');
 
   useEffect(() => {
     const processedUserStocks = processUserStocks(userStocks, { showActiveOnly, sortBy });

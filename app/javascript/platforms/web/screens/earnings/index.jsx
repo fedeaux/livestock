@@ -2,18 +2,18 @@ import React, {
   useCallback,
   useMemo,
   useState,
-} from "react";
-import MainTitle from "ui/typography/MainTitle";
-import UserStockEarning from "models/user_stock_earning";
-import UserStockEarningList from "entities/UserStockEarnings/List";
-import { format } from "date-fns";
-import formatMoney from "ui/formatters/money";
-import TableRow from "ui/Table/Row";
-import TableCell from "ui/Table/Cell";
-import TableHeader from "ui/Table/Header";
+} from 'react';
+import MainTitle from 'ui/typography/MainTitle';
+import UserStockEarning from 'models/user_stock_earning';
+import UserStockEarningList from 'entities/UserStockEarnings/List';
+import { format } from 'date-fns';
+import formatMoney from 'ui/formatters/money';
+import TableRow from 'ui/Table/Row';
+import TableCell from 'ui/Table/Cell';
+import TableHeader from 'ui/Table/Header';
 
 async function apiUserStockEarningsIndex() {
-  return fetch("api/user_stock_earnings.json").then((response) => {
+  return fetch('api/user_stock_earnings.json').then((response) => {
     return response.json();
   }).then((data) => {
     const instances = data.userStockEarnings.map((attributes) => {
@@ -41,7 +41,7 @@ function evalUserStockEarningsByMonth(userStockEarnings) {
   let currentMonthEarnings = 0;
 
   userStockEarnings.forEach((userStockEarning) => {
-    const userStockEarningMonth = format(userStockEarning.receivedAt, "MMM/yy");
+    const userStockEarningMonth = format(userStockEarning.receivedAt, 'MMM/yy');
 
     if(currentMonth != userStockEarningMonth) {
       if(currentMonth) {
@@ -71,16 +71,16 @@ export default function EarningsIndex() {
   const userStockEarningsByMonth = evalUserStockEarningsByMonth(userStockEarnings);
 
   return (
-    <View style={ tw("p-4") }>
+    <View style={ tw('p-4') }>
       <MainTitle>
         Earnings
       </MainTitle>
 
-      <View style={ tw("flex flex-row") }>
-        <View style={ tw("flex-grow pr-2") }>
+      <View style={ tw('flex flex-row') }>
+        <View style={ tw('flex-grow pr-2') }>
           <UserStockEarningList userStockEarnings={userStockEarnings} />
         </View>
-        <View style={ tw("flex-grow pl-2") }>
+        <View style={ tw('flex-grow pl-2') }>
           <TableRow>
             <TableHeader twp="w-20">Month</TableHeader>
             <TableHeader twp="px-2">Total</TableHeader>

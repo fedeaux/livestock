@@ -3,41 +3,41 @@ import React, {
   useEffect,
   useMemo,
   useState,
-} from "react";
+} from 'react';
 
-import formatMoney from "ui/formatters/money";
-import formatPercentage from "ui/formatters/percentage";
+import formatMoney from 'ui/formatters/money';
+import formatPercentage from 'ui/formatters/percentage';
 
 function UserStockWalletByCategory({ walletByCategory }) {
   const stockTableGrid = [
-    "w-20",
-    "w-60",
-    "w-60",
-    "w-60"
-  ]
+    'w-20',
+    'w-60',
+    'w-60',
+    'w-60'
+  ];
 
   return (
     <>
-      <View style={ tw("px-4 py-2 flex flex-row border-b border-gray-300") }>
-        <Text style={ tw("text-gray-400 font-bold text-center", stockTableGrid[0]) }> Category </Text>
-        <Text style={ tw("text-gray-400 font-bold text-center", stockTableGrid[1]) }> Price </Text>
-        <Text style={ tw("text-gray-400 font-bold text-center", stockTableGrid[2]) }> Market Price </Text>
-        <Text style={ tw("text-gray-400 font-bold text-center", stockTableGrid[3]) }> Earnings </Text>
+      <View style={ tw('px-4 py-2 flex flex-row border-b border-gray-300') }>
+        <Text style={ tw('text-gray-400 font-bold text-center', stockTableGrid[0]) }> Category </Text>
+        <Text style={ tw('text-gray-400 font-bold text-center', stockTableGrid[1]) }> Price </Text>
+        <Text style={ tw('text-gray-400 font-bold text-center', stockTableGrid[2]) }> Market Price </Text>
+        <Text style={ tw('text-gray-400 font-bold text-center', stockTableGrid[3]) }> Earnings </Text>
       </View>
       {
         Object.entries(walletByCategory).map(([category, { totalPrice, priceRatio, totalMarketPrice, marketPriceRatio, totalEarnings, earningsRatio }]) => {
           return (
-            <View style={ tw("px-4 py-2 flex flex-row border-b border-gray-200") } key={category}>
-              <Text style={ tw("text-gray-600 font-semibold text-center", stockTableGrid[0]) }>
+            <View style={ tw('px-4 py-2 flex flex-row border-b border-gray-200') } key={category}>
+              <Text style={ tw('text-gray-600 font-semibold text-center', stockTableGrid[0]) }>
                 {category}
               </Text>
-              <Text style={ tw("text-gray-600 text-center", stockTableGrid[1]) }>
+              <Text style={ tw('text-gray-600 text-center', stockTableGrid[1]) }>
                 {formatMoney(totalPrice)} ({formatPercentage(priceRatio)})
               </Text>
-              <Text style={ tw("text-gray-600 text-center", stockTableGrid[2]) }>
+              <Text style={ tw('text-gray-600 text-center', stockTableGrid[2]) }>
                 {formatMoney(totalMarketPrice)} ({formatPercentage(marketPriceRatio)})
               </Text>
-              <Text style={ tw("text-gray-600 text-center", stockTableGrid[3]) }>
+              <Text style={ tw('text-gray-600 text-center', stockTableGrid[3]) }>
                 {formatMoney(totalEarnings)} ({formatPercentage(earningsRatio)})
               </Text>
             </View>
@@ -45,7 +45,7 @@ function UserStockWalletByCategory({ walletByCategory }) {
         })
       }
     </>
-  )
+  );
 }
 
 
@@ -67,7 +67,7 @@ function evalWallet(processUserStocks) {
     totalPrice += userStock.totalPrice;
     totalMarketPrice += userStock.totalMarketPrice;
     totalEarnings += userStock.totalEarnings;
-  })
+  });
 
   Object.keys(byCategory).forEach((category) => {
     byCategory[category].priceRatio = byCategory[category].totalPrice / totalPrice;
@@ -83,7 +83,7 @@ export default function UserStockWallet({ userStocks }) {
 
   useEffect(() => {
     setWallet(evalWallet(userStocks));
-  }, [userStocks])
+  }, [userStocks]);
 
   if (!wallet) return null;
 

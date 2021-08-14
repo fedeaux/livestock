@@ -3,7 +3,7 @@ export default function ProjectListItem({
 }) {
   return (
     <div>
-    <div>{project.title}</div>
+      <div>{project.title}</div>
       <ProjectDeliveryDate
         project={project}
       />

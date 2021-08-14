@@ -1,5 +1,5 @@
-import tableGrid from "entities/UserStocks/Table/grid";
-import TableHeader from "ui/Table/Header";
+import tableGrid from 'entities/UserStocks/Table/grid';
+import TableHeader from 'ui/Table/Header';
 
 export default function UserStockTableHeader({ position, sortKey, label, setSortBy }) {
   const onClick = useCallback(() => {
