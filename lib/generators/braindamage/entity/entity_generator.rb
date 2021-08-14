@@ -1,4 +1,4 @@
-require_relative "./lib/base_generator"
+require_relative "./lib/entity_generator"
 require_relative "./lib/fe_generator"
 
 class Braindamage::EntityGenerator < Rails::Generators::NamedBase

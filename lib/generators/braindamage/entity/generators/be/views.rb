@@ -1,6 +1,6 @@
 module Generators
   module Be
-    class Views < BaseGenerator
+    class Views < EntityGenerator
       def generate
         base_target = "app/views/api/#{plural_underscore_name}"
 

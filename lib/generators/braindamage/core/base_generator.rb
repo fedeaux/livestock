@@ -1,33 +1,12 @@
-require_relative '../../core/nameable'
+require_relative './pathable'
 
 class BaseGenerator
-  include Nameable
+  include Pathable
   attr_reader :braindamage_generator
-  delegate :name, :template, to: :braindamage_generator
-  delegate :exposed_attributes, :exposed_enums, :validators, to: :model
+  delegate :template, to: :braindamage_generator
 
   def initialize(braindamage_generator)
     @braindamage_generator = braindamage_generator
-  end
-
-  def frontend_base_path
-    ""
-  end
-
-  def frontend_generated_path
-    "#{frontend_base_path}generated/"
-  end
-
-  def frontend_app_path
-    "#{frontend_base_path}app/"
-  end
-
-  def frontend_framework_path
-    "#{frontend_base_path}framework/"
-  end
-
-  def root_path
-    Pathname.new "#{__dir__}/../../../../.."
   end
 
   def pretty_print_thing(thing, indent)

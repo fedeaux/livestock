@@ -1,24 +1,21 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
-import UserStock from 'models/user_stock';
-import UserStockTable from 'entities/UserStocks/Table';
-import MainTitle from 'ui/typography/MainTitle';
+import UserStock from "models/user_stock";
+import UserStockTable from "entities/UserStocks/Table";
+import MainTitle from "ui/typography/MainTitle";
 
 async function apiUserStocksIndex() {
-  return fetch('api/user_stocks.json').then((response) => {
-    return response.json();
-  }).then((data) => {
-    const instances = data.userStocks.map((attributes) => {
-      return new UserStock(attributes);
-    });
+  return fetch("api/user_stocks.json")
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      const instances = data.userStocks.map((attributes) => {
+        return new UserStock(attributes);
+      });
 
-    return { ...data, userStocks: instances };
-  });
+      return { ...data, userStocks: instances };
+    });
 }
 
 function useUserStocksIndex() {
@@ -40,9 +37,10 @@ function useDashboardData() {
 
 export default function DashboardIndex() {
   const { userStocks } = useDashboardData();
+  console.log("UserStock", UserStock.pluralCamelName);
 
   return (
-    <View style={ tw('p-4') }>
+    <View style={tw("p-4")}>
       <MainTitle>All Assets</MainTitle>
       <UserStockTable userStocks={userStocks} />
     </View>

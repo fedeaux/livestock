@@ -12,7 +12,12 @@ class Endpoint
   end
 
   def generate
-    puts hook_signature
+    puts full_path
+    # puts api_signature
+  end
+
+  def api_signature
+    entities_signature
   end
 
   def full_path
@@ -87,10 +92,10 @@ class Endpoint
 
   def read_hook_signature
     entities_signature = if path_parts.last.param?
-      member_entities_signature
+                           member_entities_signature
                          else
                            collection_entities_signature
-    end
+                         end
 
     "with#{entities_signature}(#{hook_params})"
   end
@@ -102,13 +107,14 @@ class Endpoint
                             "Destroy"
                           else
                             "Update"
-    end
+                          end
 
     "with#{hook_verb_signature}#{member_entities_signature}(#{hook_params})"
   end
 
   def hook_params
-    ["Component", params.map(&:singular_camel_name), "params = {}", "options = {}"].flatten.join ", "
+    ["Component", params.map(&:singular_camel_name), "params = {}", "options = {}"]
+      .flatten.join ", "
   end
 
   def hook_filename
