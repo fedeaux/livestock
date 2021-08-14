@@ -9,7 +9,8 @@ class CreateWallets < ActiveRecord::Migration[6.1]
       t.decimal :current_payout, precision: 15, scale: 2, default: 0
       t.decimal :price_ratio, precision: 15, scale: 8, default: 0
       t.decimal :market_price_ratio, precision: 15, scale: 8, default: 0
-      t.decimal :current_payout_ratio, precision: 15, scale: 8, default: 0
+      t.decimal :earnings_ratio, precision: 15, scale: 8, default: 0
+      t.decimal :current_payout_rate, precision: 15, scale: 8, default: 0
 
       t.timestamps
     end

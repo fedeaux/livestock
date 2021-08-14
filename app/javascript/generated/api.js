@@ -2,10 +2,19 @@ import Stock from 'models/stock';
 import StockEarning from 'models/stock_earning';
 import UserStock from 'models/user_stock';
 import UserStockEarning from 'models/user_stock_earning';
+import Wallet from 'models/wallet';
 
 import getModelCollection from 'braindamage/api/getModelCollection';
 import getModelMember from 'braindamage/api/getModelMember';
 import useQuery from 'braindamage/api/useQuery';
+
+export function useApiWallets() {
+  return useQuery(getModelCollection, ['/api/wallets', Wallet]);
+}
+
+export function useApiWallet(walletId) {
+  return useQuery(getModelMember, [`/api/wallets/${walletId}`, Wallet]);
+}
 
 export function useApiStocks() {
   return useQuery(getModelCollection, ['/api/stocks', Stock]);

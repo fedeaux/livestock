@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 2021_08_14_174501) do
   end
 
   create_table "wallets", force: :cascade do |t|
+    t.string "name"
     t.bigint "user_id", null: false
     t.decimal "total_price", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_market_price", precision: 15, scale: 2, default: "0.0"
@@ -119,8 +120,8 @@ ActiveRecord::Schema.define(version: 2021_08_14_174501) do
     t.decimal "current_payout", precision: 15, scale: 2, default: "0.0"
     t.decimal "price_ratio", precision: 15, scale: 8, default: "0.0"
     t.decimal "market_price_ratio", precision: 15, scale: 8, default: "0.0"
-    t.decimal "current_payout_ratio", precision: 15, scale: 8, default: "0.0"
-    t.string "name"
+    t.decimal "earnings_ratio", precision: 15, scale: 8, default: "0.0"
+    t.decimal "current_payout_rate", precision: 15, scale: 8, default: "0.0"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_wallets_on_user_id"

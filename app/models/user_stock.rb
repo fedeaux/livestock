@@ -16,12 +16,18 @@ class UserStock < ApplicationRecord
   expose :current_market_result
   expose :current_payout
   expose :current_payout_rate
+  expose :wallet_name
 
   before_save :ensure_math
 
   scope :active, -> {
     where("stock_count > 0")
   }
+
+  # TODO: expose, prefix: true
+  def wallet_name
+    wallet&.name
+  end
 
   def inactive?
     stock_count == 0

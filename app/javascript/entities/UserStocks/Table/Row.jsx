@@ -3,6 +3,7 @@ import formatMoney from "ui/formatters/money";
 import formatPercentage from "ui/formatters/percentage";
 import tableGrid from "entities/UserStocks/Table/grid";
 import { Link } from "react-router-dom";
+import TableCell from "ui/Table/Cell";
 
 function UserStockTableCellPayout({ userStock }) {
   return (
@@ -28,7 +29,7 @@ function UserStockTableCellEarnings({ userStock }) {
   );
 }
 
-export default function UserStockTableCell({ userStock }) {
+export default function UserStockTableRow({ userStock }) {
   return (
     <View style={tw("px-4 py-2 flex flex-row border-b border-gray-200")}>
       <Link
@@ -37,25 +38,21 @@ export default function UserStockTableCell({ userStock }) {
       >
         <Text style={tw("text-gray-600 font-semibold")}>{userStock.code}</Text>
       </Link>
-      <Text style={tw("text-gray-600 text-center", tableGrid[1])}>
-        {userStock.stockCount}
-      </Text>
-      <Text style={tw("text-gray-600 text-center", tableGrid[2])}>
+      <TableCell twp={tableGrid[1]}>{userStock.stockCount}</TableCell>
+      <TableCell twp={tableGrid[2]}>
         {formatMoney(userStock.totalPrice)} |{" "}
         {formatMoney(userStock.averagePricePerStock)}
-      </Text>
-      <Text style={tw("text-gray-600 text-center", tableGrid[3])}>
+      </TableCell>
+      <TableCell twp={tableGrid[3]}>
         {formatMoney(userStock.totalMarketPrice)} |{" "}
         {formatMoney(userStock.marketPricePerStock)}
-      </Text>
+      </TableCell>
       <UserStockTableCellEarnings userStock={userStock} />
       <UserStockTableCellPayout userStock={userStock} />
-      <Text style={tw("text-gray-600 text-center", tableGrid[6])}>
+      <TableCell twp={tableGrid[6]}>
         {formatPercentage(userStock.walletRatio)}
-      </Text>
-      <Text style={tw("text-gray-600 text-center", tableGrid[7])}>
-        {userStock.category}
-      </Text>
+      </TableCell>
+      <TableCell twp={tableGrid[7]}>{userStock.category}</TableCell>
     </View>
   );
 }
