@@ -3,6 +3,7 @@ class Stock < ApplicationRecord
   has_many :user_stocks, dependent: :destroy
   has_many :stock_earnings, dependent: :destroy
   has_many :stock_prices, dependent: :destroy
+  has_many :stock_kpis, dependent: :destroy
   belongs_to :company
   exposed_delegate :category, to: :company
   exposed_delegate :market?, to: :company

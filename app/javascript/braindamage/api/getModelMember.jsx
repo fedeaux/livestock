@@ -4,7 +4,7 @@ export default async function getModelMember(path, Model) {
       return response.json();
     })
     .then((data) => {
-      const instance = Model(data[Model.singularCamelName]);
+      const instance = new Model(data[Model.singularCamelName]);
       return { ...data, [Model.singularCamelName]: instance };
     });
 }

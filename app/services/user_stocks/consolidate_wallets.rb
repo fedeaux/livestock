@@ -47,8 +47,13 @@ class UserStocks::ConsolidateWallets
 
   def duct_tapped_ensure_user_stock_wallets
     @dividends_wallet = user.wallets.where(name: 'Dividends').first_or_create
+    @dividends_wallet.update(target_percentage: 0.57, key: :dividends)
+
     @real_estate_wallet = user.wallets.where(name: 'Real Estate').first_or_create
+    @real_estate_wallet.update(target_percentage: 0.40, key: :real_estate)
+
     @gambling_wallet = user.wallets.where(name: 'Gambling').first_or_create
+    @gambling_wallet.update(target_percentage: 0.03, key: :gambling)
 
     user.user_stocks.active.each do |user_stock|
       if user_stock.category == 'real_estate'

@@ -18,7 +18,7 @@ end
 # Table name: stock_earnings
 #
 #  id          :bigint           not null, primary key
-#  category    :integer          default(0)
+#  category    :integer          default("dividends")
 #  dy          :decimal(15, 2)
 #  per_stock   :decimal(15, 10)
 #  received_at :date

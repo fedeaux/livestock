@@ -28,6 +28,7 @@ end
 #  id                  :bigint           not null, primary key
 #  earnings            :decimal(15, 2)   default(0.0)
 #  earnings_ratio      :decimal(15, 8)   default(0.0)
+#  key                 :string
 #  market_price        :decimal(15, 2)   default(0.0)
 #  market_price_ratio  :decimal(15, 8)   default(0.0)
 #  market_result       :decimal(15, 2)   default(0.0)
@@ -37,6 +38,7 @@ end
 #  payout_ratio        :decimal(15, 8)   default(0.0)
 #  price               :decimal(15, 2)   default(0.0)
 #  price_ratio         :decimal(15, 8)   default(0.0)
+#  target_percentage   :decimal(15, 8)   default(0.0)
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  user_id             :bigint           not null

@@ -31,6 +31,12 @@ class Seeders::BaseSeeder
     nil
   end
 
+  def parse_ym_string(date_string)
+    Date.strptime(date_string&.strip, "%Y-%m")
+  rescue
+    nil
+  end
+
   def parse_money_string(money_string)
     partial_money_string = money_string&.gsub(/[^\d\.\,]/, "")&.gsub(",", '.')&.strip
 

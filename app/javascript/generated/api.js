@@ -1,5 +1,6 @@
 import Stock from 'models/stock';
 import StockEarning from 'models/stock_earning';
+import StockKpi from 'models/stock_kpi';
 import UserStock from 'models/user_stock';
 import UserStockEarning from 'models/user_stock_earning';
 import Wallet from 'models/wallet';
@@ -30,6 +31,14 @@ export function useApiStockEarnings() {
 
 export function useApiStockEarning(stockEarningId) {
   return useQuery(getModelMember, [`/api/stock_earnings/${stockEarningId}`, StockEarning]);
+}
+
+export function useApiStockKpis() {
+  return useQuery(getModelCollection, ['/api/stock_kpis', StockKpi]);
+}
+
+export function useApiStockKpi(stockKpiId) {
+  return useQuery(getModelMember, [`/api/stock_kpis/${stockKpiId}`, StockKpi]);
 }
 
 export function useApiUserStocks() {

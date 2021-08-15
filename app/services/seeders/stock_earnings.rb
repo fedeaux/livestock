@@ -5,7 +5,7 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
   end
 
   def seed_market_stock_earnings
-    codes = File.read("app/services/seeders/data/status_invest/#{@month}.csv").split("\n")[1..-1].map do |line|
+    codes = File.read("app/services/seeders/data/status_invest/market/#{@month}.csv").split("\n")[1..-1].map do |line|
       line.split(";").first
     end
 
@@ -20,6 +20,7 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
         stock = Stock.where(code: code, company_id: company.id).first_or_create
       end
 
+      ap stock.code
       stock_earning_data(stock).each do |stock_earning_attributes|
         stock_earning = stock.stock_earnings.where(stock_earning_attributes).first_or_initialize
 
@@ -49,7 +50,7 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
       begin
         earning_entries = []
 
-        browser.visit status_invest_url stock.status_invest_url
+        browser.visit stock.status_invest_url
         sleep 1
         browser.scroll_to browser.find(".pagination.mb-0", match: :first).all("li a").last
         sleep 1
@@ -62,8 +63,9 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
         end
 
         cached = add_to_cache(cache_file, { earning_entries: earning_entries }.to_json)
-      rescue
-        return nil
+      rescue StandardError => e
+        ap e
+        return []
       end
     end
 

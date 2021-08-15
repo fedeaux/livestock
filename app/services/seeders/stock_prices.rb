@@ -39,19 +39,17 @@ class Seeders::StockPrices < Seeders::BaseSeeder
 
       result = HTTParty.get(url)
       @i += 1
-      puts "-> Sem cache"
 
       if result.parsed_response["Error Message"] || result.parsed_response["Note"]
-        puts "-> Deu pau"
+        puts "-> Deu pau #{code}"
         return []
       else
-        puts "-> Deu certo"
         cached = add_to_cache cache_file, result.body
       end
 
-      puts @i
-
-      sleep 61 if @i % 5 == 0
+      if @i % 5 == 0
+        sleep 61
+      end
     end
 
     parsed_cache = JSON.parse(cached)
