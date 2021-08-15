@@ -26,7 +26,7 @@ export default {
     },
     category: {
       name: "category",
-      type: "integer",
+      type: "string",
       writeable: true,
       default: "0",
     },
@@ -69,7 +69,29 @@ export default {
         "stock",
       ],
     },
+    {
+      className: "ActiveRecord::Validations::PresenceValidator",
+      options: {
+      },
+      attributes: [
+        "per_stock",
+        "category",
+        "received_at",
+      ],
+    },
   ],
   enums: {
+    category: {
+      name: "category",
+      valueMap: {
+        dividends: 0,
+        interestOnEquity: 1,
+        amortization: 2,
+        taxedIncome: 3,
+        earning: 4,
+      },
+      options: {
+      },
+    },
   },
 }

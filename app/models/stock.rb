@@ -5,6 +5,7 @@ class Stock < ApplicationRecord
   has_many :stock_prices, dependent: :destroy
   belongs_to :company
   exposed_delegate :category, to: :company
+  exposed_delegate :market?, to: :company
 
   validates :code, presence: {
     message: "Please provide a code"
@@ -31,6 +32,12 @@ class Stock < ApplicationRecord
 
   def self.real_state
     includes(company: :sector).where(sector: { category: 1 })
+  end
+
+  def status_invest_url
+    path = market? ? 'acoes' : 'fundos-imobiliarios'
+
+    "https://statusinvest.com.br/#{path}/#{code}"
   end
 end
 

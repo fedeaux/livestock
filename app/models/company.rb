@@ -3,6 +3,7 @@ class Company < ApplicationRecord
   belongs_to :sector
   has_many :stocks, dependent: :destroy
   exposed_delegate :category, to: :sector
+  exposed_delegate :market?, to: :sector
 end
 
 # == Schema Information

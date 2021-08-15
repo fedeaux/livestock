@@ -8,3 +8,4 @@ Seeders::UserStockOperations.new(user: user).seed
 Seeders::StockPrices.new.seed
 Stocks::ConsolidateOperations.new(user: user).do
 UserStocks::ConsolidateWallets.new(user: user).do
+# Seeders::StockEarnings.new.seed # Expensive!!!!!!

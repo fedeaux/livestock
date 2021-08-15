@@ -1,16 +1,47 @@
 class Seeders::StockEarnings < Seeders::BaseSeeder
   def seed
-    seed_earnings
+    @month = "2021-08"
+    seed_market_stock_earnings
   end
 
-  def seed_earnings
-    File.read("app/services/seeders/data/statusinvest-busca-avancada.csv").split("\n")[1..-1].each do |line|
-      stock_earning_data(line.split(";").first)
+  def seed_market_stock_earnings
+    codes = File.read("app/services/seeders/data/status_invest/#{@month}.csv").split("\n")[1..-1].map do |line|
+      line.split(";").first
+    end
+
+    failures = []
+
+    stocks = codes.map do |code|
+      stock = Stock.find_by_id_or_code(code)
+
+      unless stock
+        sector = Sector.where(name: "Manual").first_or_create
+        company = Company.where(name: code, sector: sector).first_or_create
+        stock = Stock.where(code: code, company_id: company.id).first_or_create
+      end
+
+      stock_earning_data(stock).each do |stock_earning_attributes|
+        stock_earning = stock.stock_earnings.where(stock_earning_attributes).first_or_initialize
+
+        unless stock_earning.save
+          failures << stock_earning_attributes
+        end
+      end
+
+      stock
+    end
+
+    ap failures
+
+    stocks.each do |stock|
+      puts stock.status_invest_url
+      puts "http://localhost:3000/stocks/#{stock.code}"
     end
   end
 
-  def stock_earning_data(code)
-    cache_key = "stock_earnings/status_invest/#{Date.today.strftime("%m-%Y")}/#{code}.json"
+  def stock_earning_data(stock)
+    code = stock.code
+    cache_key = "stock_earnings/status_invest/#{@month}/#{code}.json"
     cache_file = Rails.root.join(CACHE_DIR, cache_key).to_s
     cached = fetch_cache cache_file
 
@@ -18,13 +49,12 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
       begin
         earning_entries = []
 
-        url = "https://statusinvest.com.br/acoes/#{code}"
-        browser.visit url
+        browser.visit status_invest_url stock.status_invest_url
         sleep 1
         browser.scroll_to browser.find(".pagination.mb-0", match: :first).all("li a").last
         sleep 1
         number_of_pages = browser.evaluate_script("$('.pagination:first a').length").to_i
-        ap "number_of_pages #{number_of_pages}"
+        # ap "number_of_pages #{number_of_pages}"
         (number_of_pages - 2).times do
           extract_earnings(Nokogiri::HTML(browser.html), earning_entries)
           browser.find(".pagination.mb-0", match: :first).all("li a").last.click
@@ -37,8 +67,34 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
       end
     end
 
-    parsed_cache = JSON.parse(cached)
-    ap parsed_cache
+    JSON.parse(cached)['earning_entries'].map do |attributes|
+      original_category = attributes['category'].downcase
+
+      category = if original_category.include? 'divide'
+                   :dividends
+                 elsif original_category.include? 'jcp'
+                   :interest_on_equity
+                 elsif original_category.include? 'amort'
+                   :amortization
+                 elsif original_category.include? 'tribu'
+                   :taxed_income
+                 elsif original_category.include? 'rendim'
+                   :earning
+                 end
+
+      # received_at = parse_dmy_string(attributes['received_at'])
+
+      # unless received_at
+      #   puts parse_dmy_string(attributes['received_at'])
+      #   byebug
+      # end
+
+      {
+        category: category,
+        per_stock: attributes['per_stock'],
+        received_at: parse_dmy_string(attributes['received_at'])
+      }
+    end
   end
 
   def extract_earnings(doc, earning_entries)
@@ -51,7 +107,7 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
 
       earning_entries.push({
                              category: tds[0].text,
-                             received_at: tds[2].text,
+                             received_at: tds[1].text,
                              per_stock: tds[3].text.gsub(",", ".").to_f,
                            })
     end

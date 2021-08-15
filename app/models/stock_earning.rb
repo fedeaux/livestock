@@ -1,6 +1,16 @@
 class StockEarning < ApplicationRecord
   include Braindamage::Braindamageable
   belongs_to :stock
+  validates :per_stock, :category, :received_at, presence: true
+
+  exposed_enum category: {
+                 dividends: 0,
+                 interest_on_equity: 1,
+                 amortization: 2,
+                 taxed_income: 3,
+                 earning: 4
+               }
+
 end
 
 # == Schema Information
