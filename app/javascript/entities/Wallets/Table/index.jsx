@@ -4,7 +4,7 @@ import TableRow from "ui/Table/Row";
 import ColoredAmountAndRate from "ui/typography/ColoredAmountAndRate";
 import formatMoneyAndPercentage from "ui/formatters/money_and_percentage";
 import formatMoney from "../../../ui/formatters/money";
-const tableGrid = ["w-2/10", "w-2/10", "w-2/10", "w-2/10", "w-2/10"];
+const tableGrid = ["w-1/10", "w-2/10", "w-2/10", "w-2/10", "w-2/10", "w-1/10"];
 
 function WalletTableRow({ label, wallets, formatter, after = "" }) {
   return (

@@ -44,6 +44,7 @@ class Seeders::StockPrices < Seeders::BaseSeeder
         puts "-> Deu pau #{code}"
         return []
       else
+        puts @code
         cached = add_to_cache cache_file, result.body
       end
 

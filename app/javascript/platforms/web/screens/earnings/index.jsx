@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import MainTitle from "ui/typography/MainTitle";
+import SecondaryTitle from "ui/typography/SecondaryTitle";
 import UserStockEarning from "models/user_stock_earning";
 import UserStockEarningList from "entities/UserStockEarnings/List";
 import { format } from "date-fns";
@@ -42,7 +43,10 @@ function evalUserStockEarningsByMonth(userStockEarnings) {
 }
 
 export default function EarningsIndex() {
-  const { userStockEarnings, isLoading } = useApiUserStockEarnings();
+  // BD: Todo
+  const { userStockEarnings, isLoading } = useApiUserStockEarnings({
+    order: ["receivedAt", "DESC"],
+  });
 
   if (isLoading) return null;
 
@@ -55,9 +59,7 @@ export default function EarningsIndex() {
 
       <View style={tw("flex flex-row")}>
         <View style={tw("flex-grow pr-2")}>
-          <UserStockEarningList userStockEarnings={userStockEarnings} />
-        </View>
-        <View style={tw("flex-grow pl-2")}>
+          <SecondaryTitle>By Month</SecondaryTitle>
           <TableRow>
             <TableHeader twp="w-20">Month</TableHeader>
             <TableHeader twp="px-2">Total</TableHeader>
@@ -72,6 +74,10 @@ export default function EarningsIndex() {
               </TableRow>
             );
           })}
+        </View>
+        <View style={tw("flex-grow pl-2")}>
+          <SecondaryTitle>All</SecondaryTitle>
+          <UserStockEarningList userStockEarnings={userStockEarnings} />
         </View>
       </View>
     </View>
