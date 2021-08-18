@@ -15,8 +15,8 @@ class Stock < ApplicationRecord
   expose :link
   hide :created_at
 
-  def self.c(code)
-    find_by(code: code.upcase)
+  def self.c(id_or_code)
+    find_by_id_or_code(id_or_code)
   end
 
   def link

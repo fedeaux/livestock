@@ -74,7 +74,7 @@ export default {
       attributes: [
         "user_stock",
       ],
-    }
+    },
   ],
   enums: {
     nature: {

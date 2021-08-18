@@ -10,5 +10,5 @@ Seeders::StockKpis.new.seed
 # Seeders::UserStockEarnings.new(user: user).seed
 # Seeders::UserStockOperations.new(user: user).seed
 # Seeders::StockPrices.new.seed
-# Stocks::ConsolidateOperations.new(user: user).do
+UserStocks::ConsolidateOperations.new(user: user).consolidate_user_stock_operations(UserStock.c("OIBR3"))
 # UserStocks::ConsolidateWallets.new(user: user).do

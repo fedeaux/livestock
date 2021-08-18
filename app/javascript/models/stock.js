@@ -3,6 +3,7 @@ import StockSchema from "generated/schemas/stock";
 import StockEarning from "models/stock_earning";
 import StockKpi from "models/stock_kpi";
 
+// BD-TODO: Add Relationships automatically
 class Stock extends Model {
   static schema = StockSchema;
 

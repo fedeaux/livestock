@@ -1,5 +1,6 @@
 class UserStock < ApplicationRecord
   include Braindamage::Braindamageable
+  include Stockable
 
   belongs_to :user
   belongs_to :stock
@@ -21,10 +22,6 @@ class UserStock < ApplicationRecord
   scope :active, -> {
     where("stock_count > 0")
   }
-
-  def self.c(code)
-    includes(:stock).where(stock: { code: code }).limit(1).first
-  end
 
   # TODO: expose, prefix: true
   def wallet_name
