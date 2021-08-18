@@ -17,6 +17,11 @@ class Seeders::UserStockOperations
       end
 
       user_stock = user.user_stocks.where(stock_id: stock.id).first_or_create
+      user_stock.wallet ||= Wallet.find_by(key: 'dividends')
+      user_stock.save
+
+      byebug unless user_stock.persisted?
+
       user_stock.user_stock_operations.where(user_stock_operation_attributes.to_h.except(:code)).first_or_create
     end
   end

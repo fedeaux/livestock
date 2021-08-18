@@ -42,12 +42,18 @@ function UserStockTableCellPayout({ userStock }) {
 export default function UserStockTableRow({ userStock }) {
   return (
     <View style={tw("px-4 py-2 flex flex-row border-b border-gray-200")}>
-      <Link
-        style={tw("text-center no-underline", tableGrid[0])}
-        to={userStock.clientPath}
-      >
-        <Text style={tw("text-gray-600 font-semibold")}>{userStock.code}</Text>
-      </Link>
+      <View style={tw("text-center no-underline flex-row", tableGrid[0])}>
+        <Link to={userStock.clientPath}>
+          <Text style={tw("text-gray-600 font-semibold mr-2")}>
+            {userStock.code}
+          </Text>
+        </Link>
+        <Text style={tw("text-blue-600 text-xs")}>
+          <a href={userStock.statusInvestUrl} target="blank">
+            L
+          </a>
+        </Text>
+      </View>
       <TableCell twp={tableGrid[1]}>{userStock.stockCount}</TableCell>
       <TableCell twp={tableGrid[2]}>{formatMoney(userStock.price)}</TableCell>
       <TableCell twp={tableGrid[3]}>

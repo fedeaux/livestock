@@ -15,6 +15,10 @@ class Stock < ApplicationRecord
   expose :link
   hide :created_at
 
+  def self.c(code)
+    find_by(code: code.upcase)
+  end
+
   def link
     "https://www.marketwatch.com/investing/stock/#{code}"
   end

@@ -18,6 +18,7 @@ json.extract! user_stock,
               :payout_ratio,
               :code,
               :category,
+              :status_invest_url,
               :inactive?,
               :active?,
               :wallet_name

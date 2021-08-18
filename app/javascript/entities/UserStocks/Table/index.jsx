@@ -48,18 +48,24 @@ export default function UserStockTable({ userStocks }) {
         <UserStockTableHeader position={1} label="Count" />
         <UserStockTableHeader position={2} label="Price" />
         <UserStockTableHeader position={3} label="Market Price" />
-        <UserStockTableHeader position={4} label="Result" />
+        <UserStockTableHeader
+          position={4}
+          label="Result"
+          sortKey="marketResult"
+          setSortBy={setSortBy}
+          sortBy={sortBy}
+        />
         <UserStockTableHeader
           position={5}
           label="Earnings"
-          sortKey="totalEarnings"
+          sortKey="arnings"
           setSortBy={setSortBy}
           sortBy={sortBy}
         />
         <UserStockTableHeader
           position={6}
           label="Payout"
-          sortKey="currentPayout"
+          sortKey="payout"
           setSortBy={setSortBy}
           sortBy={sortBy}
         />

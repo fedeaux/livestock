@@ -5,11 +5,12 @@ class UserStock < ApplicationRecord
   belongs_to :stock
   belongs_to :wallet
 
-  has_many :user_stock_earnings
-  has_many :user_stock_operations
+  has_many :user_stock_earnings, dependent: :destroy
+  has_many :user_stock_operations, dependent: :destroy
 
   exposed_delegate :code, to: :stock
   exposed_delegate :category, to: :stock
+  exposed_delegate :status_invest_url, to: :stock
 
   expose :inactive?
   expose :active?
@@ -20,6 +21,10 @@ class UserStock < ApplicationRecord
   scope :active, -> {
     where("stock_count > 0")
   }
+
+  def self.c(code)
+    includes(:stock).where(stock: { code: code }).limit(1).first
+  end
 
   # TODO: expose, prefix: true
   def wallet_name

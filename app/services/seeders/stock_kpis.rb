@@ -26,7 +26,6 @@ class Seeders::StockKpis < Seeders::BaseSeeder
       end
 
       stock_kpi = stock.stock_kpis.where(date: parse_ym_string(@month)).first_or_create
-
       stock_kpi.update(attributes)
     end
   end

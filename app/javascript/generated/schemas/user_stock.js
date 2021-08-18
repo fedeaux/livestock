@@ -114,6 +114,12 @@ export default {
       writeable: true,
       default: null,
     },
+    statusInvestUrl: {
+      name: "statusInvestUrl",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
     isInactive: {
       name: "isInactive",
       type: "string",
