@@ -36,7 +36,6 @@ module LiveStock
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
-    config.eager_load_paths << Rails.root.join("app/projectors")
     config.eager_load_paths << Rails.root.join("app/framework")
 
     # Don't generate system test files.
