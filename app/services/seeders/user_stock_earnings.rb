@@ -8,13 +8,7 @@ class Seeders::UserStockEarnings
   def seed
     user_stock_earnings_data.each do |user_stock_earning_attributes|
       code = user_stock_earning_attributes.code
-      stock = Stock.where(code: code).first
-
-      unless stock
-        sector = Sector.where(name: "Manual").first_or_create
-        company = Company.where(name: code, sector: sector).first_or_create
-        stock = Stock.where(code: code, company_id: company.id).first_or_create
-      end
+      stock = Stock.ensure code
 
       user_stock = user.user_stocks.where(stock_id: stock.id).first_or_create
       user_stock.user_stock_earnings.where(user_stock_earning_attributes.to_h.except(:code)).first_or_create

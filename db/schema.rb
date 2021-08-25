@@ -10,25 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_16_194313) do
+ActiveRecord::Schema.define(version: 2021_08_25_192215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "companies", force: :cascade do |t|
-    t.string "name"
-    t.bigint "sector_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["sector_id"], name: "index_companies_on_sector_id"
-  end
-
-  create_table "sectors", force: :cascade do |t|
-    t.string "name"
-    t.integer "category", default: 0
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
 
   create_table "stock_earnings", force: :cascade do |t|
     t.decimal "per_stock", precision: 15, scale: 10
@@ -83,10 +68,10 @@ ActiveRecord::Schema.define(version: 2021_08_16_194313) do
   create_table "stocks", force: :cascade do |t|
     t.string "name"
     t.string "code"
-    t.bigint "company_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["company_id"], name: "index_stocks_on_company_id"
+    t.integer "category", default: 0
+    t.integer "currency", default: 0
   end
 
   create_table "user_stock_earnings", force: :cascade do |t|
@@ -161,11 +146,9 @@ ActiveRecord::Schema.define(version: 2021_08_16_194313) do
     t.index ["user_id"], name: "index_wallets_on_user_id"
   end
 
-  add_foreign_key "companies", "sectors"
   add_foreign_key "stock_earnings", "stocks"
   add_foreign_key "stock_kpis", "stocks"
   add_foreign_key "stock_prices", "stocks"
-  add_foreign_key "stocks", "companies"
   add_foreign_key "user_stock_earnings", "user_stocks"
   add_foreign_key "user_stock_operations", "user_stocks"
   add_foreign_key "user_stocks", "stocks"

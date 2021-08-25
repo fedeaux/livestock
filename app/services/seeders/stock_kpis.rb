@@ -10,14 +10,7 @@ class Seeders::StockKpis < Seeders::BaseSeeder
     File.read("app/services/seeders/data/status_invest/market/#{@month}.csv").split("\n")[1..-1].map do |line|
       cols = line.split(";")
       code = cols.first
-
-      stock = Stock.find_by_id_or_code(code)
-
-      unless stock
-        sector = Sector.where(name: "Manual").first_or_create
-        company = Company.where(name: code, sector: sector).first_or_create
-        stock = Stock.where(code: code, company_id: company.id).first_or_create
-      end
+      stock = Stock.ensure code
 
       attributes = {}
 

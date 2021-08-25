@@ -8,13 +8,7 @@ class Seeders::UserStockOperations
   def seed
     user_stock_operations_data.each do |user_stock_operation_attributes|
       code = user_stock_operation_attributes.code
-      stock = Stock.find_by(code: code)
-
-      unless stock
-        sector = Sector.where(name: "Manual").first_or_create
-        company = Company.where(name: code, sector: sector).first_or_create
-        stock = Stock.where(code: code, company_id: company.id).first_or_create
-      end
+      stock = Stock.ensure code
 
       user_stock = user.user_stocks.where(stock_id: stock.id).first_or_create
       user_stock.wallet ||= Wallet.find_by(key: 'dividends')

@@ -12,15 +12,8 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
     failures = []
 
     stocks = codes.map do |code|
-      stock = Stock.find_by_id_or_code(code)
+      stock = Stock.ensure code
 
-      unless stock
-        sector = Sector.where(name: "Manual").first_or_create
-        company = Company.where(name: code, sector: sector).first_or_create
-        stock = Stock.where(code: code, company_id: company.id).first_or_create
-      end
-
-      ap stock.code
       stock_earning_data(stock).each do |stock_earning_attributes|
         stock_earning = stock.stock_earnings.where(stock_earning_attributes).first_or_initialize
 

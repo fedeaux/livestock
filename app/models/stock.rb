@@ -4,9 +4,16 @@ class Stock < ApplicationRecord
   has_many :stock_earnings, dependent: :destroy
   has_many :stock_prices, dependent: :destroy
   has_many :stock_kpis, dependent: :destroy
-  belongs_to :company
-  # exposed_delegate :category, to: :company
-  # exposed_delegate :market?, to: :company
+
+  exposed_enum category: {
+    market: 0,
+    real_estate: 1
+  }
+
+  exposed_enum currency: {
+    brl: 0,
+    usd: 1
+  }
 
   validates :code, presence: {
     message: "Please provide a code"
@@ -17,6 +24,10 @@ class Stock < ApplicationRecord
 
   def self.c(id_or_code)
     find_by_id_or_code(id_or_code)
+  end
+
+  def self.ensure(code)
+    where(code: code.upcase).first_or_create
   end
 
   def link
@@ -31,12 +42,12 @@ class Stock < ApplicationRecord
     stock_prices.order("day DESC").limit(1).last
   end
 
-  def self.find_by_id_or_code(id_or_code)
-    where(id: id_or_code).or(where(code: id_or_code)).limit(1).first
+  def last_kpi
+    stock_kpis.order("date DESC").limit(1).last
   end
 
-  def self.real_state
-    includes(company: :sector).where(sector: { category: 1 })
+  def self.find_by_id_or_code(id_or_code)
+    where(id: id_or_code).or(where(code: id_or_code)).limit(1).first
   end
 
   def status_invest_url
@@ -59,17 +70,10 @@ end
 # Table name: stocks
 #
 #  id         :bigint           not null, primary key
+#  category   :integer          default("market")
 #  code       :string
+#  currency   :integer          default("brl")
 #  name       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  company_id :bigint           not null
-#
-# Indexes
-#
-#  index_stocks_on_company_id  (company_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (company_id => companies.id)
 #
