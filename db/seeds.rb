@@ -7,7 +7,7 @@ Seeders::StockKpis.new.seed
 Seeders::StockPrices.new.seed
 
 # Management
-# Seeders::UserStockEarnings.new(user: user).seed
-# Seeders::UserStockOperations.new(user: user).seed
-# UserStocks::ConsolidateOperations.new(user: user).do
-# UserStocks::ConsolidateWallets.new(user: user).do
+Seeders::UserStockEarnings.new(user: user).seed
+Seeders::UserStockOperations.new(user: user).seed
+UserStocks::ConsolidateOperations.new(user: user).do
+UserStocks::ConsolidateWallets.new(user: user).do

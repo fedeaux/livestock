@@ -18,12 +18,6 @@ export default {
       writeable: true,
       default: null,
     },
-    companyId: {
-      name: "companyId",
-      type: "integer",
-      writeable: true,
-      default: null,
-    },
     updatedAt: {
       name: "updatedAt",
       type: "datetime",
@@ -34,7 +28,13 @@ export default {
       name: "category",
       type: "string",
       writeable: true,
-      default: null,
+      default: "0",
+    },
+    currency: {
+      name: "currency",
+      type: "string",
+      writeable: true,
+      default: "0",
     },
     link: {
       name: "link",
@@ -57,15 +57,6 @@ export default {
     {
       className: "ActiveRecord::Validations::PresenceValidator",
       options: {
-        message: "required",
-      },
-      attributes: [
-        "company",
-      ],
-    },
-    {
-      className: "ActiveRecord::Validations::PresenceValidator",
-      options: {
         message: "Please provide a code",
       },
       attributes: [
@@ -74,5 +65,23 @@ export default {
     },
   ],
   enums: {
+    category: {
+      name: "category",
+      valueMap: {
+        market: 0,
+        realEstate: 1,
+      },
+      options: {
+      },
+    },
+    currency: {
+      name: "currency",
+      valueMap: {
+        brl: 0,
+        usd: 1,
+      },
+      options: {
+      },
+    },
   },
 }

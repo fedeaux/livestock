@@ -1,6 +1,6 @@
 import React from "react";
 import DashboardIndex from "platforms/web/screens/dashboard";
-import EarningsIndex from "platforms/web/screens/earnings";
+import MovementsIndex from "platforms/web/screens/movements";
 import AnalyticsIndex from "platforms/web/screens/analytics";
 import StockShowIndex from "platforms/web/screens/stock_show";
 import WatchingIndex from "platforms/web/screens/watching";
@@ -19,7 +19,7 @@ function Menu() {
   return (
     <View style={tw("sticky px-12 flex flex-row")}>
       <MenuItem to="/"> Dashboard </MenuItem>
-      <MenuItem to="/earnings"> Earnings </MenuItem>
+      <MenuItem to="/movements"> Movements </MenuItem>
       <MenuItem to="/watching"> Watching </MenuItem>
       <MenuItem to="/analytics"> Analytics </MenuItem>
       <MenuItem to="/stocks"> Stocks </MenuItem>
@@ -35,7 +35,7 @@ export default function App() {
         <View style={tw("flex flex-grow")}>
           <Switch>
             <Route exact path="/" component={DashboardIndex} />
-            <Route path="/earnings" component={EarningsIndex} />
+            <Route path="/movements" component={MovementsIndex} />
             <Route path="/analytics" component={AnalyticsIndex} />
             <Route path="/watching" component={WatchingIndex} />
             <Route path="/stocks/:id" component={StockShowIndex} />
