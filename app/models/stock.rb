@@ -5,8 +5,8 @@ class Stock < ApplicationRecord
   has_many :stock_prices, dependent: :destroy
   has_many :stock_kpis, dependent: :destroy
   belongs_to :company
-  exposed_delegate :category, to: :company
-  exposed_delegate :market?, to: :company
+  # exposed_delegate :category, to: :company
+  # exposed_delegate :market?, to: :company
 
   validates :code, presence: {
     message: "Please provide a code"
