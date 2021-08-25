@@ -5,4 +5,7 @@ json.extract! stock,
               :updated_at,
               :category,
               :currency,
+              :sector,
+              :subsector,
+              :segment,
               :link

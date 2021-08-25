@@ -36,6 +36,24 @@ export default {
       writeable: true,
       default: "0",
     },
+    sector: {
+      name: "sector",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
+    subsector: {
+      name: "subsector",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
+    segment: {
+      name: "segment",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
     link: {
       name: "link",
       type: "string",

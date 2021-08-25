@@ -4,6 +4,7 @@ class Stock < ApplicationRecord
   has_many :stock_earnings, dependent: :destroy
   has_many :stock_prices, dependent: :destroy
   has_many :stock_kpis, dependent: :destroy
+  before_save :sanitize_code
 
   exposed_enum category: {
     market: 0,
@@ -28,6 +29,10 @@ class Stock < ApplicationRecord
 
   def self.ensure(code)
     where(code: code.upcase).first_or_create
+  end
+
+  def sanitize_code
+    self.code = code.upcase.strip
   end
 
   def link
@@ -74,6 +79,9 @@ end
 #  code       :string
 #  currency   :integer          default("brl")
 #  name       :string
+#  sector     :string
+#  segment    :string
+#  subsector  :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_25_192215) do
+ActiveRecord::Schema.define(version: 2021_08_25_214516) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,9 @@ ActiveRecord::Schema.define(version: 2021_08_25_192215) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "category", default: 0
     t.integer "currency", default: 0
+    t.string "sector"
+    t.string "subsector"
+    t.string "segment"
   end
 
   create_table "user_stock_earnings", force: :cascade do |t|

@@ -1,10 +1,12 @@
 class Seeders::StockEarnings < Seeders::BaseSeeder
   def seed
     @month = "2021-08"
-    seed_market_stock_earnings
+    # seed_brl_market_stock_earnings
+    seed_brl_market_stock_sector_subsector_and_segment
+    seed_brl_real_estate_stock_segment
   end
 
-  def seed_market_stock_earnings
+  def seed_brl_market_stock_earnings
     codes = File.read("app/services/seeders/data/status_invest/market/#{@month}.csv").split("\n")[1..-1].map do |line|
       line.split(";").first
     end
@@ -30,6 +32,54 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
     stocks.each do |stock|
       puts stock.status_invest_url
       puts "http://localhost:3000/stocks/#{stock.code}"
+    end
+  end
+
+  def seed_brl_market_stock_sector_subsector_and_segment
+    Stock.brl.market.where(sector: nil).each do |stock|
+      unless stock.code.end_with?('F') || stock.code.end_with?('34')
+        browser.visit stock.status_invest_url
+
+        begin
+          texts = browser
+                    .find('.card.bg-main-gd-h.white-text.rounded.ov-hidden', match: :first)
+                    .all("a.white-text.d-flex")
+                    .map(&:text)
+                    .map { |text| text.split("\n").first }
+        rescue
+          next
+        end
+
+        stock.update(
+          sector: texts[0],
+          subsector: texts[1],
+          segment: texts[2],
+        )
+      end
+    end
+  end
+
+  def seed_brl_real_estate_stock_segment
+    Stock.brl.real_estate.where(segment: nil).each do |stock|
+      unless stock.code.end_with?('F') || stock.code.end_with?('34')
+        browser.visit stock.status_invest_url
+
+        begin
+          texts = browser
+                    .all('.card.bg-main-gd-h.white-text.rounded')[2]
+                    .all("a.white-text.d-flex")
+                    .map(&:text)
+                    .map { |text| text.split("\n").first }
+        rescue
+          next
+        end
+
+        stock.update(
+          sector: 'Fundos Imobiliarios',
+          subsector: 'Fundos Imobiliarios',
+          segment: texts[0],
+        )
+      end
     end
   end
 
