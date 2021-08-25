@@ -3,8 +3,10 @@ import TableHeader from "ui/Table/Header";
 import TableRow from "ui/Table/Row";
 import ColoredAmountAndRate from "ui/typography/ColoredAmountAndRate";
 import formatMoneyAndPercentage from "ui/formatters/money_and_percentage";
-import formatMoney from "../../../ui/formatters/money";
-const tableGrid = ["w-1/10", "w-2/10", "w-2/10", "w-2/10", "w-2/10", "w-1/10"];
+import formatMoney from "ui/formatters/money";
+import formatPercentage from "ui/formatters/percentage";
+const tableGrid = ["w-1/11", "w-3/11", "w-3/11", "w-3/11", "w-1/11"];
+import Chart from "react-google-charts";
 
 function WalletTableRow({ label, wallets, formatter, after = "" }) {
   return (
@@ -49,88 +51,128 @@ function evalTotals(wallets) {
   return totals;
 }
 
+function evalWalletUserStockChartDate(wallet) {
+  const data = wallet.userStocks
+    .sort((usa, usb) => {
+      return usb.marketPrice - usa.marketPrice;
+    })
+    .map((userStock) => {
+      return [
+        `${userStock.code} ${formatPercentage(
+          userStock.marketPrice / wallet.marketPrice
+        )}`,
+        userStock.marketPrice,
+      ];
+    });
+
+  return {
+    data: [["Stock", "Market Value"], ...data],
+    options: { title: `${wallet.userStocks.length} assets` },
+  };
+}
+
+function WalletUserStockChart({ wallet }) {
+  const props = useMemo(() => {
+    return evalWalletUserStockChartDate(wallet);
+  });
+
+  return (
+    <View style={tw(tableGrid[1])}>
+      <Chart chartType="PieChart" width={"100%"} {...props} />
+    </View>
+  );
+}
+
 export default function WalletTable({ wallets }) {
   const totals = evalTotals(wallets);
 
   return (
     <View>
+      <View>
+        <TableRow>
+          <TableHeader twp={tableGrid[0]} />
+          {wallets.map((wallet, index) => {
+            return (
+              <TableHeader key={wallet.id} twp={tableGrid[index + 1]}>
+                {wallet.name}
+              </TableHeader>
+            );
+          })}
+          <TableHeader twp={tableGrid[wallets.length + 1]}>Total</TableHeader>
+        </TableRow>
+        <WalletTableRow
+          label="Price"
+          formatter={(wallet) => {
+            return formatMoneyAndPercentage(wallet.price, wallet.priceRatio);
+          }}
+          after={formatMoney(totals.price)}
+          wallets={wallets}
+        />
+        <WalletTableRow
+          label="Market Price"
+          formatter={(wallet) => {
+            return formatMoneyAndPercentage(
+              wallet.marketPrice,
+              wallet.marketPriceRatio
+            );
+          }}
+          after={formatMoney(totals.marketPrice)}
+          wallets={wallets}
+        />
+        <WalletTableRow
+          label="Result"
+          formatter={(wallet) => {
+            return (
+              <ColoredAmountAndRate
+                amount={wallet.marketResult}
+                rate={wallet.marketResultRatio}
+              />
+            );
+          }}
+          after={
+            <ColoredAmountAndRate
+              amount={totals.marketResult}
+              rate={totals.marketResultRatio}
+            />
+          }
+          wallets={wallets}
+        />
+        <WalletTableRow
+          label="Earnings"
+          formatter={(wallet) => {
+            return formatMoneyAndPercentage(
+              wallet.earnings,
+              wallet.earningsRatio
+            );
+          }}
+          after={formatMoney(totals.earnings)}
+          wallets={wallets}
+        />
+        <WalletTableRow
+          label="Payout"
+          formatter={(wallet) => {
+            return (
+              <ColoredAmountAndRate
+                amount={wallet.payout}
+                rate={wallet.payoutRatio}
+              />
+            );
+          }}
+          after={
+            <ColoredAmountAndRate
+              amount={totals.payout}
+              rate={totals.payoutRatio}
+            />
+          }
+          wallets={wallets}
+        />
+      </View>
       <TableRow>
-        <TableHeader twp={tableGrid[0]} />
+        <View style={tw(tableGrid[0])} />
         {wallets.map((wallet, index) => {
-          return (
-            <TableHeader key={wallet.id} twp={tableGrid[index + 1]}>
-              {wallet.name}
-            </TableHeader>
-          );
+          return <WalletUserStockChart key={wallet.id} wallet={wallet} />;
         })}
-        <TableHeader twp={tableGrid[wallets.length + 1]}>Total</TableHeader>
       </TableRow>
-      <WalletTableRow
-        label="Price"
-        formatter={(wallet) => {
-          return formatMoneyAndPercentage(wallet.price, wallet.priceRatio);
-        }}
-        after={formatMoney(totals.price)}
-        wallets={wallets}
-      />
-      <WalletTableRow
-        label="Market Price"
-        formatter={(wallet) => {
-          return formatMoneyAndPercentage(
-            wallet.marketPrice,
-            wallet.marketPriceRatio
-          );
-        }}
-        after={formatMoney(totals.marketPrice)}
-        wallets={wallets}
-      />
-      <WalletTableRow
-        label="Result"
-        formatter={(wallet) => {
-          return (
-            <ColoredAmountAndRate
-              amount={wallet.marketResult}
-              rate={wallet.marketResultRatio}
-            />
-          );
-        }}
-        after={
-          <ColoredAmountAndRate
-            amount={totals.marketResult}
-            rate={totals.marketResultRatio}
-          />
-        }
-        wallets={wallets}
-      />
-      <WalletTableRow
-        label="Earnings"
-        formatter={(wallet) => {
-          return formatMoneyAndPercentage(
-            wallet.earnings,
-            wallet.earningsRatio
-          );
-        }}
-        after={formatMoney(totals.earnings)}
-        wallets={wallets}
-      />
-      <WalletTableRow
-        label="Payout"
-        formatter={(wallet) => {
-          return (
-            <ColoredAmountAndRate
-              amount={wallet.payout}
-              rate={wallet.payoutRatio}
-            />
-          );
-        }}
-        after={
-          <ColoredAmountAndRate
-            amount={totals.payout}
-            rate={totals.payoutRatio}
-          />
-        }
-        wallets={wallets}
-      />
     </View>
   );
 }

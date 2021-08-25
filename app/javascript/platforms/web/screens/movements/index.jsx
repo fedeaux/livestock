@@ -44,7 +44,6 @@ function evalUserStockEarningsByMonth(userStockEarnings) {
 }
 
 function evalUserStockEarningsByMonthChart(userStockEarnings) {
-  console.log("userStockEarnings", userStockEarnings[0]);
   const userStockDataSet = { total: { label: "TOTAL", data: {} } };
 
   userStockEarnings.forEach((userStockEarning) => {
