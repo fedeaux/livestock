@@ -38,10 +38,18 @@ class Seeders::BaseSeeder
   end
 
   def parse_money_string(money_string)
-    partial_money_string = money_string&.gsub(/[^\d\.\,]/, "")&.gsub(",", '.')&.strip
+    partial_money_string = money_string&.gsub(/[^\d\.\,]/, "")&.gsub(".", '')&.gsub(",", '.')&.strip
 
     return unless partial_money_string
 
-    partial_money_string.to_f.round(2)
+    partial_parsed_money = partial_money_string.to_f.round(2)
+
+    if money_string.include? 'M'
+      return partial_parsed_money * 1000000
+    elsif money_string.include? 'K'
+      return partial_parsed_money * 1000
+    end
+
+    partial_parsed_money
   end
 end

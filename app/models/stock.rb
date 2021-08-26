@@ -52,7 +52,7 @@ class Stock < ApplicationRecord
   end
 
   def self.find_by_id_or_code(id_or_code)
-    where(id: id_or_code).or(where(code: id_or_code)).limit(1).first
+    where(id: id_or_code).or(where(code: id_or_code.to_s.upcase)).limit(1).first
   end
 
   def status_invest_url

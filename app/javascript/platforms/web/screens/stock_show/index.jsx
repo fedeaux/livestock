@@ -74,7 +74,18 @@ function StockKpiListItem({ stockKpi }) {
         {format(stockKpi.date, "MMM/yyyy")}
       </Text>
       <View style={tw("flex-row")}>
-        {["evToEbit", "opdy", "pToBv", "pToE"].map((attribute) => {
+        {[
+          "evToEbit",
+          "opdy",
+          "pToBv",
+          "pToE",
+          "adl",
+          "cagrR",
+          "cargE",
+          "roe",
+          "roa",
+          "roic",
+        ].map((attribute) => {
           return (
             <View
               key={attribute}

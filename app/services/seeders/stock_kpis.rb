@@ -3,6 +3,7 @@ end
 
 class Seeders::StockKpis < Seeders::BaseSeeder
   def initialize
+    ActiveRecord::Base.logger = nil
     @month = '2021-08'
   end
 
@@ -46,7 +47,7 @@ class Seeders::StockKpis < Seeders::BaseSeeder
     key_7: { pt_br: 'MARGEM EBIT', i: 7 },
     key_8: { pt_br: 'MARG. LIQUIDA', i: 8 },
     p_to_ebit: { pt_br: 'P/EBIT', i: 9 },
-    ev_to_ebit: { pt_br: 'EV/EBIT', i: 10, good: '-' },
+    ev_to_ebit: { pt_br: 'EV/EBIT', i: 10 },
     nd_to_ebit: { pt_br: 'DIVIDA LIQUIDA / EBIT', i: 11 },
     nd_to_ev: { pt_br: 'DIVIDA LIQUIDA / PATRI.', i: 12 },
     psr: { pt_br: 'PSR', i: 13 },
@@ -59,9 +60,9 @@ class Seeders::StockKpis < Seeders::BaseSeeder
     key_20: { pt_br: 'PATRIMONIO / ATIVOS', i: 20 },
     key_21: { pt_br: 'PASSIVOS / ATIVOS', i: 21 },
     key_22: { pt_br: 'GIRO ATIVOS', i: 22 },
-    key_23: { pt_br: 'CAGR RECEITAS 5 ANOS', i: 23 },
-    key_24: { pt_br: 'CAGR LUCROS 5 ANOS', i: 24 },
-    key_25: { pt_br: 'LIQUIDEZ MEDIA DIARIA', i: 25 },
+    cagr_r: { pt_br: 'CAGR RECEITAS 5 ANOS', i: 23 },
+    cagr_e: { pt_br: 'CAGR LUCROS 5 ANOS', i: 24 },
+    adl: { pt_br: 'LIQUIDEZ MEDIA DIARIA', i: 25 },
     bvps: { pt_br: 'VPA', name: 'Book value per share', i: 26 },
     eps: { pt_br: 'LPA', name: 'Earnings per share', i: 27 },
     key_28: { pt_br: 'PEG Ratio', i: 28 },

@@ -97,7 +97,10 @@ end
 # Table name: stock_kpis
 #
 #  id         :bigint           not null, primary key
+#  adl        :bigint           default(0)
 #  bvps       :decimal(15, 8)
+#  cagr_e     :decimal(15, 4)
+#  cagr_r     :decimal(15, 4)
 #  date       :date
 #  ddpy       :integer          default(0)
 #  dy         :decimal(15, 8)

@@ -126,6 +126,36 @@ export default {
       writeable: true,
       default: null,
     },
+    opdy: {
+      name: "opdy",
+      type: "decimal",
+      writeable: true,
+      default: "0.0",
+    },
+    ddpy: {
+      name: "ddpy",
+      type: "integer",
+      writeable: true,
+      default: "0",
+    },
+    adl: {
+      name: "adl",
+      type: "integer",
+      writeable: true,
+      default: "0",
+    },
+    cagrR: {
+      name: "cagrR",
+      type: "decimal",
+      writeable: true,
+      default: null,
+    },
+    cagrE: {
+      name: "cagrE",
+      type: "decimal",
+      writeable: true,
+      default: null,
+    },
   },
   names: {
     singularUnderscore: "stock_kpi",

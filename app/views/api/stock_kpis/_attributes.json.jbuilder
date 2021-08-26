@@ -19,4 +19,9 @@ json.extract! stock_kpi,
               :date,
               :stock_id,
               :created_at,
-              :updated_at
+              :updated_at,
+              :opdy,
+              :ddpy,
+              :adl,
+              :cagr_r,
+              :cagr_e

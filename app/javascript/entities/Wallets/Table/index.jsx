@@ -67,7 +67,13 @@ function evalWalletUserStockChartDate(wallet) {
 
   return {
     data: [["Stock", "Market Value"], ...data],
-    options: { title: `${wallet.userStocks.length} assets` },
+    options: {
+      title: `${
+        wallet.userStocks.filter((us) => {
+          return us.stockCount > 0;
+        }).length
+      } assets`,
+    },
   };
 }
 
