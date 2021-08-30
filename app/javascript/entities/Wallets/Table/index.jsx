@@ -5,7 +5,7 @@ import ColoredAmountAndRate from "ui/typography/ColoredAmountAndRate";
 import formatMoneyAndPercentage from "ui/formatters/money_and_percentage";
 import formatMoney from "ui/formatters/money";
 import formatPercentage from "ui/formatters/percentage";
-const tableGrid = ["w-1/11", "w-3/11", "w-3/11", "w-3/11", "w-1/11"];
+const tableGrid = ["w-1/14", "w-3/14", "w-3/14", "w-3/14", "w-3/14", "w-1/14"];
 import Chart from "react-google-charts";
 
 function WalletTableRow({ label, wallets, formatter, after = "" }) {
@@ -98,9 +98,10 @@ export default function WalletTable({ wallets }) {
         <TableRow>
           <TableHeader twp={tableGrid[0]} />
           {wallets.map((wallet, index) => {
+            console.log("wallet", wallet);
             return (
               <TableHeader key={wallet.id} twp={tableGrid[index + 1]}>
-                {wallet.name}
+                {wallet.name} ({formatPercentage(wallet.targetPercentage)})
               </TableHeader>
             );
           })}

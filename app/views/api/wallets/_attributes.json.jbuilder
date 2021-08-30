@@ -13,4 +13,6 @@ json.extract! wallet,
               :payout,
               :payout_ratio,
               :created_at,
-              :updated_at
+              :updated_at,
+              :target_percentage,
+              :key

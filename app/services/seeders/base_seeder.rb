@@ -38,7 +38,7 @@ class Seeders::BaseSeeder
   end
 
   def parse_money_string(money_string)
-    partial_money_string = money_string&.gsub(/[^\d\.\,]/, "")&.gsub(".", '')&.gsub(",", '.')&.strip
+    partial_money_string = money_string&.gsub(/[^\d\.\,\-]/, "")&.gsub(".", '')&.gsub(",", '.')&.strip
 
     return unless partial_money_string
 

@@ -1,4 +1,6 @@
 class Analytics::BestStocks
+  STOCK_BLACKLIST = %w[JBSS3 BRSR6]
+
   def initialize
     ActiveRecord::Base.logger = nil
   end
@@ -22,7 +24,9 @@ class Analytics::BestStocks
       end
     end
 
-    stocks.sort_by!(&:crazy_metric).reverse!
+    puts "Total: #{stocks.count}"
+    stocks.sort_by!(&:ev_to_ebit)
+    # stocks.sort_by!(&:crazy_metric).reverse!
 
     # average_ev_to_ebit = best_stocks_kpis.average(:ev_to_ebit)
     # average_opdy = best_stocks_kpis.average(:opdy)
@@ -30,7 +34,7 @@ class Analytics::BestStocks
     # puts "average_ev_to_ebit #{average_ev_to_ebit}"
     # puts "average_opdy #{average_opdy}"
 
-    without_repetition stocks, "By ev_to_ebit"
+    without_repetition stocks, "\nBest Stocks:"
     # without_repetition "opdy DESC", "By opdy"
     nil
   end
@@ -68,28 +72,35 @@ class Analytics::BestStocks
     to_print = [:crazy_metric, :ev_to_ebit, :opdy, :ev_to_ebit_deviation, :opdy_deviation]
 
     puts title
-    tp stock_code_map.values, :'stock.code', :ev_to_ebit, :opdy, :ev_to_ebit_deviation, :opdy_deviation, :crazy_metric, 'stock.status_invest_url' => { width: 124312412 }
+    tp stock_code_map.values, :'stock.code', :ev_to_ebit, :opdy, :'stock.sector', :'stock.subsector', :'stock.segment', 'stock.status_invest_url' => { width: 124312412 }
 
-    a = (stock_code_map.values.map do |sk|
-           fields = to_print.map do |f|
-             sk.send(f)
-           end
+    puts "\nCandidates:"
+    puts stock_code_map.values.map(&:code).join ' '
 
-           [sk.stock.code, fields, sk.stock.status_invest_url].flatten.join ';'
-         end.join "\n")
+    # a = (stock_code_map.values.map do |sk|
+    #        fields = to_print.map do |f|
+    #          sk.send(f)
+    #        end
 
-    puts ["code", to_print].flatten.join ';'
-    puts a
+    #        [sk.stock.code, fields, sk.stock.status_invest_url].flatten.join ';'
+    #      end.join "\n")
+
+    # puts ["code", to_print].flatten.join ';'
+    # puts a
   end
 
   def best_stocks_kpis
     unless @stocks_kpis
       latest_kpi_date = StockKpi.maximum(:date)
       @stock_kpis = StockKpi
+                      .joins(:stock)
                       .where(date: latest_kpi_date)
                       .where('ev_to_ebit > 0')
-                      .where('opdy > 6')
-                      .where('ddpy >= 4')
+                      .where('adl > 200000')
+                      .where('opdy >= 6')
+                      # .where('ddpy >= 2')
+                      .where('stocks.subsector != ?', "Construção Civil")
+                      .where('stocks.code NOT IN (?)', STOCK_BLACKLIST)
     end
 
     @stock_kpis

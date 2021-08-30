@@ -19,8 +19,8 @@ class Seeders::StockPrices < Seeders::BaseSeeder
 
     UserStock.find_each do |user_stock|
       last_stock_price = user_stock.stock.last_price
-      puts "------ #{user_stock.code} -------"
-      ap last_stock_price
+      # puts "------ #{user_stock.code} -------"
+      # ap last_stock_price
       user_stock.market_price_per_stock = last_stock_price.close
       user_stock.save
     end

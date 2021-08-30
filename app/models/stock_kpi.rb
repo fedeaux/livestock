@@ -59,10 +59,6 @@ class StockKpi < ApplicationRecord
                            .where("received_at <= ?", date + 1.month)
   end
 
-  def deviation(field, sd, average)
-    (((send(field) - average)/sd) * 100).to_i / 100.0
-  end
-
   attr_accessor :ev_to_ebit_deviation, :opdy_deviation
 
   def crazy_metric
@@ -72,24 +68,9 @@ class StockKpi < ApplicationRecord
     ((opdy_deviation ** 5 - ev_to_ebit_deviation ** 3) * 100).to_i / 100.0
   end
 
-  KPIS = {
-    bvps: {},
-    dy: { good: '+' },
-    opdy: { good: '+' },
-    eps: { good: '+' },
-    ev_to_ebit: { good: '-' },
-    nd_to_ebit: { good: '-' },
-    nd_to_ev: { good: '-' },
-    p_to_bv: { good: '-' },
-    p_to_e: { good: '-' },
-    p_to_ebit: { good: '-' },
-    p_to_eps: { good: '-' },
-    p_to_ev: { good: '-' },
-    psr: { good: '+' },
-    roa: { good: '+' },
-    roe: { good: '+' },
-    roic: { good: '+' }
-  }
+  def deviation(field, sd, average)
+    (((send(field) - average)/sd) * 100).to_i / 100.0
+  end
 end
 
 # == Schema Information

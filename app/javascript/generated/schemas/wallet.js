@@ -90,6 +90,18 @@ export default {
       writeable: true,
       default: null,
     },
+    targetPercentage: {
+      name: "targetPercentage",
+      type: "decimal",
+      writeable: true,
+      default: "0.0",
+    },
+    key: {
+      name: "key",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
   },
   names: {
     singularUnderscore: "wallet",
