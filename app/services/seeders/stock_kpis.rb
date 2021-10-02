@@ -3,7 +3,6 @@ end
 
 class Seeders::StockKpis < Seeders::BaseSeeder
   def initialize
-    ActiveRecord::Base.logger = nil
     @month = '2021-08'
   end
 

@@ -1,5 +1,6 @@
 class StockKpi < ApplicationRecord
   include Braindamage::Braindamageable
+  include Stockable
   belongs_to :stock
 
   before_save :ensure_math

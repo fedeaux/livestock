@@ -2,6 +2,10 @@ class Seeders::BaseSeeder
   CACHE_DIR = "tmp/cache/seeders/"
   DATA_DIR = "app/services/seeders/data/"
 
+  def initialize
+    ActiveRecord::Base.logger = nil
+  end
+
   def add_to_cache(cache_file, contents)
     dir = cache_file.split('/')[0..-2].join '/'
     FileUtils.mkdir_p dir

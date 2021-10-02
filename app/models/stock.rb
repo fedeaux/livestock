@@ -20,6 +20,10 @@ class Stock < ApplicationRecord
     message: "Please provide a code"
   }
 
+  scope :idiv, ->{
+          where('code IN (?)', Constants::IDIV.keys)
+        }
+
   expose :link
   hide :created_at
 
@@ -59,6 +63,10 @@ class Stock < ApplicationRecord
     path = market? ? 'acoes' : 'fundos-imobiliarios'
 
     "https://statusinvest.com.br/#{path}/#{code}"
+  end
+
+  def price_at_month(month)
+    stock_prices.where(day: (month.beginning_of_month..month.end_of_month)).last&.close
   end
 end
 

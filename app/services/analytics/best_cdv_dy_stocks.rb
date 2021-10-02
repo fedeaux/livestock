@@ -1,5 +1,48 @@
-class Analytics::BestStocks
-  STOCK_BLACKLIST = %w[JBSS3 BRSR6 CMIG4]
+class Analytics::BestCdvDyStocks
+  STOCK_BLACKLIST = %w[JBSS3 BRSR6]
+
+  CDV_LIST = %w[
+    DMMO3
+    MNPR3
+    ENAT3
+    CMIN3
+    USIM5
+    CSNA3
+    GOAU4
+    LAVV3
+    PLPL3
+    PETR4
+    EUCA4
+    MRFG3
+    VALE3
+    ALUP11
+    BRKM5
+    TASA4
+    JALL3
+    EVEN3
+    CMIG4
+    TAEE11
+    CLSC4
+    TRPL4
+    WIZS3
+    JHSF3
+    BEEF3
+    SAPR11
+    PCAR3
+    CSMG3
+    GGBR4
+    UNIP6
+    ALLD3
+    CGRA4
+    LIGT3
+    ENBR3
+    DEXP3
+    JBSS3
+    SEER3
+    CYRE3
+    SLCE3
+    CPLE6
+  ]
 
   def initialize
     ActiveRecord::Base.logger = nil
@@ -25,7 +68,6 @@ class Analytics::BestStocks
     end
 
     puts "Total: #{stocks.count}"
-    stocks.sort_by!(&:ev_to_ebit)
     # stocks.sort_by!(&:crazy_metric).reverse!
 
     # average_ev_to_ebit = best_stocks_kpis.average(:ev_to_ebit)
@@ -95,12 +137,13 @@ class Analytics::BestStocks
       @stock_kpis = StockKpi
                       .joins(:stock)
                       .where(date: latest_kpi_date)
-                      .where('ev_to_ebit > 0')
-                      .where('adl > 200000')
-                      .where('dy >= 5.5')
+                      .idiv
+                      .where('dy >= 3')
                       # .where('ddpy >= 2')
                       # .where('stocks.subsector != ?', "Construção Civil")
-                      .where('stocks.code NOT IN (?)', STOCK_BLACKLIST)
+                      # .where(stock: { code:  })
+                      .where('stocks.code IN (?)', CDV_LIST)
+                      # .where('stocks.code NOT IN (?)', STOCK_BLACKLIST)
     end
 
     @stock_kpis

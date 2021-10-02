@@ -5,7 +5,7 @@ import ColoredAmountAndRate from "ui/typography/ColoredAmountAndRate";
 import formatMoneyAndPercentage from "ui/formatters/money_and_percentage";
 import formatMoney from "ui/formatters/money";
 import formatPercentage from "ui/formatters/percentage";
-const tableGrid = ["w-1/14", "w-3/14", "w-3/14", "w-3/14", "w-3/14", "w-1/14"];
+const tableGrid = ["w-2/24", "w-5/24", "w-5/24", "w-5/24", "w-5/24", "w-2/24"];
 import Chart from "react-google-charts";
 
 function WalletTableRow({ label, wallets, formatter, after = "" }) {
@@ -73,6 +73,14 @@ function evalWalletUserStockChartDate(wallet) {
           return us.stockCount > 0;
         }).length
       } assets`,
+      legend: {
+        textStyle: { fontSize: 12 },
+        position: "top",
+        maxLines: 40,
+      },
+      chartArea: {
+        top: 100,
+      },
     },
   };
 }
@@ -84,7 +92,7 @@ function WalletUserStockChart({ wallet }) {
 
   return (
     <View style={tw(tableGrid[1])}>
-      <Chart chartType="PieChart" width={"100%"} {...props} />
+      <Chart chartType="PieChart" height={500} width={"100%"} {...props} />
     </View>
   );
 }
@@ -98,7 +106,6 @@ export default function WalletTable({ wallets }) {
         <TableRow>
           <TableHeader twp={tableGrid[0]} />
           {wallets.map((wallet, index) => {
-            console.log("wallet", wallet);
             return (
               <TableHeader key={wallet.id} twp={tableGrid[index + 1]}>
                 {wallet.name} ({formatPercentage(wallet.targetPercentage)})

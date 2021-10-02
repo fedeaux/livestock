@@ -13,7 +13,7 @@ end
 #  high       :decimal(15, 2)   not null
 #  low        :decimal(15, 2)   not null
 #  open       :decimal(15, 2)   not null
-#  volume     :integer          default(0), not null
+#  volume     :bigint           default(0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  stock_id   :bigint           not null

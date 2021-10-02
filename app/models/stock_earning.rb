@@ -11,6 +11,9 @@ class StockEarning < ApplicationRecord
                  earning: 4
                }
 
+  scope :month, ->(month) {
+    where(received_at: (month..(month + 1.month)))
+  }
 end
 
 # == Schema Information
