@@ -70,6 +70,8 @@ function getAttributeParser(attribute) {
         return value;
       }
 
+      if (!value) return null;
+
       try {
         return parseISO(value);
       } catch(e) {

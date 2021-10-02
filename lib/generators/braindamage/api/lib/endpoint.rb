@@ -24,7 +24,11 @@ class Endpoint
 
     params_signature = params.map(&:singular_camel_name).join(', ')
 
-    "useApi#{entities_signature}(#{params_signature})"
+    if read?
+      "useApi#{entities_signature}(#{params_signature})"
+    elsif put?
+      "useApiUpdate#{entities_signature}(#{params_signature})"
+    end
   end
 
   def abstract_api_function
@@ -145,6 +149,10 @@ class Endpoint
 
   def read?
     verb == "GET"
+  end
+
+  def put?
+    verb == "PUT"
   end
 end
 

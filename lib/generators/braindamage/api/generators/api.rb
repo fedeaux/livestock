@@ -34,6 +34,13 @@ module Generators
   return useQuery(#{endpoint.abstract_api_function}, [#{endpoint.parameterized_api_path}, #{endpoint.instantiable_model_name}]);
 }"
       end.join("\n\n").strip
+
+      endpoints.select(&:put?).map do |endpoint|
+        "export function #{endpoint.hook_signature} {
+  return useQuery(#{endpoint.abstract_api_function}, [#{endpoint.parameterized_api_path}, #{endpoint.instantiable_model_name}]);
+}"
+      end.join("\n\n").strip
+
     end
   end
 end
