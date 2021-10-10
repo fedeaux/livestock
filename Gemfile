@@ -13,6 +13,7 @@ gem 'dotenv-rails'
 gem 'google_drive'
 gem 'httparty'
 gem 'jbuilder', '~> 2.7'
+gem 'nokogiri', platforms: [:ruby]
 gem 'olive_branch'
 gem 'omniauth'
 gem 'omniauth-google-oauth2', '>= 0.6'
