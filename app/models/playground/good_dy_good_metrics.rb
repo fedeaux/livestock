@@ -1,7 +1,7 @@
 class PGStock < OpenStruct
 end
 
-class GoodDyGoodMetrics
+class Playground::GoodDyGoodMetrics
   def initialize
   end
 
