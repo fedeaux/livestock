@@ -6,7 +6,6 @@ class UserStocks::ConsolidateWallets
   end
 
   def do
-    duct_tapped_ensure_user_stock_wallets
     wallets = user.wallets
     price = 0
     market_price = 0

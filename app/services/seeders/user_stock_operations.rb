@@ -14,8 +14,6 @@ class Seeders::UserStockOperations
       user_stock.wallet ||= Wallet.find_by(key: 'dividends')
       user_stock.save
 
-      byebug unless user_stock.persisted?
-
       user_stock.user_stock_operations.where(user_stock_operation_attributes.to_h.except(:code)).first_or_create
     end
   end
@@ -30,13 +28,14 @@ class Seeders::UserStockOperations
     end
 
     (2..ws.num_rows).map do |i|
-      OpenStruct.new(
-        code: ws[i, 2].strip,
-        nature: { Compra: "buy", Venda: "sell" }[ws[i, 4].strip.to_sym],
-        stock_count: ws[i, 9].to_i,
-        stock_price: ws[i, 11].gsub("R$", "").strip.to_f,
-        executed_at: Date.strptime(ws[i, 12].split(" ").first.strip, "%d/%m/%Y")
-      )
-    end
+      ws[14].length.strip == 0 ?
+        OpenStruct.new(
+          code: ws[i, 2].strip,
+          nature: { Compra: "buy", Venda: "sell" }[ws[i, 4].strip.to_sym],
+          stock_count: ws[i, 9].to_i,
+          stock_price: ws[i, 11].gsub("R$", "").strip.to_f,
+          executed_at: Date.strptime(ws[i, 12].split(" ").first.strip, "%d/%m/%Y")
+        ) : nil
+    end.compact
   end
 end
