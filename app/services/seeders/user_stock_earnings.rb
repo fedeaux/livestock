@@ -10,7 +10,10 @@ class Seeders::UserStockEarnings
       code = user_stock_earning_attributes.code
       stock = Stock.ensure code
 
-      user_stock = user.user_stocks.where(stock_id: stock.id).first_or_create
+      user_stock = user.user_stocks.where(stock_id: stock.id).first_or_initialize
+      user_stock.wallet ||= Wallet.find_by(key: 'dividends')
+      user_stock.save
+
       user_stock.user_stock_earnings.where(user_stock_earning_attributes.to_h.except(:code)).first_or_create
     end
   end

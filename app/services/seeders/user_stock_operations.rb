@@ -10,7 +10,7 @@ class Seeders::UserStockOperations
       code = user_stock_operation_attributes.code
       stock = Stock.ensure code
 
-      user_stock = user.user_stocks.where(stock_id: stock.id).first_or_create
+      user_stock = user.user_stocks.where(stock_id: stock.id).first_or_initialize
       user_stock.wallet ||= Wallet.find_by(key: 'dividends')
       user_stock.save
 
@@ -28,7 +28,7 @@ class Seeders::UserStockOperations
     end
 
     (2..ws.num_rows).map do |i|
-      ws[14].length.strip == 0 ?
+      ws[i, 14].strip.length == 0 ?
         OpenStruct.new(
           code: ws[i, 2].strip,
           nature: { Compra: "buy", Venda: "sell" }[ws[i, 4].strip.to_sym],
