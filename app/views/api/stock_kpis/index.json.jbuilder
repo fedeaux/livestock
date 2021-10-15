@@ -3,3 +3,5 @@ json.stock_kpis do
     json.partial! "member", stock_kpi: stock_kpi
   end
 end
+
+json.cache_key StockKpi.cache_key

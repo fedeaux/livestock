@@ -3,3 +3,5 @@ json.user_stocks do
     json.partial! "member", user_stock: user_stock
   end
 end
+
+json.cache_key UserStock.cache_key

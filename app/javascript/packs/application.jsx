@@ -4,8 +4,9 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import Application from "../platforms/web/app";
+import WebApp from "../platforms/web/app";
+import Platform from "../platforms/index";
 
 document.addEventListener("DOMContentLoaded", () => {
-  ReactDOM.render(<Application />, document.querySelector("#spa"));
+  ReactDOM.render(<Platform App={WebApp} />, document.querySelector("#spa"));
 });

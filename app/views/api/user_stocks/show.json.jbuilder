@@ -27,3 +27,5 @@ json.user_stock do
     end
   end
 end
+
+json.cache_key @user_stock.cache_key

@@ -4,6 +4,7 @@ require_relative "./generators/api"
 class Braindamage::ApiGenerator < Rails::Generators::Base
   BASE_PATH = "/lib/generators/braindamage/api/".freeze # ugly!
   source_root File.expand_path("generators/", __dir__)
+  class_option :smart, type: :boolean, default: true
 
   def all
     @current_generator = Generators::Api.new(self, endpoints)

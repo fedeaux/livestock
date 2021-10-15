@@ -3,7 +3,6 @@ require_relative './pathable'
 class BaseGenerator
   include Pathable
   attr_reader :braindamage_generator
-  delegate :template, to: :braindamage_generator
 
   def initialize(braindamage_generator)
     @braindamage_generator = braindamage_generator
@@ -51,5 +50,25 @@ class BaseGenerator
     end
 
     pretty_print_thing hash, indent
+  end
+
+  def base_template(source, *args, &block)
+    braindamage_generator.template source, *args, &block
+  end
+
+  def template(source, *args)
+    config = args.last.is_a?(Hash) ? args.pop : {}
+    target = args.first
+    target_dir = target.to_s.split('/').last(2).first
+
+    if braindamage_generator.options[:smart]
+      if target_dir == 'generated'
+        config[:force] = true
+      else
+        config[:skip] = true
+      end
+    end
+
+    base_template source, target, config
   end
 end

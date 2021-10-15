@@ -9,3 +9,5 @@ json.wallets do
     end
   end
 end
+
+json.cache_key Wallet.cache_key

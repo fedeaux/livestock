@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 const { environment } = require('@rails/webpacker')
 
@@ -36,6 +37,7 @@ const providedModules = [
 
 const provided = {
   React: 'react',
+  axios: 'axios',
   tw: [path.resolve('app/styles/tw'), 'tw'],
   noop: [path.resolve('app/javascript/util/noop'), 'noop'],
 };
@@ -45,5 +47,6 @@ providedModules.forEach((providedModule) => {
 });
 
 environment.plugins.append('Provide', new webpack.ProvidePlugin(provided));
+environment.plugins.append('Dotenv', new Dotenv({ systemvars: true }));
 
 module.exports = environment

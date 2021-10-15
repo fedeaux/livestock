@@ -1,4 +1,4 @@
-import { createContext, useCallback } from "react";
+import { createContext } from "react";
 
 export const BraindamageApiContext = createContext();
 
