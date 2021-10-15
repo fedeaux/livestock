@@ -4,6 +4,8 @@ import formatPercentage from "ui/formatters/percentage";
 import tableGrid from "entities/UserStocks/Table/grid";
 import { Link } from "react-router-dom";
 import TableCell from "ui/Table/Cell";
+import WalletPicker from "entities/Wallets/Picker";
+import { useApiUpdateUserStock } from "generated/api";
 
 function UserStockTableCellResults({ userStock }) {
   return (
@@ -39,6 +41,20 @@ function UserStockTableCellPayout({ userStock }) {
   );
 }
 
+function UserStockTableCellWalletPicker({ userStock }) {
+  const { update } = useApiUpdateUserStock();
+
+  const onChange = useCallback(({ walletId }) => {
+    update({ userStockId: userStock.id, userStockAttributes: { walletId } });
+  });
+
+  return (
+    <TableCell twp={tableGrid[7]}>
+      <WalletPicker walletId={userStock.walletId} onChange={onChange} />
+    </TableCell>
+  );
+}
+
 export default function UserStockTableRow({ userStock }) {
   return (
     <View style={tw("px-4 py-2 flex flex-row border-b border-gray-200")}>
@@ -62,7 +78,7 @@ export default function UserStockTableRow({ userStock }) {
       <UserStockTableCellResults userStock={userStock} />
       <UserStockTableCellEarnings userStock={userStock} />
       <UserStockTableCellPayout userStock={userStock} />
-      <TableCell twp={tableGrid[7]}>{userStock.walletName}</TableCell>
+      <UserStockTableCellWalletPicker userStock={userStock} />
       <TableCell twp={tableGrid[8]}>
         {formatPercentage(userStock.walletRatio)}
       </TableCell>
