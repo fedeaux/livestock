@@ -29,18 +29,27 @@ module Generators
     end
 
     def hooks
+      [read_hooks, put_hooks].flatten.join("\n\n").strip
+    end
+
+    def read_hooks
       endpoints.select(&:read?).map do |endpoint|
         "export function #{endpoint.hook_signature} {
-  return useQuery(#{endpoint.abstract_api_function}, [#{endpoint.parameterized_api_path}, #{endpoint.instantiable_model_name}]);
-}"
-      end.join("\n\n").strip
+  const queryCacheKey = #{endpoint.parameterized_api_path};
 
+  return useQuery(queryCacheKey, #{endpoint.abstract_api_function}, [queryCacheKey, #{endpoint.instantiable_model_name}]);
+}"
+      end
+    end
+
+    def put_hooks
       endpoints.select(&:put?).map do |endpoint|
         "export function #{endpoint.hook_signature} {
-  return useQuery(#{endpoint.abstract_api_function}, [#{endpoint.parameterized_api_path}, #{endpoint.instantiable_model_name}]);
-}"
-      end.join("\n\n").strip
+  const { write: update, ...rest } = useWrite(#{endpoint.abstract_api_function}, [#{endpoint.parameterized_api_path}, #{endpoint.instantiable_model_name}]);
 
+  return { update, ...rest };
+}"
+      end
     end
   end
 end

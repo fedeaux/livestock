@@ -1,7 +1,12 @@
-<%= models_imports %>
+import { useContext } from "react";
+import { BraindamageApiContext } from "braindamage/api/provider";
 
 import getModelCollection from 'braindamage/api/getModelCollection';
 import getModelMember from 'braindamage/api/getModelMember';
+import updateModelMember from 'braindamage/api/updateModelMember';
 import useQuery from 'braindamage/api/useQuery';
+import useWrite from 'braindamage/api/useWrite';
+
+<%= models_imports %>
 
 <%= hooks %>

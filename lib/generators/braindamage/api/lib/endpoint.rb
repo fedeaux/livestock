@@ -22,7 +22,11 @@ class Endpoint
                            (entities[0..-2].map(&:singular_class_name) + [entities.last.plural_class_name]).join
                          end
 
-    params_signature = params.map(&:singular_camel_name).join(', ')
+    params_signature = if read?
+                         params.map(&:singular_camel_name).join(', ')
+                       else
+                         ''
+                       end
 
     if read?
       "useApi#{entities_signature}(#{params_signature})"
@@ -32,10 +36,14 @@ class Endpoint
   end
 
   def abstract_api_function
-    if path_parts.last.param?
-      'getModelMember'
-    else
-      'getModelCollection'
+    if read?
+      if path_parts.last.param?
+        'getModelMember'
+      else
+        'getModelCollection'
+      end
+    elsif put?
+      'updateModelMember'
     end
   end
 
@@ -97,6 +105,7 @@ class Endpoint
     entitify_path_parts!
     parameterized_path_parts = [API_PREFIX]
     next_param_index = 0
+    interpolated_param_count = 0
 
     path_parts.each do |path_part|
       if path_part.entity?
@@ -104,13 +113,19 @@ class Endpoint
       else
         param_singular_camel_name = @params[next_param_index].singular_camel_name
         next_param_index += 1
-        parameterized_path_parts << "${#{param_singular_camel_name}}"
+
+        if read?
+          parameterized_path_parts << "${#{param_singular_camel_name}}"
+          interpolated_param_count += 1
+        else
+          parameterized_path_parts << ":#{param_singular_camel_name}"
+        end
       end
     end
 
     parameterized_path_str = parameterized_path_parts.join('/').gsub('//', '/')
 
-    if next_param_index.zero?
+    if interpolated_param_count.zero?
       "'#{parameterized_path_str}'"
     else
       "`#{parameterized_path_str}`"

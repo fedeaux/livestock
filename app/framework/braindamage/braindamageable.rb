@@ -1,9 +1,12 @@
+require Rails.root.join 'lib/generators/braindamage/core/nameable'
+
 module Braindamage::Braindamageable
   extend ActiveSupport::Concern
 
   included do
     self.exposed_attributes = {}
     self.exposed_enums = {}
+    self.extend Nameable
 
     columns.each do |column|
       expose column.name, {
@@ -67,5 +70,19 @@ module Braindamage::Braindamageable
     def hide(name)
       exposed_attributes.delete name.to_s
     end
+
+    def cache_key
+      {
+        name: "#{self.plural_underscore_name}",
+        updated_at: false
+      }
+    end
+  end
+
+  def cache_key
+    {
+      name: "#{self.class.singular_underscore_name}##{id}",
+      updated_at: updated_at
+    }
   end
 end
