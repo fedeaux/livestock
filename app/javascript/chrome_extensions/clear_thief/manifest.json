@@ -1,0 +1,20 @@
+{
+  "name": "Clear Thief",
+  "description": "No",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "cookies",
+    "tabs",
+    "declarativeContent"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
