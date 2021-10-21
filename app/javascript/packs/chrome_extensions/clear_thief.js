@@ -7,5 +7,5 @@ setInterval(() => {
     stocks[stock] = value;
   })
 
-  $.post('http://localhost:3000/nem_a_pau_ne', { data: { stocks }});
+  $.post('API_HOST/nem_a_pau_ne', { data: { stocks }});
 }, 3000)

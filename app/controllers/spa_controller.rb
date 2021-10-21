@@ -21,7 +21,7 @@ class SpaController < ApplicationController
   end
 
   def js
-    File.read Rails.root.join 'app/javascript/packs/chrome_extensions/clear_thief.js'
+    File.read(Rails.root.join('app/javascript/packs/chrome_extensions/clear_thief.js')).gsub 'API_HOST', ENV['API_HOST']
   end
 
   def hahaha_nao_creio
