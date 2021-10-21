@@ -20,9 +20,9 @@ function Menu() {
     <View style={tw("sticky px-12 flex flex-row")}>
       <MenuItem to="/"> Dashboard </MenuItem>
       <MenuItem to="/movements"> Movements </MenuItem>
-      <MenuItem to="/watching"> Watching </MenuItem>
       <MenuItem to="/analytics"> Analytics </MenuItem>
       <MenuItem to="/stocks"> Stocks </MenuItem>
+      <MenuItem to="/watching"> Watching </MenuItem>
     </View>
   );
 }

@@ -8,8 +8,12 @@ Rails.application.routes.draw do
     resources :user_stock_earnings, except: %i[new edit]
   end
 
-  get :clear_thief_chrome_extension, to: "spa#clear_thief_chrome_extension"
-  post :nem_a_pau_ne, to: "spa#hahaha_nao_creio"
+  namespace :integrations do
+    namespace :clear do
+      get :injector
+      post :prices
+    end
+  end
 
   root to: 'spa#index'
   get '*path', to: 'spa#index'
