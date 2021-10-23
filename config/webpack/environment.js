@@ -29,17 +29,21 @@ environment.resolve = {
 const providedModules = [
   ['react-native-web', 'View'],
   ['react-native-web', 'Text'],
+  ['react', 'createContext'],
   ['react', 'useCallback'],
+  ['react', 'useContext'],
   ['react', 'useEffect'],
-  ['react', 'useState'],
   ['react', 'useMemo'],
+  ['react', 'useState'],
 ];
 
 const provided = {
   React: 'react',
   axios: 'axios',
-  tw: [path.resolve('app/styles/tw'), 'tw'],
+  getColor: [path.resolve('app/javascript/styles/tw'), 'getColor'],
   noop: [path.resolve('app/javascript/util/noop'), 'noop'],
+  tw: [path.resolve('app/javascript/styles/tw'), 'tw'],
+  useBoolState: [path.resolve('app/javascript/util/useBoolState'), 'default'],
 };
 
 providedModules.forEach((providedModule) => {

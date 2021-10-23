@@ -1,6 +1,7 @@
 class StockPrice < ApplicationRecord
   include Braindamage::Braindamageable
   belongs_to :stock
+  expose_associations
 end
 
 # == Schema Information

@@ -2,6 +2,7 @@ class StockKpi < ApplicationRecord
   include Braindamage::Braindamageable
   include Stockable
   belongs_to :stock
+  expose_associations
 
   before_save :ensure_math
   delegate :code, to: :stock

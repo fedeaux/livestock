@@ -3,6 +3,8 @@ class Wallet < ApplicationRecord
 
   belongs_to :user
   has_many :user_stocks
+  expose_associations
+
   before_save :ensure_math
 
   def reset

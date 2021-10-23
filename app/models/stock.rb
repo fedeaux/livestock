@@ -4,6 +4,8 @@ class Stock < ApplicationRecord
   has_many :stock_earnings, dependent: :destroy
   has_many :stock_prices, dependent: :destroy
   has_many :stock_kpis, dependent: :destroy
+  expose_associations
+
   before_save :sanitize_code
 
   exposed_enum category: {

@@ -1,64 +1,93 @@
 export default {
+  modelName: 'Stock',
   attributes: {
-    id: {
-      name: "id",
-      type: "integer",
-      writeable: false,
-      default: null,
-    },
-    name: {
-      name: "name",
+      category: {
+      name: "category",
       type: "string",
       writeable: true,
-      default: null,
+      default: "market",
     },
-    code: {
+      code: {
       name: "code",
       type: "string",
       writeable: true,
       default: null,
     },
-    updatedAt: {
-      name: "updatedAt",
-      type: "datetime",
-      writeable: true,
-      default: null,
-    },
-    category: {
-      name: "category",
-      type: "string",
-      writeable: true,
-      default: "0",
-    },
-    currency: {
+      currency: {
       name: "currency",
       type: "string",
       writeable: true,
-      default: "0",
+      default: "brl",
     },
-    sector: {
+      id: {
+      name: "id",
+      type: "integer",
+      writeable: false,
+      default: null,
+    },
+      link: {
+      name: "link",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
+      name: {
+      name: "name",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
+      sector: {
       name: "sector",
       type: "string",
       writeable: true,
       default: null,
     },
-    subsector: {
-      name: "subsector",
-      type: "string",
-      writeable: true,
-      default: null,
-    },
-    segment: {
+      segment: {
       name: "segment",
       type: "string",
       writeable: true,
       default: null,
     },
-    link: {
-      name: "link",
+      stockEarnings: {
+      name: "stockEarnings",
+      type: "has_many",
+      writeable: true,
+      default: null,
+      model: "StockEarning",
+    },
+      stockKpis: {
+      name: "stockKpis",
+      type: "has_many",
+      writeable: true,
+      default: null,
+      model: "StockKpi",
+    },
+      stockPrices: {
+      name: "stockPrices",
+      type: "has_many",
+      writeable: true,
+      default: null,
+      model: "StockPrice",
+    },
+      subsector: {
+      name: "subsector",
       type: "string",
       writeable: true,
       default: null,
+    },
+      updatedAt: {
+      name: "updatedAt",
+      type: "datetime",
+      writeable: true,
+      default: null,
+    },
+      userStocks: {
+      name: "userStocks",
+      type: "has_many",
+      writeable: true,
+      default: null,
+      model: "UserStock",
     },
   },
   names: {

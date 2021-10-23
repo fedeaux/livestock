@@ -1,6 +1,8 @@
 class StockEarning < ApplicationRecord
   include Braindamage::Braindamageable
   belongs_to :stock
+  expose_associations
+
   validates :per_stock, :category, :received_at, presence: true
 
   exposed_enum category: {

@@ -1,56 +1,64 @@
 export default {
+  modelName: 'UserStockOperation',
   attributes: {
-    id: {
-      name: "id",
-      type: "integer",
-      writeable: false,
-      default: null,
-    },
-    nature: {
-      name: "nature",
-      type: "string",
-      writeable: true,
-      default: null,
-    },
-    userStockId: {
-      name: "userStockId",
-      type: "integer",
-      writeable: true,
-      default: null,
-    },
-    stockCount: {
-      name: "stockCount",
-      type: "integer",
-      writeable: true,
-      default: null,
-    },
-    stockPrice: {
-      name: "stockPrice",
-      type: "decimal",
-      writeable: true,
-      default: null,
-    },
-    total: {
-      name: "total",
-      type: "decimal",
-      writeable: true,
-      default: null,
-    },
-    executedAt: {
-      name: "executedAt",
-      type: "date",
-      writeable: true,
-      default: null,
-    },
-    createdAt: {
+      createdAt: {
       name: "createdAt",
       type: "datetime",
       writeable: true,
       default: null,
     },
-    updatedAt: {
+      executedAt: {
+      name: "executedAt",
+      type: "date",
+      writeable: true,
+      default: null,
+    },
+      id: {
+      name: "id",
+      type: "integer",
+      writeable: false,
+      default: null,
+    },
+      nature: {
+      name: "nature",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
+      stockCount: {
+      name: "stockCount",
+      type: "integer",
+      writeable: true,
+      default: null,
+    },
+      stockPrice: {
+      name: "stockPrice",
+      type: "decimal",
+      writeable: true,
+      default: null,
+    },
+      total: {
+      name: "total",
+      type: "decimal",
+      writeable: true,
+      default: null,
+    },
+      updatedAt: {
       name: "updatedAt",
       type: "datetime",
+      writeable: true,
+      default: null,
+    },
+      userStock: {
+      name: "userStock",
+      type: "belongs_to",
+      writeable: true,
+      default: null,
+      model: "UserStock",
+    },
+      userStockId: {
+      name: "userStockId",
+      type: "integer",
       writeable: true,
       default: null,
     },

@@ -2,6 +2,7 @@ class UserStockOperation < ApplicationRecord
   include Braindamage::Braindamageable
 
   belongs_to :user_stock
+  expose_associations
 
   exposed_enum nature: {
     buy: 0,

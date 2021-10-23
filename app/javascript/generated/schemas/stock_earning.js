@@ -1,48 +1,56 @@
 export default {
+  modelName: 'StockEarning',
   attributes: {
-    id: {
-      name: "id",
-      type: "integer",
-      writeable: false,
-      default: null,
-    },
-    perStock: {
-      name: "perStock",
-      type: "decimal",
-      writeable: true,
-      default: null,
-    },
-    dy: {
-      name: "dy",
-      type: "decimal",
-      writeable: true,
-      default: null,
-    },
-    receivedAt: {
-      name: "receivedAt",
-      type: "date",
-      writeable: true,
-      default: null,
-    },
-    category: {
+      category: {
       name: "category",
       type: "string",
       writeable: true,
-      default: "0",
+      default: "dividends",
     },
-    stockId: {
-      name: "stockId",
-      type: "integer",
-      writeable: true,
-      default: null,
-    },
-    createdAt: {
+      createdAt: {
       name: "createdAt",
       type: "datetime",
       writeable: true,
       default: null,
     },
-    updatedAt: {
+      dy: {
+      name: "dy",
+      type: "decimal",
+      writeable: true,
+      default: null,
+    },
+      id: {
+      name: "id",
+      type: "integer",
+      writeable: false,
+      default: null,
+    },
+      perStock: {
+      name: "perStock",
+      type: "decimal",
+      writeable: true,
+      default: null,
+    },
+      receivedAt: {
+      name: "receivedAt",
+      type: "date",
+      writeable: true,
+      default: null,
+    },
+      stock: {
+      name: "stock",
+      type: "belongs_to",
+      writeable: true,
+      default: null,
+      model: "Stock",
+    },
+      stockId: {
+      name: "stockId",
+      type: "integer",
+      writeable: true,
+      default: null,
+    },
+      updatedAt: {
       name: "updatedAt",
       type: "datetime",
       writeable: true,

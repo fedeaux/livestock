@@ -1,56 +1,64 @@
 export default {
+  modelName: 'UserStockEarning',
   attributes: {
-    id: {
-      name: "id",
-      type: "integer",
-      writeable: false,
-      default: null,
-    },
-    userStockId: {
-      name: "userStockId",
-      type: "integer",
+      code: {
+      name: "code",
+      type: "string",
       writeable: true,
       default: null,
     },
-    total: {
-      name: "total",
-      type: "decimal",
-      writeable: true,
-      default: null,
-    },
-    perStock: {
-      name: "perStock",
-      type: "decimal",
-      writeable: true,
-      default: null,
-    },
-    stockCount: {
-      name: "stockCount",
-      type: "integer",
-      writeable: true,
-      default: null,
-    },
-    receivedAt: {
-      name: "receivedAt",
-      type: "date",
-      writeable: true,
-      default: null,
-    },
-    createdAt: {
+      createdAt: {
       name: "createdAt",
       type: "datetime",
       writeable: true,
       default: null,
     },
-    updatedAt: {
+      id: {
+      name: "id",
+      type: "integer",
+      writeable: false,
+      default: null,
+    },
+      perStock: {
+      name: "perStock",
+      type: "decimal",
+      writeable: true,
+      default: null,
+    },
+      receivedAt: {
+      name: "receivedAt",
+      type: "date",
+      writeable: true,
+      default: null,
+    },
+      stockCount: {
+      name: "stockCount",
+      type: "integer",
+      writeable: true,
+      default: null,
+    },
+      total: {
+      name: "total",
+      type: "decimal",
+      writeable: true,
+      default: null,
+    },
+      updatedAt: {
       name: "updatedAt",
       type: "datetime",
       writeable: true,
       default: null,
     },
-    code: {
-      name: "code",
-      type: "string",
+      userStock: {
+      name: "userStock",
+      type: "belongs_to",
+      writeable: true,
+      default: null,
+      model: "UserStock",
+    },
+      userStockId: {
+      name: "userStockId",
+      type: "integer",
       writeable: true,
       default: null,
     },

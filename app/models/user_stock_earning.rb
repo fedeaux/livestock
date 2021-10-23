@@ -2,6 +2,8 @@ class UserStockEarning < ApplicationRecord
   include Braindamage::Braindamageable
 
   belongs_to :user_stock
+  expose_associations
+
   before_save :ensure_per_stock
   exposed_delegate :code, to: :user_stock
 

@@ -1,8 +1,9 @@
 import Model from "braindamage/model";
-import UserStockOperationSchema from "generated/schemas/user_stock_operation";
+import UserStockOperationSchema from 'generated/schemas/user_stock_operation';
 
 class UserStockOperation extends Model {
   static schema = UserStockOperationSchema;
+  static modelName = 'UserStockOperation';
 
   // Fill-in your attribute overrides
   static attributesDefinitions() {

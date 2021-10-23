@@ -5,9 +5,9 @@ class UserStock < ApplicationRecord
   belongs_to :user
   belongs_to :stock
   belongs_to :wallet
-
   has_many :user_stock_earnings, dependent: :destroy
   has_many :user_stock_operations, dependent: :destroy
+  expose_associations
 
   exposed_delegate :code, to: :stock
   exposed_delegate :category, to: :stock
