@@ -1,19 +1,9 @@
-class Braindamage::Attribute
-  def initialize(options)
-    @options = options
-  end
-
-  def self.option(name, default)
-    define_method(name) {
-      return @options[name] if @options.key?(name)
-
-      default
-    }
-
-    define_method("#{name}=") { |value|
-      @options[name] = value
-    }
-  end
+class Braindamage::Attribute < Braindamage::Struct
+  property :name, nil
+  property :type, "string"
+  property :model, "string"
+  property :writeable, true
+  property :default, nil
 
   def fe_name
     unless @fe_name
@@ -29,8 +19,22 @@ class Braindamage::Attribute
     @fe_name
   end
 
-  option :name, nil
-  option :type, "string"
-  option :writeable, true
-  option :default, nil
+  def pretty_printable
+    base = {
+      name: fe_name,
+      type: type,
+      writeable: writeable,
+      default: default
+    }
+
+    if association?
+      base[:model] = model
+    end
+
+    base
+  end
+
+  def association?
+    [:belongs_to, :has_many, :has_one].include? type
+  end
 end

@@ -9,27 +9,24 @@ module Braindamage::Braindamageable
     self.extend Nameable
 
     columns.each do |column|
+      default = column.default
+
+      if column.type == :integer and column.default.is_a? String
+        default = default.to_i
+      end
+
       expose column.name, {
-        name: column.name,
-        type: column.type,
-        default: column.default
-      }
+               name: column.name,
+               type: column.type,
+               default: default
+             }
+
     end
+
 
     if self.exposed_attributes["id"]
       self.exposed_attributes["id"].writeable = false
     end
-
-    # Other duct tape (Declare belongs_to fields)
-    # reflections.values.select do |reflection|
-    #   reflection.macro == :belongs_to
-    # end.each do |belongs_to_reflection|
-    #   return unless attribute = exposed_attributes[belongs_to_reflection.name.to_s]
-
-    #   if
-    #     puts
-    #   end
-    # end
   end
 
   module ClassMethods
@@ -40,18 +37,25 @@ module Braindamage::Braindamageable
       name = definitions.keys.first
       value_map = definitions.values.first
       options = definitions.except(name)
+      inverted_value_map = value_map.invert
 
-      self.exposed_enums[name] = {
+      self.exposed_enums[name] = Braindamage::Enum.new({
         name: name,
         value_map: value_map,
         options: options
-      }
+      })
 
       enum definitions
 
-      # DUCT TAPE!! Take away from here
+      # Look for raw exposed attribute
       if self.exposed_attributes[name.to_s]
+        default_value = self.exposed_attributes[name.to_s].default
+
         self.exposed_attributes[name.to_s].type = "string"
+
+        if inverted_value_map[default_value]
+          self.exposed_attributes[name.to_s].default = inverted_value_map[default_value]
+        end
       end
     end
 
@@ -67,14 +71,26 @@ module Braindamage::Braindamageable
       exposed_attributes[name.to_s] = Braindamage::Attribute.new(properties.merge(name: name))
     end
 
+    def expose_associations
+      # relationships
+      reflections.values.select do |reflection|
+        [:belongs_to, :has_many, :has_one].include? reflection.macro
+      end.each do |reflection|
+        expose reflection.name,
+               type: reflection.macro,
+               model: reflection.class_name
+      end
+    end
+
     def hide(name)
       exposed_attributes.delete name.to_s
     end
 
-    def cache_key
+    def cache_key(query = {})
       {
-        name: "#{self.plural_underscore_name}",
-        updated_at: false
+        # TODO: Review collection cache keys
+        name: "#{self.plural_underscore_name}/#{query.to_json}",
+        updated_at: false,
       }
     end
   end

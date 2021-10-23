@@ -3,6 +3,11 @@ require_relative './pathable'
 class BaseGenerator
   include Pathable
   attr_reader :braindamage_generator
+  delegate :inject_into_file, to: :braindamage_generator
+
+  def self.order
+    999
+  end
 
   def initialize(braindamage_generator)
     @braindamage_generator = braindamage_generator
@@ -13,7 +18,9 @@ class BaseGenerator
 
     lines = []
 
-    if thing.is_a? Hash
+    if thing.respond_to? :pretty_printable
+      return pretty_print_thing thing.pretty_printable, indent
+    elsif thing.is_a? Hash
       lines.push "{"
       # key_value_lines = []
       thing.each do |key, value|
@@ -37,6 +44,8 @@ class BaseGenerator
       lines = [thing]
     elsif thing.is_a?(String) || thing.is_a?(Symbol)
       lines = ["\"#{thing}\""]
+    elsif thing.nil?
+      lines = ['null']
     end
 
     lines.join "\n#{indentation}"
@@ -59,10 +68,10 @@ class BaseGenerator
   def template(source, *args)
     config = args.last.is_a?(Hash) ? args.pop : {}
     target = args.first
-    target_dir = target.to_s.split('/').last(2).first
+    generated = target.to_s.include? 'generated'
 
-    if braindamage_generator.options[:smart]
-      if target_dir == 'generated'
+    unless braindamage_generator.options[:dumb]
+      if generated
         config[:force] = true
       else
         config[:skip] = true

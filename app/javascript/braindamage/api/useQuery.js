@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { BraindamageApiContext } from "braindamage/api/provider";
 
 export default function useQuery(cacheKey, queryFunc, queryParams) {

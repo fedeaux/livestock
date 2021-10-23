@@ -9,7 +9,6 @@ export default {
 
       Object.entries(this.schema.attributes).forEach(([name, properties]) => {
         const attributeDefinition = attributesDefinitions[name] || {};
-
         this.attributesCache[name] = { ...properties, ...attributeDefinition };
         delete attributesDefinitions[name];
       })
@@ -40,6 +39,14 @@ export default {
         return this["@" + attribute.name];
       },
       set: function(value) {
+        // debug helper
+        // if(attribute.name == "") {
+        //   console.log("attribute", attribute, attribute.model, this.constructor.models);
+        // }
+
+        if(attribute.model) {
+          attribute['class'] = this.constructor.models[attribute.model]
+        }
         return setAttributeValue(this, attribute, value);
       }
     }
@@ -80,15 +87,17 @@ function getAttributeParser(attribute) {
     }
   }
 
-  if(attribute.type === "belongs_to") {
+  if(attribute.type === "belongs_to" || attribute.type === "has_one" || attribute.type === "has_many") {
     return (value) => {
+      if(!value) return attribute.default || null;
+
       try {
         if (Array.isArray(value)) {
           return value.map((v) => new attribute.class(v));
         }
+
         return new attribute.class(value);
       } catch(e) {
-        console.log(e);
         return attribute.default || null;
       }
     }

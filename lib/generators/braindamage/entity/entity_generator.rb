@@ -4,7 +4,7 @@ require_relative "./lib/fe_generator"
 class Braindamage::EntityGenerator < Rails::Generators::NamedBase
   BASE_PATH = "/lib/generators/braindamage/entity/".freeze # ugly!
   source_root File.expand_path("generators/", __dir__)
-  class_option :smart, type: :boolean, default: true
+  class_option :dumb, type: :boolean, default: false
 
   def all
     active_generators.each do |generator|
@@ -28,7 +28,7 @@ class Braindamage::EntityGenerator < Rails::Generators::NamedBase
 
     active_generators_paths.map do |generator_path|
       path_2_generator generator_path.split(".")[0..-2].join "."
-    end
+    end.sort_by(&:order)
   end
 
   def path_2_generator(path)

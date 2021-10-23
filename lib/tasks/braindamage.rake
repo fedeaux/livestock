@@ -5,7 +5,7 @@ namespace :braindamage do
   task regenerate: :environment do
     Dir.glob("#{Rails.root.join('app/javascript/generated/schemas/').to_s}*.js").each do |schema_path|
       singular_underscore_name = schema_path.split('/').last.split('.')[0..-2].join('.')
-      cmd = "rails g braindamage:entity #{singular_underscore_name} --smart false"
+      cmd = "rails g braindamage:entity #{singular_underscore_name} --dumb"
       puts cmd
       # puts `#{cmd}`
     end

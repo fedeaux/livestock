@@ -15,35 +15,63 @@ class Endpoint
     @full_path ||= route.path.spec.to_s
   end
 
+  def member?
+    path_parts.last.param? || post?
+  end
+
+  def collection?
+    !member?
+  end
+
   def hook_signature
-    entities_signature = if path_parts.last.param?
+    member_endpoint =
+
+    entities_signature = if member?
                            entities.map(&:singular_class_name).join
                          else
                            (entities[0..-2].map(&:singular_class_name) + [entities.last.plural_class_name]).join
                          end
 
-    params_signature = if read?
-                         params.map(&:singular_camel_name).join(', ')
-                       else
-                         ''
-                       end
-
     if read?
       "useApi#{entities_signature}(#{params_signature})"
     elsif put?
       "useApiUpdate#{entities_signature}(#{params_signature})"
+    elsif post?
+      "useApiCreate#{entities_signature}(#{params_signature})"
+    elsif delete?
+      "useApiDestroy#{entities_signature}(#{params_signature})"
     end
+  end
+
+  def params_signature
+    params_names.join(', ')
+  end
+
+  def params_names
+    return [] unless read?
+
+    route_params = params.map(&:singular_camel_name)
+
+    unless member?
+      route_params.push(:query)
+    end
+
+    route_params
   end
 
   def abstract_api_function
     if read?
-      if path_parts.last.param?
+      if member?
         'getModelMember'
       else
         'getModelCollection'
       end
     elsif put?
       'updateModelMember'
+    elsif post?
+      'createModelMember'
+    elsif delete?
+      'destroyModelMember'
     end
   end
 
@@ -169,50 +197,12 @@ class Endpoint
   def put?
     verb == "PUT"
   end
+
+  def post?
+    verb == "POST"
+  end
+
+  def delete?
+    verb == "DELETE"
+  end
 end
-
-# def api_signature
-#   entities_signature
-# end
-
-# def hook_signature
-#   return read_hook_signature if read?
-
-#   write_hook_signature
-# end
-
-# def hook_params
-#   params.map(&:singular_camel_name)
-# end
-
-
-# def hook_params
-#   ["Component", params.map(&:singular_camel_name), "params = {}", "options = {}"]
-#     .flatten.join ", "
-# end
-
-# def hook_filename
-#   (entities[0..-2].map(&:singular_dash_name) + [entities.last.plural_dash_name]).join("-") + ".js"
-# end
-
-# def read_hook_signature
-#   entities_signature = if path_parts.last.param?
-#                          member_entities_signature
-#                        else
-#                          collection_entities_signature
-#                        end
-
-#   "with#{entities_signature}(#{hook_params})"
-# end
-
-# def write_hook_signature
-#   hook_verb_signature = if verb == "POST"
-#                           "Create"
-#                         elsif verb == "DELETE"
-#                           "Destroy"
-#                         else
-#                           "Update"
-#                         end
-
-#   "with#{hook_verb_signature}#{member_entities_signature}(#{hook_params})"
-# end

@@ -3,6 +3,7 @@ import Model from "<%= fe_framework_path %>model";
 
 class <%= singular_class_name %> extends Model {
   static schema = <%= singular_class_name %>Schema;
+  static modelName = '<%= singular_class_name %>';
 
   // Fill-in your attribute overrides
   static attributesDefinitions() {
