@@ -1,8 +1,11 @@
 class StockEarning < ApplicationRecord
   include Braindamage::Braindamageable
+  include Stockable
+
   belongs_to :stock
   expose_associations
 
+  exposed_delegate :code, to: :stock
   validates :per_stock, :category, :received_at, presence: true
 
   exposed_enum category: {
@@ -26,6 +29,7 @@ end
 #  category    :integer          default("dividends")
 #  dy          :decimal(15, 2)
 #  per_stock   :decimal(15, 10)
+#  provided_at :date
 #  received_at :date
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

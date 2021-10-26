@@ -1,11 +1,11 @@
 export default {
-  modelName: 'StockEarning',
+  modelName: 'StockPrice',
   attributes: {
-      category: {
-      name: "category",
-      type: "string",
+      close: {
+      name: "close",
+      type: "decimal",
       writeable: true,
-      default: "dividends",
+      default: null,
     },
       code: {
       name: "code",
@@ -19,8 +19,14 @@ export default {
       writeable: true,
       default: null,
     },
-      dy: {
-      name: "dy",
+      day: {
+      name: "day",
+      type: "date",
+      writeable: true,
+      default: null,
+    },
+      high: {
+      name: "high",
       type: "decimal",
       writeable: true,
       default: null,
@@ -31,21 +37,15 @@ export default {
       writeable: false,
       default: null,
     },
-      perStock: {
-      name: "perStock",
+      low: {
+      name: "low",
       type: "decimal",
       writeable: true,
       default: null,
     },
-      providedAt: {
-      name: "providedAt",
-      type: "date",
-      writeable: true,
-      default: null,
-    },
-      receivedAt: {
-      name: "receivedAt",
-      type: "date",
+      open: {
+      name: "open",
+      type: "decimal",
       writeable: true,
       default: null,
     },
@@ -68,16 +68,22 @@ export default {
       writeable: true,
       default: null,
     },
+      volume: {
+      name: "volume",
+      type: "integer",
+      writeable: true,
+      default: 0,
+    },
   },
   names: {
-    singularUnderscore: "stock_earning",
-    pluralUnderscore: "stock_earnings",
-    singularDash: "stock-earning",
-    pluralDash: "stock-earnings",
-    singularCamel: "stockEarning",
-    pluralCamel: "stockEarnings",
-    singularClass: "StockEarning",
-    pluralClass: "StockEarnings",
+    singularUnderscore: "stock_price",
+    pluralUnderscore: "stock_prices",
+    singularDash: "stock-price",
+    pluralDash: "stock-prices",
+    singularCamel: "stockPrice",
+    pluralCamel: "stockPrices",
+    singularClass: "StockPrice",
+    pluralClass: "StockPrices",
   },
   validators: [
     {
@@ -89,29 +95,7 @@ export default {
         "stock",
       ],
     },
-    {
-      className: "ActiveRecord::Validations::PresenceValidator",
-      options: {
-      },
-      attributes: [
-        "per_stock",
-        "category",
-        "received_at",
-      ],
-    },
   ],
   enums: {
-    category: {
-      name: "category",
-      valueMap: {
-        dividends: 0,
-        interestOnEquity: 1,
-        amortization: 2,
-        taxedIncome: 3,
-        earning: 4,
-      },
-      options: {
-      },
-    },
   },
 }

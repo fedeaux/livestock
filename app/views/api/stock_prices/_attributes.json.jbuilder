@@ -1,0 +1,12 @@
+json.extract! stock_price,
+              :id,
+              :open,
+              :high,
+              :low,
+              :close,
+              :volume,
+              :day,
+              :stock_id,
+              :created_at,
+              :updated_at,
+              :code

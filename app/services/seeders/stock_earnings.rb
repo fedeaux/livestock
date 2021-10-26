@@ -1,9 +1,9 @@
 class Seeders::StockEarnings < Seeders::BaseSeeder
   def seed
     @month = "2021-08"
-    # seed_brl_market_stock_earnings
-    seed_brl_market_stock_sector_subsector_and_segment
-    seed_brl_real_estate_stock_segment
+    seed_brl_market_stock_earnings
+    # seed_brl_market_stock_sector_subsector_and_segment
+    # seed_brl_real_estate_stock_segment
   end
 
   def seed_brl_market_stock_earnings
@@ -13,8 +13,9 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
 
     failures = []
 
-    stocks = codes.map do |code|
-      stock = Stock.ensure code
+    codes.map do |code|
+      stock = Stock.ensure code, category: :market, currency: :brl
+      ap code
 
       stock_earning_data(stock).each do |stock_earning_attributes|
         stock_earning = stock.stock_earnings.where(stock_earning_attributes).first_or_initialize
@@ -28,11 +29,6 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
     end
 
     ap failures
-
-    stocks.each do |stock|
-      puts stock.status_invest_url
-      puts "http://localhost:3000/stocks/#{stock.code}"
-    end
   end
 
   def seed_brl_market_stock_sector_subsector_and_segment
@@ -137,6 +133,7 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
       {
         category: category,
         per_stock: attributes['per_stock'],
+        provided_at: parse_dmy_string(attributes['provided_at']),
         received_at: parse_dmy_string(attributes['received_at'])
       }
     end
@@ -152,7 +149,8 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
 
       earning_entries.push({
                              category: tds[0].text,
-                             received_at: tds[1].text,
+                             provided_at: tds[1].text,
+                             received_at: tds[2].text,
                              per_stock: tds[3].text.gsub(",", ".").to_f,
                            })
     end
@@ -160,10 +158,18 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
 
   def browser
     unless @browser
+      options = Selenium::WebDriver::Chrome::Options.new
+
       Capybara.register_driver :selenium do |app|
-        Capybara::Selenium::Driver.new(app, browser: :chrome)
+        options.add_argument('--headless')
+        # options.add_argument('--disable-gpu')
+        # options.add_argument('--window-size=1280,800')
+
+        Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
       end
+
       Capybara.javascript_driver = :chrome
+
       Capybara.configure do |config|
         config.default_max_wait_time = 10 # seconds
         config.default_driver = :selenium
