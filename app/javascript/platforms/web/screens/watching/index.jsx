@@ -3,15 +3,52 @@ import ReactApexChart from "react-apexcharts";
 import { useApiStock } from "generated/api";
 import { getTime } from "date-fns";
 
-class ApexChart extends React.Component {
+function round(n) {
+  return Math.round((n + Number.EPSILON) * 100) / 100;
+}
+
+class StockChart extends React.Component {
   constructor(props) {
     super(props);
+
+    const a = 0.006492282633448045;
+    const b = -115.86498334703106;
+    const cost = 0.4;
+
+    const trendPoints = props.stock.stockPrices.map((stockPrice) => {
+      const x = getTime(stockPrice.day) / (1000 * 60 * 60 * 24);
+      const y = x * a + b;
+
+      return {
+        x: stockPrice.day,
+        y: round(y),
+      };
+    });
+
+    const resistencePoints = trendPoints.map((point) => {
+      return {
+        x: point.x,
+        y: round(point.y + cost),
+      };
+    });
+
+    const supportPoints = trendPoints.map((point) => {
+      return {
+        x: point.x,
+        y: round(point.y - cost),
+      };
+    });
 
     this.state = {
       series: [
         {
-          type: "candlestick",
+          type: "line",
+          name: "trend",
+          data: trendPoints,
+        },
+        {
           name: "prices",
+          type: "candlestick",
           data: props.stock.stockPrices.map((stockPrice) => {
             return {
               x: stockPrice.day,
@@ -24,37 +61,21 @@ class ApexChart extends React.Component {
             };
           }),
         },
-        {
-          type: "line",
-          name: "trend",
-          data: props.stock.stockPrices.map((stockPrice) => {
-            const y =
-              (getTime(stockPrice.day) - 1621825200000) /
-                (100000 * 60 * 60 * 24) +
-              6;
-
-            return {
-              x: stockPrice.day,
-              y: Math.round((y + Number.EPSILON) * 100) / 100,
-            };
-          }),
-        },
       ],
       options: {
         chart: {
           height: 350,
+          type: "line",
         },
         title: {
           text: "CandleStick Chart",
           align: "left",
         },
+        stroke: {
+          width: [1, 1],
+        },
         xaxis: {
           type: "datetime",
-        },
-        yaxis: {
-          tooltip: {
-            enabled: true,
-          },
         },
       },
     };
@@ -64,11 +85,7 @@ class ApexChart extends React.Component {
     return (
       <div id="chart">
         <h1>{this.props.stock.code}</h1>
-        <ReactApexChart
-          options={this.state.options}
-          series={this.state.series}
-          height={350}
-        />
+        <ReactApexChart {...this.state} height={350} />
       </div>
     );
   }
@@ -77,11 +94,9 @@ class ApexChart extends React.Component {
 export default function WatchingIndex() {
   const { stock, isLoading } = useApiStock(29);
 
-  if (isLoading) return null;
-
   return (
     <View>
-      <ApexChart stock={stock} />
+      {!isLoading && <StockChart isLoading={isLoading} stock={stock} />}
     </View>
   );
 }

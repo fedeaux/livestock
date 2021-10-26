@@ -31,6 +31,7 @@ gem 'slim'
 gem 'table_print', '~> 1.5'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
+gem 'ruby_linear_regression'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

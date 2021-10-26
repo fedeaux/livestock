@@ -1,13 +1,12 @@
 class Seeders::StockEarnings < Seeders::BaseSeeder
   def seed
-    @month = "2021-08"
     seed_brl_market_stock_earnings
     # seed_brl_market_stock_sector_subsector_and_segment
     # seed_brl_real_estate_stock_segment
   end
 
   def seed_brl_market_stock_earnings
-    codes = File.read("app/services/seeders/data/status_invest/market/#{@month}.csv").split("\n")[1..-1].map do |line|
+    codes = File.read("app/services/seeders/data/status_invest/market/dividendables-10-2021.csv").split("\n")[1..-1].map do |line|
       line.split(";").first
     end
 
@@ -96,8 +95,12 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
         number_of_pages = browser.evaluate_script("$('.pagination:first a').length").to_i
         # ap "number_of_pages #{number_of_pages}"
         (number_of_pages - 2).times do
+          browser.execute_script("$('.popup-fixed').remove()")
           extract_earnings(Nokogiri::HTML(browser.html), earning_entries)
-          browser.find(".pagination.mb-0", match: :first).all("li a").last.click
+          browser.execute_script("$('.popup-fixed').remove()")
+          pagination_footer = browser.find(".pagination.mb-0", match: :first).all("li a").last
+          browser.execute_script("$('.popup-fixed').remove()")
+          pagination_footer.click
           sleep 1
         end
 
@@ -161,7 +164,7 @@ class Seeders::StockEarnings < Seeders::BaseSeeder
       options = Selenium::WebDriver::Chrome::Options.new
 
       Capybara.register_driver :selenium do |app|
-        options.add_argument('--headless')
+        # options.add_argument('--headless')
         # options.add_argument('--disable-gpu')
         # options.add_argument('--window-size=1280,800')
 
