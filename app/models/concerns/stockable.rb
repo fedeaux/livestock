@@ -6,6 +6,8 @@ module Stockable
       includes(:stock)
         .where('stocks.code IN (?)', Constants::IDIV.keys)
     }
+
+    exposed_delegate :code, to: :stock
   end
 
   class_methods do

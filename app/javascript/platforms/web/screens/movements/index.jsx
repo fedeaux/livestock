@@ -8,7 +8,10 @@ import formatMoney from "ui/formatters/money";
 import TableRow from "ui/Table/Row";
 import TableCell from "ui/Table/Cell";
 import TableHeader from "ui/Table/Header";
-import { useApiUserStockEarnings } from "generated/api";
+import {
+  useApiUserStockEarnings,
+  useApiUserStockOperations,
+} from "generated/api";
 import { Chart } from "react-charts";
 
 function evalUserStockEarningsByMonth(userStockEarnings) {
@@ -166,10 +169,50 @@ function EarningsIndex() {
   );
 }
 
+function OperationsIndex() {
+  // BD: Todo
+  const { userStockOperations, isLoading } = useApiUserStockOperations({
+    order: ["executedAt", "DESC"],
+  });
+
+  if (isLoading) return null;
+
+  return (
+    <View style={tw("p-4")}>
+      <MainTitle>Operations</MainTitle>
+      {userStockOperations.map((userStockOperation) => {
+        return (
+          <View
+            key={userStockOperation.id}
+            style={tw("px-4 py-2 flex flex-row border-b border-gray-200")}
+          >
+            <Text style={tw("text-gray-600 font-semibold mr-2")}>
+              {userStockOperation.code}
+            </Text>
+            <Text style={tw("text-gray-600 font-semibold mr-2")}>
+              {userStockOperation.nature}
+            </Text>
+            <Text style={tw("text-gray-600 font-semibold mr-2")}>
+              {userStockOperation.stockCount}
+            </Text>
+            <Text style={tw("text-gray-600 font-semibold mr-2")}>
+              {userStockOperation.stockPrice}
+            </Text>
+            <Text style={tw("text-gray-600 font-semibold mr-2")}>
+              {userStockOperation.total}
+            </Text>
+          </View>
+        );
+      })}
+    </View>
+  );
+}
+
 export default function MovementsIndex() {
   return (
     <View>
       <EarningsIndex />
+      <OperationsIndex />
     </View>
   );
 }

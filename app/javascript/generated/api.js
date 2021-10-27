@@ -15,6 +15,7 @@ import StockKpi from 'models/stock_kpi';
 import StockPrice from 'models/stock_price';
 import UserStock from 'models/user_stock';
 import UserStockEarning from 'models/user_stock_earning';
+import UserStockOperation from 'models/user_stock_operation';
 import Wallet from 'models/wallet';
 
 export function useApiStockEarnings(query) {
@@ -50,6 +51,13 @@ export function useApiUserStockEarnings(query) {
   const queryCacheKey = `${endpoint}/${JSON.stringify(query)}`;
 
   return useQuery(queryCacheKey, getModelCollection, [endpoint, UserStockEarning, query]);
+}
+
+export function useApiUserStockOperations(query) {
+  const endpoint = '/api/user_stock_operations';
+  const queryCacheKey = `${endpoint}/${JSON.stringify(query)}`;
+
+  return useQuery(queryCacheKey, getModelCollection, [endpoint, UserStockOperation, query]);
 }
 
 export function useApiUserStocks(query) {
@@ -101,6 +109,13 @@ export function useApiUserStockEarning(userStockEarningId) {
   return useQuery(queryCacheKey, getModelMember, [endpoint, UserStockEarning, userStockEarningId]);
 }
 
+export function useApiUserStockOperation(userStockOperationId) {
+  const endpoint = `/api/user_stock_operations/${userStockOperationId}`;
+  const queryCacheKey = endpoint;
+
+  return useQuery(queryCacheKey, getModelMember, [endpoint, UserStockOperation, userStockOperationId]);
+}
+
 export function useApiUserStock(userStockId) {
   const endpoint = `/api/user_stocks/${userStockId}`;
   const queryCacheKey = endpoint;
@@ -141,6 +156,12 @@ export function useApiUpdateStock() {
 
 export function useApiUpdateUserStockEarning() {
   const { write: update, ...rest } = useWrite(updateModelMember, ['/api/user_stock_earnings/:userStockEarningId', UserStockEarning]);
+
+  return { update, ...rest };
+}
+
+export function useApiUpdateUserStockOperation() {
+  const { write: update, ...rest } = useWrite(updateModelMember, ['/api/user_stock_operations/:userStockOperationId', UserStockOperation]);
 
   return { update, ...rest };
 }
@@ -187,6 +208,12 @@ export function useApiCreateUserStockEarning() {
   return { create, ...rest };
 }
 
+export function useApiCreateUserStockOperation() {
+  const { write: create, ...rest } = useWrite(createModelMember, ['/api/user_stock_operations', UserStockOperation]);
+
+  return { create, ...rest };
+}
+
 export function useApiCreateUserStock() {
   const { write: create, ...rest } = useWrite(createModelMember, ['/api/user_stocks', UserStock]);
 
@@ -225,6 +252,12 @@ export function useApiDestroyStock() {
 
 export function useApiDestroyUserStockEarning() {
   const { write: destroy, ...rest } = useWrite(destroyModelMember, ['/api/user_stock_earnings/:userStockEarningId', UserStockEarning]);
+
+  return { destroy, ...rest };
+}
+
+export function useApiDestroyUserStockOperation() {
+  const { write: destroy, ...rest } = useWrite(destroyModelMember, ['/api/user_stock_operations/:userStockOperationId', UserStockOperation]);
 
   return { destroy, ...rest };
 }

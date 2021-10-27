@@ -4,7 +4,7 @@ class UserStock < ApplicationRecord
 
   belongs_to :user
   belongs_to :stock
-  belongs_to :wallet
+  belongs_to :wallet, optional: true
   has_many :user_stock_earnings, dependent: :destroy
   has_many :user_stock_operations, dependent: :destroy
   expose_associations
@@ -67,7 +67,7 @@ end
 #  updated_at              :datetime         not null
 #  stock_id                :bigint           not null
 #  user_id                 :bigint           not null
-#  wallet_id               :bigint
+#  wallet_id               :integer
 #
 # Indexes
 #

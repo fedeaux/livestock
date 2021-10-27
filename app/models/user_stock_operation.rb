@@ -1,7 +1,9 @@
 class UserStockOperation < ApplicationRecord
   include Braindamage::Braindamageable
+  include Stockable
 
   belongs_to :user_stock
+  has_one :stock, through: :user_stock
   expose_associations
 
   exposed_enum nature: {

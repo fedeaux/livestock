@@ -2,7 +2,6 @@ class StockPrice < ApplicationRecord
   include Braindamage::Braindamageable
   include Stockable
 
-  exposed_delegate :code, to: :stock
   belongs_to :stock
   expose_associations
 end

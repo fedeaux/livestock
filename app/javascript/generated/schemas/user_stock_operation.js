@@ -1,6 +1,12 @@
 export default {
   modelName: 'UserStockOperation',
   attributes: {
+      code: {
+      name: "code",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
       createdAt: {
       name: "createdAt",
       type: "datetime",

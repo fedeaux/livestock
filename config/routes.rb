@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :stock_prices, except: %i[new edit]
     resources :stocks, except: %i[new edit]
     resources :user_stock_earnings, except: %i[new edit]
+    resources :user_stock_operations, except: %i[new edit]
     resources :user_stocks, except: %i[new edit]
     resources :wallets, except: %i[new edit]
   end
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
     namespace :clear do
       get :injector
       post :prices
+      post :operations
     end
   end
 

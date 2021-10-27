@@ -61,6 +61,16 @@ class StockChart extends React.Component {
             };
           }),
         },
+        {
+          type: "line",
+          name: "support",
+          data: supportPoints,
+        },
+        {
+          type: "line",
+          name: "resistence",
+          data: resistencePoints,
+        },
       ],
       options: {
         chart: {
@@ -73,6 +83,7 @@ class StockChart extends React.Component {
         },
         stroke: {
           width: [1, 1],
+          curve: "straight",
         },
         xaxis: {
           type: "datetime",

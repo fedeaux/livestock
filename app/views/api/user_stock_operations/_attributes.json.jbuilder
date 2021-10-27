@@ -7,4 +7,5 @@ json.extract! user_stock_operation,
               :total,
               :executed_at,
               :created_at,
-              :updated_at
+              :updated_at,
+              :code
