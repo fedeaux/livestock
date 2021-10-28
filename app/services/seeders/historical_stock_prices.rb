@@ -12,7 +12,8 @@ class Seeders::HistoricalStockPrices < Seeders::BaseSeeder
       stock_prices_attributes = stock_price_data(stock.international_code)
 
       stock_prices_attributes.each do |stock_price_attributes|
-        stock_price = stock.stock_prices.where(stock_price_attributes).first_or_initialize
+        stock_price = stock.stock_prices.where(day: stock_price_attributes[:day]).first_or_initialize
+        stock_price.assign_attributes(stock_price_attributes)
         stock_price.save
       end
     end
