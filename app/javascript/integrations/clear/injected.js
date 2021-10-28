@@ -14,7 +14,6 @@ class ClearIntegration {
   }
 
   addSyncOperationsButton() {
-    console.log("TO DENTRO");
     const button = $(`
       <div style="position: absolute; bottom: 10px; right: 10px; z-index: 1902834;">
         <button> Sync Operations </button>
@@ -50,6 +49,14 @@ class ClearIntegration {
     console.log("[LS] Starting pricesWatcher...");
     this.lastSeenPrices = {};
 
+    const tryToGetPrice = (selector, element) => {
+      const selected = $(selector, element);
+
+      if(selected[0]) {
+        return parseFloat(selected[0].textContent.replace(',', '.'));
+      }
+    }
+
     const pricesWatcherInterval = setInterval(() => {
       const priceUpdates = {};
 
@@ -57,18 +64,36 @@ class ClearIntegration {
         return clearInterval(pricesWatcherInterval);
       }
 
-      try {
-        this.iframeContents().find(".AssetList[style=\"display: block;\"] .AssetListItem").each((index, el) => {
-          let stockCode = $('input.stock_name.show', el)[0].value;
-          let currentPrice = parseFloat($('.cont_list_one .container .value.show', el)[0].textContent.replace(',', '.'));
+      $(".AssetList .AssetListItem .cont_list_one .container .value.show")
 
-          if(!this.lastSeenPrices[stockCode] || this.lastSeenPrices[stockCode].price != currentPrice) {
+      try {
+        this.iframeContents().find(".AssetList .AssetListItem").each((index, el) => {
+          try {
+            let stockCode = $('input.stock_name.show', el)[0].value;
+
+            if(stockCode.length < 1) return;
+
+            // let currentPrice = parseFloat($('.cont_list_one .container .value.show', el)[0].textContent.replace(',', '.'));
+            // let minPrice = parseFloat($('.cont_list_two .lowest-price', el)[0].textContent.replace(',', '.'));
+            // let maxPrice = parseFloat($('.cont_list_two .highest-price', el)[0].textContent.replace(',', '.'));
+
+            let currentPrice = tryToGetPrice('.cont_list_one .container .value.show', el);
+            let minPrice = tryToGetPrice('.cont_list_two .lowest-price', el);
+            let maxPrice = tryToGetPrice('.cont_list_two .highest-price', el);
+
+            // if(!this.lastSeenPrices[stockCode]) {
             let stockPriceUpdate = {
-              price: currentPrice,
-              lastPrice: this.lastSeenPrices[stockCode]?.price
+              currentPrice,
+              minPrice,
+              maxPrice
+              // lastPrice: this.lastSeenPrices[stockCode]?.price
             };
+
             priceUpdates[stockCode] = stockPriceUpdate;
-            this.lastSeenPrices[stockCode] = stockPriceUpdate;
+            // this.lastSeenPrices[stockCode] = stockPriceUpdate;
+            // }
+          } catch (e) {
+            console.log("[LS] Error in item:", e);
           }
         })
 

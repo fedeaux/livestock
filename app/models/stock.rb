@@ -33,7 +33,7 @@ class Stock < ApplicationRecord
     find_by_id_or_code(id_or_code)
   end
 
-  def self.ensure(code, attributes)
+  def self.ensure(code, attributes = {})
     stock = where(code: code.upcase).first_or_initialize
     stock.assign_attributes attributes
     stock.save

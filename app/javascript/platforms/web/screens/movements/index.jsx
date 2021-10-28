@@ -186,20 +186,23 @@ function OperationsIndex() {
             key={userStockOperation.id}
             style={tw("px-4 py-2 flex flex-row border-b border-gray-200")}
           >
-            <Text style={tw("text-gray-600 font-semibold mr-2")}>
-              {userStockOperation.code}
+            <Text style={tw("text-gray-600 mr-2 w-2/12")}>
+              {format(userStockOperation.executedAt, "dd/MM/yy")}
             </Text>
-            <Text style={tw("text-gray-600 font-semibold mr-2")}>
+            <Text style={tw("text-gray-600 mr-2 w-1/12")}>
               {userStockOperation.nature}
             </Text>
-            <Text style={tw("text-gray-600 font-semibold mr-2")}>
+            <Text style={tw("text-gray-600 mr-2 w-2/12")}>
               {userStockOperation.stockCount}
             </Text>
-            <Text style={tw("text-gray-600 font-semibold mr-2")}>
-              {userStockOperation.stockPrice}
+            <Text style={tw("text-gray-600 font-semibold mr-2 w-2/12")}>
+              {userStockOperation.code}
             </Text>
-            <Text style={tw("text-gray-600 font-semibold mr-2")}>
-              {userStockOperation.total}
+            <Text style={tw("text-gray-600 mr-2 w-2/12")}>
+              {formatMoney(userStockOperation.stockPrice)}
+            </Text>
+            <Text style={tw("text-gray-600 mr-2 w-3/12")}>
+              {formatMoney(userStockOperation.total)}
             </Text>
           </View>
         );
@@ -212,7 +215,9 @@ export default function MovementsIndex() {
   return (
     <View>
       <EarningsIndex />
-      <OperationsIndex />
+      <View style={tw("w-1/2")}>
+        <OperationsIndex />
+      </View>
     </View>
   );
 }

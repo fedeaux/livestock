@@ -13,7 +13,7 @@ class Integrations::ClearController < ApplicationController
     ActiveRecord::Base.logger = nil
 
     params[:operations].permit!.to_h.values.each do |operation_params|
-      stock = Stock.c(operation_params[:code])
+      stock = Stock.c(operation_params[:code].gsub(/F$/, ''))
 
       next unless stock
 
@@ -45,17 +45,29 @@ class Integrations::ClearController < ApplicationController
         parsed_count *= 1000
       end
 
-      user_stock.user_stock_operations.where(
+      stock_price = operation_params[:price].gsub('R$', '').gsub(',', '.').strip.to_f
+
+      user_stock_operation_attributes = {
         executed_at: date,
         nature: operation_params[:nature],
         stock_count: parsed_count,
-        stock_price: operation_params[:price].gsub('R$', '').gsub(',', '.').strip.to_f
+        stock_price: stock_price
+      }
+
+      user_stock.user_stock_operations.where(
+        user_stock_operation_attributes
       ).first_or_create
     end
   end
 
   def prices
-    ap params
+      ActionCable.server.broadcast "Notifications",
+                                   {
+                                     type: 'ClearIntegration#prices',
+                                     data: params.permit![:priceUpdates].to_h
+                                   }
+
+    ap params.permit![:priceUpdates].to_json
     # TODO: Cable update
 
     head :ok
