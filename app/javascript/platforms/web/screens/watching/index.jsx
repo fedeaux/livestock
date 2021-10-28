@@ -29,6 +29,9 @@ function useNotificationsSubscription(options) {
   useEffect(() => {
     const newSubscription = consumer.subscriptions.create(subscriptionName, {
       ...options,
+      connected(a, b, c) {
+        console.log("wtf", a, b, c);
+      },
     });
 
     setSubscription(newSubscription);
