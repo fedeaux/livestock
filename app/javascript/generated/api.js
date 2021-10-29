@@ -74,60 +74,60 @@ export function useApiWallets(query) {
   return useQuery(queryCacheKey, getModelCollection, [endpoint, Wallet, query]);
 }
 
-export function useApiStockEarning(stockEarningId) {
+export function useApiStockEarning(stockEarningId, query) {
   const endpoint = `/api/stock_earnings/${stockEarningId}`;
-  const queryCacheKey = endpoint;
+  const queryCacheKey = `${endpoint}/${JSON.stringify(query)}`;
 
-  return useQuery(queryCacheKey, getModelMember, [endpoint, StockEarning, stockEarningId]);
+  return useQuery(queryCacheKey, getModelMember, [endpoint, StockEarning, stockEarningId, query]);
 }
 
-export function useApiStockKpi(stockKpiId) {
+export function useApiStockKpi(stockKpiId, query) {
   const endpoint = `/api/stock_kpis/${stockKpiId}`;
-  const queryCacheKey = endpoint;
+  const queryCacheKey = `${endpoint}/${JSON.stringify(query)}`;
 
-  return useQuery(queryCacheKey, getModelMember, [endpoint, StockKpi, stockKpiId]);
+  return useQuery(queryCacheKey, getModelMember, [endpoint, StockKpi, stockKpiId, query]);
 }
 
-export function useApiStockPrice(stockPriceId) {
+export function useApiStockPrice(stockPriceId, query) {
   const endpoint = `/api/stock_prices/${stockPriceId}`;
-  const queryCacheKey = endpoint;
+  const queryCacheKey = `${endpoint}/${JSON.stringify(query)}`;
 
-  return useQuery(queryCacheKey, getModelMember, [endpoint, StockPrice, stockPriceId]);
+  return useQuery(queryCacheKey, getModelMember, [endpoint, StockPrice, stockPriceId, query]);
 }
 
-export function useApiStock(stockId) {
+export function useApiStock(stockId, query) {
   const endpoint = `/api/stocks/${stockId}`;
-  const queryCacheKey = endpoint;
+  const queryCacheKey = `${endpoint}/${JSON.stringify(query)}`;
 
-  return useQuery(queryCacheKey, getModelMember, [endpoint, Stock, stockId]);
+  return useQuery(queryCacheKey, getModelMember, [endpoint, Stock, stockId, query]);
 }
 
-export function useApiUserStockEarning(userStockEarningId) {
+export function useApiUserStockEarning(userStockEarningId, query) {
   const endpoint = `/api/user_stock_earnings/${userStockEarningId}`;
-  const queryCacheKey = endpoint;
+  const queryCacheKey = `${endpoint}/${JSON.stringify(query)}`;
 
-  return useQuery(queryCacheKey, getModelMember, [endpoint, UserStockEarning, userStockEarningId]);
+  return useQuery(queryCacheKey, getModelMember, [endpoint, UserStockEarning, userStockEarningId, query]);
 }
 
-export function useApiUserStockOperation(userStockOperationId) {
+export function useApiUserStockOperation(userStockOperationId, query) {
   const endpoint = `/api/user_stock_operations/${userStockOperationId}`;
-  const queryCacheKey = endpoint;
+  const queryCacheKey = `${endpoint}/${JSON.stringify(query)}`;
 
-  return useQuery(queryCacheKey, getModelMember, [endpoint, UserStockOperation, userStockOperationId]);
+  return useQuery(queryCacheKey, getModelMember, [endpoint, UserStockOperation, userStockOperationId, query]);
 }
 
-export function useApiUserStock(userStockId) {
+export function useApiUserStock(userStockId, query) {
   const endpoint = `/api/user_stocks/${userStockId}`;
-  const queryCacheKey = endpoint;
+  const queryCacheKey = `${endpoint}/${JSON.stringify(query)}`;
 
-  return useQuery(queryCacheKey, getModelMember, [endpoint, UserStock, userStockId]);
+  return useQuery(queryCacheKey, getModelMember, [endpoint, UserStock, userStockId, query]);
 }
 
-export function useApiWallet(walletId) {
+export function useApiWallet(walletId, query) {
   const endpoint = `/api/wallets/${walletId}`;
-  const queryCacheKey = endpoint;
+  const queryCacheKey = `${endpoint}/${JSON.stringify(query)}`;
 
-  return useQuery(queryCacheKey, getModelMember, [endpoint, Wallet, walletId]);
+  return useQuery(queryCacheKey, getModelMember, [endpoint, Wallet, walletId, query]);
 }
 
 export function useApiUpdateStockEarning() {

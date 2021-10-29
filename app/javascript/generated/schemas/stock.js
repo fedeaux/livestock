@@ -1,6 +1,13 @@
 export default {
   modelName: 'Stock',
   attributes: {
+      activeTrend: {
+      name: "activeTrend",
+      type: "has_one",
+      writeable: true,
+      default: null,
+      model: "StockTrend",
+    },
       category: {
       name: "category",
       type: "string",
@@ -69,6 +76,13 @@ export default {
       writeable: true,
       default: null,
       model: "StockPrice",
+    },
+      stockTrends: {
+      name: "stockTrends",
+      type: "has_many",
+      writeable: true,
+      default: null,
+      model: "StockTrend",
     },
       subsector: {
       name: "subsector",

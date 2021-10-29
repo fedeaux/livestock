@@ -1,0 +1,10 @@
+json.extract! stock_trend,
+              :id,
+              :started_at,
+              :finished_at,
+              :stock_id,
+              :slope,
+              :intercept,
+              :deviation,
+              :created_at,
+              :updated_at

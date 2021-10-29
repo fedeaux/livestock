@@ -24,8 +24,6 @@ class Endpoint
   end
 
   def hook_signature
-    member_endpoint =
-
     entities_signature = if member?
                            entities.map(&:singular_class_name).join
                          else
@@ -51,10 +49,7 @@ class Endpoint
     return [] unless read?
 
     route_params = params.map(&:singular_camel_name)
-
-    unless member?
-      route_params.push(:query)
-    end
+    route_params.push(:query)
 
     route_params
   end

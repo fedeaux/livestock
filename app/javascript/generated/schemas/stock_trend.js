@@ -1,39 +1,21 @@
 export default {
-  modelName: 'StockPrice',
+  modelName: 'StockTrend',
   attributes: {
-      close: {
-      name: "close",
-      type: "decimal",
-      writeable: true,
-      default: null,
-    },
-      code: {
-      name: "code",
-      type: "string",
-      writeable: true,
-      default: null,
-    },
       createdAt: {
       name: "createdAt",
       type: "datetime",
       writeable: true,
       default: null,
     },
-      day: {
-      name: "day",
+      deviation: {
+      name: "deviation",
+      type: "decimal",
+      writeable: true,
+      default: null,
+    },
+      finishedAt: {
+      name: "finishedAt",
       type: "date",
-      writeable: true,
-      default: null,
-    },
-      dividendAmount: {
-      name: "dividendAmount",
-      type: "decimal",
-      writeable: true,
-      default: null,
-    },
-      high: {
-      name: "high",
-      type: "decimal",
       writeable: true,
       default: null,
     },
@@ -43,24 +25,23 @@ export default {
       writeable: false,
       default: null,
     },
-      low: {
-      name: "low",
+      intercept: {
+      name: "intercept",
       type: "decimal",
       writeable: true,
       default: null,
     },
-      open: {
-      name: "open",
+      slope: {
+      name: "slope",
       type: "decimal",
       writeable: true,
       default: null,
     },
-      stock: {
-      name: "stock",
-      type: "belongs_to",
+      startedAt: {
+      name: "startedAt",
+      type: "date",
       writeable: true,
       default: null,
-      model: "Stock",
     },
       stockId: {
       name: "stockId",
@@ -74,22 +55,16 @@ export default {
       writeable: true,
       default: null,
     },
-      volume: {
-      name: "volume",
-      type: "integer",
-      writeable: true,
-      default: 0,
-    },
   },
   names: {
-    singularUnderscore: "stock_price",
-    pluralUnderscore: "stock_prices",
-    singularDash: "stock-price",
-    pluralDash: "stock-prices",
-    singularCamel: "stockPrice",
-    pluralCamel: "stockPrices",
-    singularClass: "StockPrice",
-    pluralClass: "StockPrices",
+    singularUnderscore: "stock_trend",
+    pluralUnderscore: "stock_trends",
+    singularDash: "stock-trend",
+    pluralDash: "stock-trends",
+    singularCamel: "stockTrend",
+    pluralCamel: "stockTrends",
+    singularClass: "StockTrend",
+    pluralClass: "StockTrends",
   },
   validators: [
     {

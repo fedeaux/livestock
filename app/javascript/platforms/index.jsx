@@ -1,4 +1,5 @@
 import BraindamageApiProvider from "braindamage/api/provider";
+import "braindamage/initializer";
 import ENV from "env";
 
 axios.defaults.baseURL = ENV.API_HOST;

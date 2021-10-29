@@ -1,10 +1,27 @@
 import { useLayoutEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useApiStock } from "generated/api";
-import { getTime } from "date-fns";
+import { getTime, isAfter } from "date-fns";
 import formatMoney from "ui/formatters/money";
 import formatPercentage from "ui/formatters/percentage";
 import { createConsumer } from "@rails/actioncable";
+
+import TableCell from "ui/Table/Cell";
+import TableHeader from "ui/Table/Header";
+import TableRow from "ui/Table/Row";
+import Button from "ui/controls/button";
+
+const tableGrid = [
+  "w-2/24",
+  "w-2/24",
+  "w-2/24",
+  "w-2/24",
+  "w-2/24",
+  "w-2/24",
+  "w-2/24",
+  "w-2/24",
+  "w-2/24",
+];
 
 function round(n) {
   return Math.round((n + Number.EPSILON) * 100) / 100;
@@ -29,9 +46,6 @@ function useNotificationsSubscription(options) {
   useEffect(() => {
     const newSubscription = consumer.subscriptions.create(subscriptionName, {
       ...options,
-      connected(a, b, c) {
-        console.log("wtf", a, b, c);
-      },
     });
 
     setSubscription(newSubscription);
@@ -51,13 +65,20 @@ class StockChart extends React.Component {
   constructor(props) {
     super(props);
 
-    const a = 0.006492282633448045;
-    const b = -115.86498334703106;
-    const cost = 0.4;
+    const stock = props.stock;
+    const stockTrend = props.stockTrend;
+    const deviation = stockTrend.deviation;
 
-    const trendPoints = props.stock.stockPrices.map((stockPrice) => {
-      const x = getTime(stockPrice.day) / (1000 * 60 * 60 * 24);
-      const y = x * a + b;
+    // console.log("stockTrend", stockTrend);
+    // console.log("deviation", deviation);
+
+    const trendPrices = props.stock.stockPrices.filter((stockPrice) => {
+      return isAfter(stockPrice.day, stockTrend.startedAt);
+    });
+
+    const trendPoints = trendPrices.map((stockPrice) => {
+      const x = stockTrend.dayToX(stockPrice.day);
+      const y = stockTrend.priceAt(stockPrice.day);
 
       return {
         x: stockPrice.day,
@@ -65,17 +86,17 @@ class StockChart extends React.Component {
       };
     });
 
-    const resistencePoints = trendPoints.map((point) => {
+    const resistancePoints = trendPoints.map((point) => {
       return {
         x: point.x,
-        y: round(point.y + cost),
+        y: round(point.y + deviation),
       };
     });
 
     const supportPoints = trendPoints.map((point) => {
       return {
         x: point.x,
-        y: round(point.y - cost),
+        y: round(point.y - deviation),
       };
     });
 
@@ -89,7 +110,7 @@ class StockChart extends React.Component {
         {
           name: "prices",
           type: "candlestick",
-          data: props.stock.stockPrices.map((stockPrice) => {
+          data: trendPrices.map((stockPrice) => {
             return {
               x: stockPrice.day,
               y: [
@@ -108,18 +129,14 @@ class StockChart extends React.Component {
         },
         {
           type: "line",
-          name: "resistence",
-          data: resistencePoints,
+          name: "resistance",
+          data: resistancePoints,
         },
       ],
       options: {
         chart: {
           height: 350,
           type: "line",
-        },
-        title: {
-          text: "CandleStick Chart",
-          align: "left",
         },
         stroke: {
           width: [1, 1],
@@ -135,7 +152,6 @@ class StockChart extends React.Component {
   render() {
     return (
       <div id="chart">
-        <h1>{this.props.stock.code}</h1>
         <ReactApexChart {...this.state} height={350} />
       </div>
     );
@@ -148,6 +164,81 @@ function formatErrorableMoney(price) {
   } else {
     return "error";
   }
+}
+
+function TrendWatchListItem({ currentPrice, stock, stockTrend, ...props }) {
+  const numberCurrentPrice = parseFloat(currentPrice); // ouch!!!!!
+  const currentPriceTrendPosition = stockTrend.priceTrendPosition(currentPrice);
+  const supportPrice = stockTrend.supportPrice();
+  const resistancePrice = stockTrend.resistancePrice();
+  const fieldsOffset = 4;
+  const [showChart, , , toggleShowChat] = useBoolState();
+
+  return (
+    <>
+      <TableRow>
+        <WatchListItemFields
+          stock={stock}
+          currentPrice={currentPrice}
+          {...props}
+        />
+        <TableCell twp={tableGrid[fieldsOffset]}>
+          {formatMoney(supportPrice)}
+        </TableCell>
+        <TableCell twp={tableGrid[fieldsOffset + 1]}>
+          {formatPercentage(currentPriceTrendPosition)}
+        </TableCell>
+        <TableCell twp={tableGrid[fieldsOffset + 2]}>
+          {formatMoney(resistancePrice)}
+        </TableCell>
+        <TableCell twp={tableGrid[fieldsOffset + 3]}>
+          <Button label="Chart" onClick={toggleShowChat} />
+        </TableCell>
+      </TableRow>
+      {showChart && <StockChart stock={stock} stockTrend={stockTrend} />}
+    </>
+  );
+}
+
+function WatchListItemFields({ code, currentPrice, minPrice, maxPrice }) {
+  return (
+    <>
+      <TableCell twp={tableGrid[0]}>{code}</TableCell>
+      <TableCell twp={tableGrid[1]}>
+        {formatErrorableMoney(currentPrice)}
+      </TableCell>
+      <TableCell twp={tableGrid[2]}>{formatErrorableMoney(minPrice)}</TableCell>
+      <TableCell twp={tableGrid[3]}>{formatErrorableMoney(maxPrice)}</TableCell>
+    </>
+  );
+}
+
+function WatchListItem({ code, ...props }) {
+  const { stock, isLoading } = useApiStock(code, {
+    activeTrendPrices: true,
+  });
+
+  if (isLoading) {
+    return null;
+  }
+
+  if (stock.activeTrend) {
+    return (
+      <TrendWatchListItem
+        code={code}
+        stock={stock}
+        stockTrend={stock.activeTrend}
+        {...props}
+      />
+    );
+  }
+
+  return (
+    <TableRow>
+      <WatchListItemFields code={code} stock={stock} {...props} />
+      <TableCell style={tw("mr-2 w-1/12")}>No Trends</TableCell>
+    </TableRow>
+  );
 }
 
 function WatchList() {
@@ -171,22 +262,17 @@ function WatchList() {
 
   return (
     <View style={tw("px-2")}>
+      <TableRow>
+        <TableHeader twp={tableGrid[0]}></TableHeader>
+        <TableHeader twp={tableGrid[1]}>Min</TableHeader>
+        <TableHeader twp={tableGrid[2]}>Max</TableHeader>
+        <TableHeader twp={tableGrid[3]}>Current</TableHeader>
+        <TableHeader twp={tableGrid[4]}>Support</TableHeader>
+        <TableHeader twp={tableGrid[5]}>Position</TableHeader>
+        <TableHeader twp={tableGrid[6]}>Resistance</TableHeader>
+      </TableRow>
       {watchList.map(({ code, ...properties }) => {
-        return (
-          <View key={code} style={tw("flex-row")}>
-            <View style={tw("w-4/12")} />
-            <Text style={tw("mr-2 w-1/12")}>{code}</Text>
-            <Text style={tw("mr-2 w-1/12")}>
-              {formatErrorableMoney(properties.currentPrice)}
-            </Text>
-            <Text style={tw("mr-2 w-1/12")}>
-              {formatErrorableMoney(properties.minPrice)}
-            </Text>
-            <Text style={tw("mr-2 w-1/12")}>
-              {formatErrorableMoney(properties.maxPrice)}
-            </Text>
-          </View>
-        );
+        return <WatchListItem key={code} code={code} {...properties} />;
       })}
     </View>
   );

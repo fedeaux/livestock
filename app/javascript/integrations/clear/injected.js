@@ -105,7 +105,7 @@ class ClearIntegration {
       } catch(error) {
         console.error(error);
       };
-    }, 3000);
+    }, 1000);
   }
 }
 

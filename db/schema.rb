@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_28_000028) do
+ActiveRecord::Schema.define(version: 2021_10_28_225416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,18 @@ ActiveRecord::Schema.define(version: 2021_10_28_000028) do
     t.datetime "updated_at", precision: 6, null: false
     t.decimal "dividend_amount", precision: 15, scale: 2
     t.index ["stock_id"], name: "index_stock_prices_on_stock_id"
+  end
+
+  create_table "stock_trends", force: :cascade do |t|
+    t.date "started_at", null: false
+    t.date "finished_at"
+    t.bigint "stock_id", null: false
+    t.decimal "slope", precision: 15, scale: 8
+    t.decimal "intercept", precision: 15, scale: 8
+    t.decimal "deviation", precision: 15, scale: 8
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stock_id"], name: "index_stock_trends_on_stock_id"
   end
 
   create_table "stocks", force: :cascade do |t|
@@ -157,6 +169,7 @@ ActiveRecord::Schema.define(version: 2021_10_28_000028) do
   add_foreign_key "stock_earnings", "stocks"
   add_foreign_key "stock_kpis", "stocks"
   add_foreign_key "stock_prices", "stocks"
+  add_foreign_key "stock_trends", "stocks"
   add_foreign_key "user_stock_earnings", "user_stocks"
   add_foreign_key "user_stock_operations", "user_stocks"
   add_foreign_key "user_stocks", "stocks"

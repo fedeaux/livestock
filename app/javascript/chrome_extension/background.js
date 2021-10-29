@@ -1,4 +1,5 @@
 const API_HOST = 'http://localhost:3000';
+// const API_HOST = 'https://livestock.fedeaux.com';
 
 const clearIntegration = `
   fetch('${API_HOST}/integrations/clear/injector.js')

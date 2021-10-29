@@ -9,9 +9,11 @@ class Seeders::HistoricalStockPrices < Seeders::BaseSeeder
 
   def seed_prices
     stocks_with_user_stocks.each do |stock|
+      next if stock.stock_prices.count > 100
+
       stock_prices_attributes = stock_price_data(stock.international_code)
 
-      stock_prices_attributes.each do |stock_price_attributes|
+      stock_prices_attributes..each do |stock_price_attributes|
         stock_price = stock.stock_prices.where(day: stock_price_attributes[:day]).first_or_initialize
         stock_price.assign_attributes(stock_price_attributes)
         stock_price.save

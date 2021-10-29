@@ -10,8 +10,9 @@ task pull_prod: :environment do
 
   JSON.parse(response.body)['userStocks'].each do |user_stock_json_entry|
     stock_id = user_stock_json_entry['stockId']
+    # stock_code = user_stock_json_entry['code']
 
-    response = Net::HTTP.get_response(URI.parse("https://livestock.fedeaux.com/api/stocks/#{stock_id}.json"))
+    response = Net::HTTP.get_response(URI.parse("https://livestock.fedeaux.com/api/stocks/#{stock_id}.json?query=#{JSON.stringify({includes:{stockPrice:true}})}"))
 
     JSON.parse(response.body)['stock']['stockPrices'].each do |stock_price_json_entry|
       code = stock_price_json_entry['code']

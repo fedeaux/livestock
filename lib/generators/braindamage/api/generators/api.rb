@@ -38,7 +38,7 @@ module Generators
 
         "export function #{endpoint.hook_signature} {
   const endpoint = #{endpoint.parameterized_api_path};
-  const queryCacheKey = endpoint;
+  const queryCacheKey = `${endpoint}/${JSON.stringify(query)}`;
 
   return useQuery(queryCacheKey, #{endpoint.abstract_api_function}, [#{param_names.join(', ')}]);
 }"

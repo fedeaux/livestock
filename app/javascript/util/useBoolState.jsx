@@ -9,5 +9,9 @@ export default function useBoolState(initial = false) {
     return setValue(false);
   }, []);
 
-  return [value, setFalse, setTrue];
+  const toggle = useCallback(() => {
+    return setValue(!value);
+  }, [value]);
+
+  return [value, setFalse, setTrue, toggle];
 }

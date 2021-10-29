@@ -8,11 +8,22 @@ function tw(...args) {
     args = args.flat()
   }
 
+  const inlineStyles = args.filter((arg) => {
+    return typeof arg == 'object';
+  });
+
+  args = args.filter((arg) => {
+    return typeof arg != 'object' && arg.length > 0;
+  });
+
+
   if (args.join) {
     args = args.join(" ")
   }
 
-  return tailwind(args);
+  return [...inlineStyles, tailwind(args)].reduce((styleSheet, style) => {
+    return { ...styleSheet, ...style };
+  }, {});
 };
 
 export { tailwind, getColor, tw };

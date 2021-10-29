@@ -1,9 +1,17 @@
 json.stock do
   json.partial! "member", stock: @stock
 
-  json.stock_prices do
-    json.array! @stock.stock_prices.order(:day) do |stock_price|
-      json.partial! "api/stock_prices/attributes", stock_price: stock_price
+  if @stock_prices
+    json.stock_prices do
+      json.array! @stock_prices do |stock_price|
+        json.partial! "api/stock_prices/attributes", stock_price: stock_price
+      end
+    end
+  end
+
+  if @stock.active_trend
+    json.active_trend do
+      json.partial! "api/stock_trends/attributes", stock_trend: @stock.active_trend
     end
   end
 end

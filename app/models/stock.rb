@@ -4,6 +4,7 @@ class Stock < ApplicationRecord
   has_many :stock_earnings, dependent: :destroy
   has_many :stock_prices, dependent: :destroy
   has_many :stock_kpis, dependent: :destroy
+  has_many :stock_trends, dependent: :destroy
   expose_associations
 
   before_save :sanitize_code
@@ -27,6 +28,7 @@ class Stock < ApplicationRecord
         }
 
   expose :link
+  expose :active_trend, type: :has_one, model: 'StockTrend'
   hide :created_at
 
   def self.c(id_or_code)
@@ -38,6 +40,10 @@ class Stock < ApplicationRecord
     stock.assign_attributes attributes
     stock.save
     stock
+  end
+
+  def active_trend
+    stock_trends.where('finished_at IS NULL').first
   end
 
   def sanitize_code
