@@ -31,7 +31,7 @@ class StockTrend extends Model {
     const supportPrice = this.supportPrice(day);
     const difference = price - supportPrice;
 
-    return difference/supportPrice;
+    return difference/(this.deviation * 2);
   }
 }
 

@@ -61,14 +61,11 @@ class Integrations::ClearController < ApplicationController
   end
 
   def prices
-      ActionCable.server.broadcast "Notifications",
-                                   {
-                                     type: 'ClearIntegration#prices',
-                                     data: params.permit![:priceUpdates].to_h
-                                   }
-
-    ap params.permit![:priceUpdates].to_json
-    # TODO: Cable update
+    ActionCable.server.broadcast "Notifications",
+                                 {
+                                   type: 'ClearIntegration#prices',
+                                   data: params.permit![:priceUpdates].to_h
+                                 }
 
     head :ok
   end

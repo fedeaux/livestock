@@ -1,21 +1,29 @@
 import { BraindamageApiContext } from "braindamage/api/provider";
+import { getTime } from "date-fns";
 
 export default function useQuery(cacheKey, queryFunc, queryParams) {
   const { useQueryCache, addToCache } = useContext(BraindamageApiContext);
   const cached = useQueryCache(cacheKey);
-  const [response, setResponse] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [response, setResponse] = useState({});
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    ((async () => {
-      if (cached) {
-        setResponse(cached);
-        setIsLoading(false);
-      } else {
-        addToCache(cacheKey, await queryFunc(...queryParams));
-      }
-    }))()
-  }, [cached]);
+    if (!cached) {
+      queryFunc(...queryParams).then((result) => {
+        if (result.error) {
+          addToCache(cacheKey, { cacheKey: { name: 'error' }, ...result });
+        } else {
+          addToCache(cacheKey, result);
+        }
+
+        setResponse(result);
+        setIsLoading(false)
+      })
+    } else {
+      setResponse(cached);
+    }
+  }, []);
 
   return { ...response, isLoading };
 }

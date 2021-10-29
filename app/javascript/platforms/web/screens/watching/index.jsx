@@ -1,4 +1,3 @@
-import { useLayoutEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useApiStock } from "generated/api";
 import { getTime, isAfter } from "date-fns";
@@ -13,7 +12,7 @@ import Button from "ui/controls/button";
 
 const tableGrid = [
   "w-2/24",
-  "w-2/24",
+  "w-4/24",
   "w-2/24",
   "w-2/24",
   "w-2/24",
@@ -100,6 +99,13 @@ class StockChart extends React.Component {
       };
     });
 
+    const currentPricePoints = trendPoints.map((point) => {
+      return {
+        x: point.x,
+        y: props.currentPrice,
+      };
+    });
+
     this.state = {
       series: [
         {
@@ -132,15 +138,23 @@ class StockChart extends React.Component {
           name: "resistance",
           data: resistancePoints,
         },
+        {
+          type: "line",
+          name: "currentPrice",
+          data: currentPricePoints,
+        },
       ],
       options: {
+        animations: {
+          enabled: false,
+        },
         chart: {
           height: 350,
           type: "line",
         },
         stroke: {
-          width: [1, 1],
           curve: "straight",
+          width: [1, 1],
         },
         xaxis: {
           type: "datetime",
@@ -171,31 +185,40 @@ function TrendWatchListItem({ currentPrice, stock, stockTrend, ...props }) {
   const currentPriceTrendPosition = stockTrend.priceTrendPosition(currentPrice);
   const supportPrice = stockTrend.supportPrice();
   const resistancePrice = stockTrend.resistancePrice();
-  const fieldsOffset = 4;
+  const fieldsOffset = 2;
   const [showChart, , , toggleShowChat] = useBoolState();
+  const twp = showChart ? "bg-gray-200" : "";
 
   return (
     <>
-      <TableRow>
+      <TableRow twp={twp}>
         <WatchListItemFields
           stock={stock}
           currentPrice={currentPrice}
           {...props}
         />
         <TableCell twp={tableGrid[fieldsOffset]}>
-          {formatMoney(supportPrice)}
+          <View style={tw("flex")}>
+            <Text style={tw("text-xs")}>{formatMoney(resistancePrice)}</Text>
+            <Text style={tw("text-lg my-2")}>
+              {formatPercentage(currentPriceTrendPosition)}
+            </Text>
+            <Text style={tw("text-xs")}>{formatMoney(supportPrice)}</Text>
+          </View>
         </TableCell>
         <TableCell twp={tableGrid[fieldsOffset + 1]}>
-          {formatPercentage(currentPriceTrendPosition)}
-        </TableCell>
-        <TableCell twp={tableGrid[fieldsOffset + 2]}>
-          {formatMoney(resistancePrice)}
-        </TableCell>
-        <TableCell twp={tableGrid[fieldsOffset + 3]}>
           <Button label="Chart" onClick={toggleShowChat} />
         </TableCell>
       </TableRow>
-      {showChart && <StockChart stock={stock} stockTrend={stockTrend} />}
+      {showChart && (
+        <View style={tw(twp)}>
+          <StockChart
+            stock={stock}
+            stockTrend={stockTrend}
+            currentPrice={numberCurrentPrice}
+          />
+        </View>
+      )}
     </>
   );
 }
@@ -205,22 +228,28 @@ function WatchListItemFields({ code, currentPrice, minPrice, maxPrice }) {
     <>
       <TableCell twp={tableGrid[0]}>{code}</TableCell>
       <TableCell twp={tableGrid[1]}>
-        {formatErrorableMoney(currentPrice)}
+        <View style={tw("flex")}>
+          <Text style={tw("text-xs")}>
+            max: {formatErrorableMoney(maxPrice)}
+          </Text>
+          <Text style={tw("text-lg my-2")}>
+            {formatErrorableMoney(currentPrice)}
+          </Text>
+          <Text style={tw("text-xs")}>
+            min: {formatErrorableMoney(minPrice)}
+          </Text>
+        </View>
       </TableCell>
-      <TableCell twp={tableGrid[2]}>{formatErrorableMoney(minPrice)}</TableCell>
-      <TableCell twp={tableGrid[3]}>{formatErrorableMoney(maxPrice)}</TableCell>
     </>
   );
 }
 
 function WatchListItem({ code, ...props }) {
-  const { stock, isLoading } = useApiStock(code, {
+  const { stock, isLoading, error } = useApiStock(code, {
     activeTrendPrices: true,
   });
 
-  if (isLoading) {
-    return null;
-  }
+  if (isLoading || error) return null;
 
   if (stock.activeTrend) {
     return (
@@ -236,7 +265,7 @@ function WatchListItem({ code, ...props }) {
   return (
     <TableRow>
       <WatchListItemFields code={code} stock={stock} {...props} />
-      <TableCell style={tw("mr-2 w-1/12")}>No Trends</TableCell>
+      <TableCell>No Trends</TableCell>
     </TableRow>
   );
 }
@@ -264,12 +293,9 @@ function WatchList() {
     <View style={tw("px-2")}>
       <TableRow>
         <TableHeader twp={tableGrid[0]}></TableHeader>
-        <TableHeader twp={tableGrid[1]}>Min</TableHeader>
-        <TableHeader twp={tableGrid[2]}>Max</TableHeader>
-        <TableHeader twp={tableGrid[3]}>Current</TableHeader>
-        <TableHeader twp={tableGrid[4]}>Support</TableHeader>
-        <TableHeader twp={tableGrid[5]}>Position</TableHeader>
-        <TableHeader twp={tableGrid[6]}>Resistance</TableHeader>
+        <TableHeader twp={tableGrid[1]}>Current</TableHeader>
+        <TableHeader twp={tableGrid[2]}>Trend</TableHeader>
+        <TableHeader twp={tableGrid[3]}></TableHeader>
       </TableRow>
       {watchList.map(({ code, ...properties }) => {
         return <WatchListItem key={code} code={code} {...properties} />;
@@ -279,12 +305,5 @@ function WatchList() {
 }
 
 export default function WatchingIndex() {
-  // const { stock, isLoading } = useApiStock(29);
-
-  return (
-    <View>
-      <WatchList />
-      {/* {!isLoading && <StockChart isLoading={isLoading} stock={stock} />} */}
-    </View>
-  );
+  return <WatchList />;
 }

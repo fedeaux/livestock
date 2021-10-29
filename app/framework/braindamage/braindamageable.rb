@@ -95,9 +95,9 @@ module Braindamage::Braindamageable
     end
   end
 
-  def cache_key
+  def cache_key(query = {})
     {
-      name: "#{self.class.singular_underscore_name}##{id}",
+      name: "#{self.class.singular_underscore_name}##{id}/#{query.to_json}",
       updated_at: updated_at
     }
   end

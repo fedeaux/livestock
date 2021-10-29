@@ -1,4 +1,5 @@
 export const BraindamageApiContext = createContext();
+import update from "immutability-helper";
 
 export default function BraindamageApiProvider({ children }) {
   const [cache, setCache] = useState({});
@@ -16,8 +17,16 @@ export default function BraindamageApiProvider({ children }) {
   );
 
   const addToCache = useCallback((queryCacheKey, response) => {
-    setQueryCache({ ...queryCache, [queryCacheKey]: response.cacheKey.name });
-    setCache({ ...cache, [response.cacheKey.name]: response });
+    const newQueryCache = update(queryCache, {
+      [queryCacheKey]: { $set: response.cacheKey.name },
+    });
+
+    const newCache = update(cache, {
+      [response.cacheKey.name]: { $set: response },
+    });
+
+    setCache(newCache);
+    setQueryCache(newQueryCache);
   });
 
   const updateCache = useCallback((response) => {

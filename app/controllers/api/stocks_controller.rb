@@ -8,7 +8,7 @@ class Api::StocksController < ApiController
       @stock_prices = @stock.stock_prices.where('day >= ?', @stock.active_trend.started_at)
     end
 
-    if @query["includes"] && @query["includes"]['stockPrice'] && @stock.active_trend # fuck
+    if @query["includes"] && @query["includes"]['stockPrice']
       @stock_prices = @stock.stock_prices.order(:day)
     end
   end
@@ -22,7 +22,7 @@ class Api::StocksController < ApiController
 
     return default unless params[:query]
 
-    default.merge JSON.parse params[:query]
+    JSON.parse params[:query]
   end
 
   def set_query

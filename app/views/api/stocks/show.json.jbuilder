@@ -16,4 +16,4 @@ json.stock do
   end
 end
 
-json.cache_key @stock.cache_key
+json.cache_key @stock.cache_key @query

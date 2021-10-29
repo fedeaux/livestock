@@ -73,31 +73,24 @@ class ClearIntegration {
 
             if(stockCode.length < 1) return;
 
-            // let currentPrice = parseFloat($('.cont_list_one .container .value.show', el)[0].textContent.replace(',', '.'));
-            // let minPrice = parseFloat($('.cont_list_two .lowest-price', el)[0].textContent.replace(',', '.'));
-            // let maxPrice = parseFloat($('.cont_list_two .highest-price', el)[0].textContent.replace(',', '.'));
-
             let currentPrice = tryToGetPrice('.cont_list_one .container .value.show', el);
             let minPrice = tryToGetPrice('.cont_list_two .lowest-price', el);
             let maxPrice = tryToGetPrice('.cont_list_two .highest-price', el);
 
-            // if(!this.lastSeenPrices[stockCode]) {
             let stockPriceUpdate = {
               currentPrice,
               minPrice,
               maxPrice
-              // lastPrice: this.lastSeenPrices[stockCode]?.price
             };
 
             priceUpdates[stockCode] = stockPriceUpdate;
-            // this.lastSeenPrices[stockCode] = stockPriceUpdate;
-            // }
           } catch (e) {
             console.log("[LS] Error in item:", e);
           }
         })
 
         if(Object.keys(priceUpdates).length > 0) {
+          console.log("[LS] Ping")
           $.post(`${API_HOST}/integrations/clear/prices`, { priceUpdates });
         } else {
           console.log("[LS] I'm here but nothing is changing")
@@ -105,7 +98,7 @@ class ClearIntegration {
       } catch(error) {
         console.error(error);
       };
-    }, 1000);
+    }, 2000);
   }
 }
 
