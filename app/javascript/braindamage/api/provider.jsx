@@ -16,6 +16,15 @@ export default function BraindamageApiProvider({ children }) {
     [cache, queryCache]
   );
 
+  const useQueryCacheList = useCallback(
+    (queryCacheKeys) => {
+      return queryCacheKeys.map((queryCacheKey) => {
+        return { [queryCacheKey]: useQueryCache(queryCacheKey) };
+      });
+    },
+    [cache, queryCache]
+  );
+
   const addToCache = useCallback((queryCacheKey, response) => {
     const newQueryCache = update(queryCache, {
       [queryCacheKey]: { $set: response.cacheKey.name },
@@ -40,7 +49,14 @@ export default function BraindamageApiProvider({ children }) {
 
   return (
     <BraindamageApiContext.Provider
-      value={{ cache, addToCache, updateCache, useQueryCache, nukeCache }}
+      value={{
+        cache,
+        addToCache,
+        updateCache,
+        useQueryCache,
+        useQueryCacheList,
+        nukeCache,
+      }}
     >
       {children}
     </BraindamageApiContext.Provider>

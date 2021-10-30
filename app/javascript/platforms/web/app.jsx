@@ -1,9 +1,9 @@
 import React from "react";
-import DashboardIndex from "platforms/web/screens/dashboard";
+import WatchingIndex from "platforms/web/screens/watching";
 import MovementsIndex from "platforms/web/screens/movements";
 import AnalyticsIndex from "platforms/web/screens/analytics";
+import WalletsIndex from "platforms/web/screens/wallets";
 import StockShowIndex from "platforms/web/screens/stock_show";
-import WatchingIndex from "platforms/web/screens/watching";
 import Stocks from "platforms/web/screens/stocks";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -22,7 +22,7 @@ function Menu() {
       <MenuItem to="/movements"> Movements </MenuItem>
       <MenuItem to="/analytics"> Analytics </MenuItem>
       <MenuItem to="/stocks"> Stocks </MenuItem>
-      <MenuItem to="/watching"> Watching </MenuItem>
+      <MenuItem to="/wallets"> Wallets </MenuItem>
     </View>
   );
 }
@@ -34,10 +34,10 @@ export default function App() {
         <Menu />
         <View style={tw("flex flex-grow")}>
           <Switch>
-            <Route exact path="/" component={DashboardIndex} />
+            <Route exact path="/" component={WatchingIndex} />
             <Route path="/movements" component={MovementsIndex} />
             <Route path="/analytics" component={AnalyticsIndex} />
-            <Route path="/watching" component={WatchingIndex} />
+            <Route path="/wallets" component={WalletsIndex} />
             <Route path="/stocks/:id" component={StockShowIndex} />
             <Route path="/stocks" component={Stocks} />
           </Switch>

@@ -32,14 +32,14 @@ class StockTrends::Calculate
     a = (y1 - y2)/(x1 - x2)
     b = y1 - a * x1
 
-    deviation = day_average_price_pairs.map do |pair|
+    deviations = day_average_price_pairs.map do |pair|
       (linear_regression.predict([pair.first]) - pair.second).abs
-    end.max
+    end.sort
 
     @stock_trend.update(
       slope: a,
       intercept: b,
-      deviation: deviation
+      deviation: deviations.last((deviations.length/15.0 + 1).to_i).first
     )
   end
 end

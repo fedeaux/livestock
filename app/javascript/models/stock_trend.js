@@ -15,8 +15,12 @@ class StockTrend extends Model {
     return getTime(day) / (1000 * 60 * 60 * 24);
   }
 
-  priceAt(day) {
-    return this.slope * this.dayToX(day) + this.intercept;
+  y(x) {
+    return this.slope * x + this.intercept;
+  }
+
+  priceAt(day = new Date()) {
+    return this.y(this.dayToX(day));
   }
 
   supportPrice(day = new Date()) {
@@ -32,6 +36,10 @@ class StockTrend extends Model {
     const difference = price - supportPrice;
 
     return difference/(this.deviation * 2);
+  }
+
+  deviationRatio() {
+    return this.deviation / this.priceAt();
   }
 }
 

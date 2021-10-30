@@ -2,6 +2,8 @@ import { camelize, pluralize } from "inflected";
 
 export default {
   defineEnums() {
+    if(!this.schema.enums) return;
+
     Object.values(this.schema.enums).forEach((enumDefinition) => {
       this.defineEnumProperties(enumDefinition);
     })
