@@ -12,7 +12,7 @@ class Api::UserStocksController < ApiController
   private
 
   def set_user_stock
-    @user_stock = UserStock.c(params[:id])
+    @user_stock = UserStock.find(params[:id])
   end
 
   def user_stock_params

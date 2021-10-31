@@ -11,14 +11,15 @@ module Stockable
   end
 
   class_methods do
+    # TODO: This looks broken
     def c(id_or_code)
       find_by_id_or_code(id_or_code)
     end
 
     def find_by_id_or_code(id_or_code)
       includes(:stock)
-        .where(stock: { id: id_or_code })
-        .or(where(stock: { code: id_or_code })).limit(1).first
+        .where(stocks: { id: id_or_code })
+        .or(where(stocks: { code: id_or_code })).limit(1).first
     end
   end
 end

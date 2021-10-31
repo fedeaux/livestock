@@ -23,7 +23,7 @@ export default function WalletPicker({ walletId, onChange }) {
 
   return (
     <TouchableOpacity onPress={openSelect}>
-      <Text>{selectedWallet?.name}</Text>
+      <Text>{selectedWallet?.name || "none"}</Text>
 
       {selectOpen &&
         wallets.map((wallet) => {

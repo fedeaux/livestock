@@ -262,7 +262,6 @@ function TrendWatchListItem({ stock, stockTrend, trend, watchedStockPrice }) {
 }
 
 function WatchListItemFields({ stock, watchedStockPrice }) {
-  console.log("stock.userStock", stock.userStock);
   const userStock = stock.userStock;
 
   return (
