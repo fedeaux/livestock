@@ -18,12 +18,12 @@ class UserStocks::ConsolidateOperations
     earnings = 0
 
     user_stock.user_stock_operations.order("executed_at ASC").each do |user_stock_operation|
-      if user_stock_operation.buy?
-        stock_count += user_stock_operation.stock_count
-        price += user_stock_operation.total
-      else
+      if user_stock_operation.sell?
         stock_count -= user_stock_operation.stock_count
         price -= user_stock_operation.total
+      else
+        stock_count += user_stock_operation.stock_count
+        price += user_stock_operation.total
       end
     end
 
@@ -37,11 +37,15 @@ class UserStocks::ConsolidateOperations
                                 price / stock_count
                               end
 
-    user_stock.update(
-      stock_count: stock_count,
-      price: price,
-      average_price_per_stock: average_price_per_stock,
-      earnings: earnings
-    )
+    begin
+      user_stock.update(
+        stock_count: stock_count,
+        price: price,
+        average_price_per_stock: average_price_per_stock,
+        earnings: earnings
+      )
+    rescue
+      byebug
+    end
   end
 end

@@ -14,7 +14,12 @@ Rails.application.routes.draw do
     namespace :clear do
       get :injector
       post :prices
+    end
+
+    namespace :status_invest do
+      get :injector
       post :operations
+      post :stocks
     end
   end
 

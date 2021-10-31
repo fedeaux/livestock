@@ -35,6 +35,14 @@ class Stock < ApplicationRecord
     find_by_id_or_code(id_or_code)
   end
 
+  def self.cOrTryToCreate(code)
+    stock = find_by_id_or_code code
+
+    return stock if stock
+
+    return Stock.create(code: code, category: :market, currency: :brl) if code.end_with? '34'
+  end
+
   def self.ensure(code, attributes = {})
     stock = where(code: code.upcase).first_or_initialize
     stock.assign_attributes attributes

@@ -8,7 +8,8 @@ class UserStockOperation < ApplicationRecord
 
   exposed_enum nature: {
     buy: 0,
-    sell: 10
+    sell: 10,
+    bonus: 20
   }
 
   before_save :ensure_total

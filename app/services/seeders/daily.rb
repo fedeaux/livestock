@@ -1,8 +1,8 @@
 class Seeders::Daily < Seeders::BaseSeeder
   def seed
     puts "Syncing Earnings and Operations..."
-    Seeders::UserStockEarnings.new(user: user).seed
-    Seeders::UserStockOperations.new(user: user).seed
+    # Seeders::UserStockEarnings.new(user: user).seed
+    # Seeders::UserStockOperations.new(user: user).seed
 
     puts "Stock Prices..."
     Seeders::StockPrices.new.seed
