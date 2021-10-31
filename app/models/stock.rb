@@ -24,11 +24,12 @@ class Stock < ApplicationRecord
   }
 
   scope :idiv, ->{
-          where('code IN (?)', Constants::IDIV.keys)
-        }
+    where('code IN (?)', Constants::IDIV.keys)
+  }
 
   expose :link
   expose :active_trend, type: :has_one, model: 'StockTrend'
+  expose :user_stock, type: :has_one, model: 'UserStock'
   hide :created_at
 
   def self.c(id_or_code)

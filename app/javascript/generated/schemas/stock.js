@@ -96,6 +96,13 @@ export default {
       writeable: true,
       default: null,
     },
+      userStock: {
+      name: "userStock",
+      type: "has_one",
+      writeable: true,
+      default: null,
+      model: "UserStock",
+    },
       userStocks: {
       name: "userStocks",
       type: "has_many",

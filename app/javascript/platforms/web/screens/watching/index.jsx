@@ -14,7 +14,7 @@ import Button from "ui/controls/button";
 import useApiStockList from "generated/useApiStockList";
 import WatchedStockPrice from "pojos/WatchedStockPrice";
 
-const tableGrid = ["w-1/12", "w-3/12", "w-2/12", "w-2/12", "w-2/12"];
+const tableGrid = ["w-2/12", "w-2/12", "w-2/12", "w-2/12", "w-2/12"];
 
 function round(n) {
   return Math.round((n + Number.EPSILON) * 100) / 100;
@@ -261,10 +261,32 @@ function TrendWatchListItem({ stock, stockTrend, trend, watchedStockPrice }) {
   );
 }
 
-function WatchListItemFields({ watchedStockPrice }) {
+function WatchListItemFields({ stock, watchedStockPrice }) {
+  console.log("stock.userStock", stock.userStock);
+  const userStock = stock.userStock;
+
   return (
     <>
-      <TableCell twp={tableGrid[0]}>{watchedStockPrice.code}</TableCell>
+      <TableCell twp={tableGrid[0]}>
+        <Text style={tw("text-lg text-gray-700")}>
+          {watchedStockPrice.code}
+        </Text>
+        {userStock && (
+          <View style={tw("mt-2")}>
+            <Text style={tw("text-xs text-gray-300")}>
+              {userStock.walletName}
+            </Text>
+            <View style={tw("mt-2")}>
+              <Text style={tw("text-gray-500")}>
+                {formatErrorableMoney(userStock.marketPrice)}
+              </Text>
+              <Text style={tw("text-gray-500")}>
+                {formatPercentage(userStock.walletRatio)}
+              </Text>
+            </View>
+          </View>
+        )}
+      </TableCell>
       <TableCell twp={tableGrid[1]}>
         <View style={tw("flex")}>
           <Text style={tw("text-xs")}>
@@ -492,7 +514,7 @@ export default function WatchingIndex() {
 
   return (
     <View style={tw("p-4")}>
-      <WatchList watchList={watchList} />
+      <WatchList watchList={devWatchList} />
     </View>
   );
 }
