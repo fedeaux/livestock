@@ -15,13 +15,13 @@ class Braindamage::Query
         sub_query = @query_params[:includes][key]
 
         if sub_query.is_a? Hash
-          @query_params[:includes][key] = ApplicationQuery.new sub_query
+          @query_params[:includes][key] = Braindamage::Query.new sub_query
         elsif sub_query.is_a? Array
-          @query_params[:includes][key] = ApplicationQuery.new sub_query.map do |subkey|
+          @query_params[:includes][key] = Braindamage::Query.new sub_query.map do |subkey|
             [subkey, {}]
           end.to_h
         else
-          @query_params[:includes][key] = ApplicationQuery.new
+          @query_params[:includes][key] = Braindamage::Query.new
         end
       end
     end
