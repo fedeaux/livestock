@@ -1,6 +1,11 @@
 class StockTrend < ApplicationRecord
   include Braindamage::Braindamageable
   belongs_to :stock
+  expose :stock_prices, type: :has_many, model: 'StockPrice'
+
+  def stock_prices
+    stock.stock_prices.where('day >= ?', started_at)
+  end
 end
 
 # == Schema Information

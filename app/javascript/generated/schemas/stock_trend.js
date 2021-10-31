@@ -49,6 +49,13 @@ export default {
       writeable: true,
       default: null,
     },
+      stockPrices: {
+      name: "stockPrices",
+      type: "has_many",
+      writeable: true,
+      default: null,
+      model: "StockPrice",
+    },
       updatedAt: {
       name: "updatedAt",
       type: "datetime",

@@ -62,11 +62,7 @@ class StockChart extends React.Component {
     const stockTrend = props.stockTrend;
     const deviation = stockTrend.deviation;
 
-    const trendPrices = props.stock.stockPrices.filter((stockPrice) => {
-      return isAfter(stockPrice.day, stockTrend.startedAt);
-    });
-
-    const trendPoints = trendPrices.map((stockPrice) => {
+    const trendPoints = stockTrend.stockPrices.map((stockPrice) => {
       const x = stockTrend.dayToX(stockPrice.day);
       const y = stockTrend.priceAt(stockPrice.day);
 
@@ -107,7 +103,7 @@ class StockChart extends React.Component {
         {
           name: "prices",
           type: "candlestick",
-          data: trendPrices.map((stockPrice) => {
+          data: stockTrend.stockPrices.map((stockPrice) => {
             return {
               x: stockPrice.day,
               y: [
@@ -428,7 +424,14 @@ function WatchListCategory({ title, watchedStocks }) {
 
 function WatchList({ watchList }) {
   const { stocks, isLoading } = useApiStockList(Object.keys(watchList), {
-    activeTrendPrices: true,
+    includes: {
+      activeTrend: {
+        includes: {
+          stockPrices: {},
+        },
+      },
+      currentUserStock: {},
+    },
   });
 
   if (isLoading) {

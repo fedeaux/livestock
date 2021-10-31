@@ -14,6 +14,9 @@ user.update(email: 'phec06@gmail.com', name: 'Pedro')
 # Seeders::HistoricalStockPrices.new.seed
 # Seeders::StockEarnings.new.seed
 
+# RAPT4
+# ROMI3
+
 {
   'B3SA3' =>  '19/02/2021',
   'BBAS3' => '14/09/2021',

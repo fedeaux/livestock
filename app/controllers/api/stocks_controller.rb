@@ -3,13 +3,22 @@ class Api::StocksController < ApiController
 
   def show
     @stock = Stock.c(params[:id])
+    # http://localhost:3000/api/stocks/CSMG3.json?query={%22includes%22:{%22currentUserStock%22:true}}
 
-    if @query["activeTrendPrices"] && @stock.active_trend # fuck
-      @stock_prices = @stock.stock_prices.where('day >= ?', @stock.active_trend.started_at)
+    if @query.includes? :current_user_stock
+      @user_stock = @stock.user_stocks.find_by(user_id: current_user.id)
     end
 
-    if @query["includes"] && @query["includes"]['stockPrice']
-      @stock_prices = @stock.stock_prices.order(:day)
+    if @query.includes? :stock_prices
+      @stock_prices = @stock.stock_prices
+    end
+
+    if @query.includes? :active_trend
+      @active_trend = @stock.active_trend
+
+      if @active_trend && @query.includes(:active_trend).includes?(:stock_prices)
+        @active_trend_prices = @active_trend.stock_prices
+      end
     end
   end
 
@@ -18,11 +27,7 @@ class Api::StocksController < ApiController
   end
 
   def query
-    default = { "includes": {} }
-
-    return default unless params[:query]
-
-    JSON.parse params[:query]
+    Braindamage::Query.from_json params[:query]
   end
 
   def set_query
