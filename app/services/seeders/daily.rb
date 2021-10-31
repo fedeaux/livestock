@@ -4,8 +4,8 @@ class Seeders::Daily < Seeders::BaseSeeder
     # Seeders::UserStockEarnings.new(user: user).seed
     # Seeders::UserStockOperations.new(user: user).seed
 
-    puts "Stock Prices..."
-    Seeders::StockPrices.new.seed
+    # puts "Stock Prices..."
+    # Seeders::StockPrices.new.seed
 
     puts "Consolidation..."
     UserStocks::ConsolidateOperations.new(user: user).do

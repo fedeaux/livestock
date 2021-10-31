@@ -1,6 +1,7 @@
 class Seeders::HistoricalStockPrices < Seeders::BaseSeeder
-  def initialize
+  def initialize(stock_codes = nil)
     @i = 0
+    @stock_codes = stock_codes
   end
 
   def seed
@@ -8,7 +9,7 @@ class Seeders::HistoricalStockPrices < Seeders::BaseSeeder
   end
 
   def seed_prices
-    stocks_with_user_stocks.each do |stock|
+    stocks_to_seed.each do |stock|
       next if stock.stock_prices.count > 100
 
       stock_prices_attributes = stock_price_data(stock.international_code)
@@ -21,6 +22,16 @@ class Seeders::HistoricalStockPrices < Seeders::BaseSeeder
     end
 
     nil
+  end
+
+  def stocks_to_seed
+    if @stock_codes
+      @stock_codes.map do |code|
+        Stock.c(code)
+      end
+    else
+      stocks_with_user_stocks
+    end
   end
 
   def stock_price_data(code)

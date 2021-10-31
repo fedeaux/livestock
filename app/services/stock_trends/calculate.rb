@@ -36,10 +36,13 @@ class StockTrends::Calculate
       (linear_regression.predict([pair.first]) - pair.second).abs
     end.sort
 
+    deviations_count = (deviations.length/15.0 + 1).to_i
+    heightest_deviations_average = deviations.last(deviations_count).sum / deviations_count.to_f
+
     @stock_trend.update(
       slope: a,
       intercept: b,
-      deviation: deviations.last((deviations.length/15.0 + 1).to_i).first
+      deviation: heightest_deviations_average
     )
   end
 end

@@ -38,13 +38,17 @@ class UserStock < ApplicationRecord
 
   def ensure_math
     return unless stock_count && market_price_per_stock
-    return unless price > 0
-
     self.market_price = stock_count * market_price_per_stock
     self.market_result = market_price - price
-    self.market_result_ratio = market_result / price
     self.payout = market_result + earnings
-    self.payout_ratio = payout / price
+
+    if price > 0
+      self.market_result_ratio = market_result / price
+      self.payout_ratio = payout / price
+    else
+      self.market_result_ratio = 0
+      self.payout_ratio = 0
+    end
   end
 end
 

@@ -277,12 +277,23 @@ function WatchListItemFields({ stock, watchedStockPrice }) {
               {userStock.walletName}
             </Text>
             <View style={tw("mt-2")}>
-              <Text style={tw("text-gray-500")}>
-                {formatErrorableMoney(userStock.marketPrice)}
-              </Text>
-              <Text style={tw("text-gray-500")}>
-                {formatPercentage(userStock.walletRatio)}
-              </Text>
+              {userStock.stockCount > 0 ? (
+                <>
+                  <Text style={tw("text-gray-500 text-xs")}>
+                    {formatErrorableMoney(userStock.marketPrice)}
+                  </Text>
+                  <Text style={tw("text-gray-500 text-xs")}>
+                    {formatPercentage(userStock.walletRatio)}
+                  </Text>
+                  <Text style={tw("text-gray-500 text-xs")}>
+                    {userStock.stockCount}
+                  </Text>
+                </>
+              ) : (
+                <Text style={tw("text-gray-500 text-xs")}>
+                  {formatPercentage(0)}
+                </Text>
+              )}
             </View>
           </View>
         )}
@@ -386,7 +397,7 @@ function categorizeWatchedStocks(watchedStocks) {
     },
   };
 
-  const topAndBottomCount = 5;
+  const topAndBottomCount = 6;
 
   let trending = [];
 
@@ -502,6 +513,7 @@ export default function WatchingIndex() {
     ENBR3: { currentPrice: "19.6", minPrice: "19.53", maxPrice: "20.07" },
     B3SA3: { currentPrice: "11.91", minPrice: "11.85", maxPrice: "12.31" },
     GRND3: { currentPrice: "8.58", minPrice: "8.54", maxPrice: "8.82" },
+    VBBR3: { currentPrice: "20.98", minPrice: "20.83", maxPrice: "21.82" },
   };
 
   const { subscription } = useNotificationsSubscription({
@@ -514,7 +526,7 @@ export default function WatchingIndex() {
 
   return (
     <View style={tw("p-4")}>
-      <WatchList watchList={devWatchList} />
+      <WatchList watchList={watchList} />
     </View>
   );
 }
