@@ -20,7 +20,7 @@ task pull_prod: :environment do
       next
     end
 
-    url = URI.parse("https://livestock.fedeaux.com/api/stocks/#{stock_id}.json?query=#{({includes:{stockPrice:true}}.to_json)}")
+    url = URI.parse("https://livestock.fedeaux.com/api/stocks/#{stock_id}.json?query=#{({includes:{stockPrices:true}}.to_json)}")
 
     response = Net::HTTP.get_response(url)
 

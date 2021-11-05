@@ -3,7 +3,6 @@ class Api::StocksController < ApiController
 
   def show
     @stock = Stock.c(params[:id])
-    # http://localhost:3000/api/stocks/CSMG3.json?query={%22includes%22:{%22currentUserStock%22:true}}
 
     if @query.includes? :current_user_stock
       @user_stock = @stock.user_stocks.find_by(user_id: current_user.id)
