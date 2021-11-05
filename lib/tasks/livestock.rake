@@ -20,12 +20,6 @@ task pull_prod: :environment do
       next
     end
 
-    # next unless {
-    #   'B3SA3' =>  '19/02/2021',
-    #   'BBSE3' => '10/09/2021',
-    #   'BRAP3' => '13/09/2021'
-    # }.keys.include? stock_code
-
     url = URI.parse("https://livestock.fedeaux.com/api/stocks/#{stock_id}.json?query=#{({includes:{stockPrice:true}}.to_json)}")
 
     response = Net::HTTP.get_response(url)
