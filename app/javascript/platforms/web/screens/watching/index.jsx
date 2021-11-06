@@ -13,8 +13,20 @@ import TableRow from "ui/Table/Row";
 import Button from "ui/controls/button";
 import useApiStockList from "generated/useApiStockList";
 import WatchedStockPrice from "pojos/WatchedStockPrice";
+import Icon5 from "react-native-vector-icons/FontAwesome5";
 
 const tableGrid = ["w-2/12", "w-2/12", "w-2/12", "w-2/12", "w-2/12"];
+
+const strongBuys = [
+  "CMIG4",
+  "ENBR3",
+  "BBSE3",
+  "KLBN4",
+  "TIMS3",
+  "GOAU3",
+  "WIZS3",
+  "VBBR3",
+];
 
 function round(n) {
   return Math.round((n + Number.EPSILON) * 100) / 100;
@@ -264,12 +276,21 @@ function TrendWatchListItem({ stock, stockTrend, trend, watchedStockPrice }) {
 function WatchListItemFields({ stock, watchedStockPrice }) {
   const userStock = stock.userStock;
 
+  const isStrongBuy = strongBuys.includes(stock.code);
+
   return (
     <>
       <TableCell twp={tableGrid[0]}>
-        <Text style={tw("text-lg text-gray-700")}>
-          {watchedStockPrice.code}
-        </Text>
+        {isStrongBuy ? (
+          <Text style={tw("text-lg text-green-600")}>
+            <Text style={tw("mr-1")}>{watchedStockPrice.code}</Text>
+            <Icon5 name="medal" />
+          </Text>
+        ) : (
+          <Text style={tw("text-lg text-gray-700")}>
+            {watchedStockPrice.code}
+          </Text>
+        )}
         {userStock && (
           <View style={tw("mt-2")}>
             <Text style={tw("text-xs text-gray-300")}>
@@ -469,6 +490,14 @@ function WatchList({ watchList }) {
   if (isLoading) {
     return null;
   }
+
+  console.log(
+    stocks
+      .map((stock) => {
+        return stock.code;
+      })
+      .join("\n")
+  );
 
   const watchedStocks = stocks
     .map((stock) => {

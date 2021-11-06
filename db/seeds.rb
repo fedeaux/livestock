@@ -1,57 +1,47 @@
 user = User.where(id: 1).first_or_create
 user.update(email: 'phec06@gmail.com', name: 'Pedro')
 
-# consolidate_wallets = UserStocks::ConsolidateWallets.new(user: user)
-# consolidate_wallets.duct_tapped_ensure_user_stock_wallets
-
-# Seeding
-# puts "Stock Kpis..."
 # Seeders::StockKpis.new.seed
-# Management
-# Seeders::Daily.new.seed
-
-# Expensive!!!!!!
-# Seeders::HistoricalStockPrices.new.seed
 # Seeders::StockEarnings.new.seed
+# https://statusinvest.com.br/cliente/comparar-acoes/b3sa3,bbas3,bbse3,brap3,cmig4,cple6,csan3,csmg3,even3,enbr3
 
-{
-  'B3SA3' =>  '19/02/2021',
-  'BBAS3' => '14/09/2021',
-  'BBSE3' => '10/09/2021',
-  'BRAP3' => '13/09/2021',
-  'CMIG4' => '02/04/2020',
-  'CPLE6' => '06/03/2021',
-  'CSAN3' => '07/02/2019',
-  'CSMG3' => '10/03/2020',
-  'ENBR3' => '30/03/2020',
-  'EVEN3' => '01/06/2021',
-  'GOAU4' => '11/05/2021',
-  'GRND3' => '11/08/2021',
-  'KLBN11' => '15/04/2021',
-  'PETR4' => '22/02/2021',
-  'RAPT4' => '20/07/2021',
-  'ROMI3' => '01/06/2021',
-  'SAPR11' => '05/01/2021',
-  'SUZB3' => '08/03/2021',
-  'TAEE11' => '14/06/2021',
-  'TIMS3' => '14/01/2021',
-  'TRPL4' => '08/12/2020',
-  'UNIP6' => '04/08/2021',
-  'VBBR3' => '23/07/2021',
-  'VIIA3' => '28/06/2021',
-  'VIVT3' => '06/03/2020',
-  'WIZS3' => '26/07/2021',
-}.each do |code, started_at|
-  stock = Stock.c(code)
+# Compra Forte:
+# CMIG4
+# ENBR3
+# BBSE3
+# KLBN11
+# TIMS3
+# GOAU4
+# WIZS3
+# VBBR3
 
-  next unless stock
+# RAPT4
 
-  stock_trend = stock
-                  .stock_trends
-                  .where(started_at: started_at)
-                  .first_or_create
+# Compra:
+# B3SA3
+# BBAS3
+# BRAP3
+# CPLE6
+# CSAN3
+# CSMG3
+# EVEN3
+# VIVT3
 
-  StockTrends::Calculate.new(
-    stock_trend.id
-  ).call
-end
+# Aguardar
+# ROMI3
+# SAPR11
+# TRPL4
+
+# Vender
+# TAEE11
+
+# Não sei
+# GRND3
+# UNIP6
+# VIIA3
+
+# Estou comprando:
+# KLBN11 => KLBN4
+# GOAU4 => GOAU3
+
+Seeders::Daily.new.seed
