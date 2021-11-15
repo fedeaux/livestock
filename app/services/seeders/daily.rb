@@ -6,6 +6,7 @@ class Seeders::Daily < Seeders::BaseSeeder
 
     stock_trends_seeder = Seeders::StockTrends.new
     # puts "Stock Prices..."
+
     stock_trends_seeder.trending_stocks.keys.each do |stock_code|
       stock = Stock.c stock_code
       next unless stock
@@ -13,7 +14,7 @@ class Seeders::Daily < Seeders::BaseSeeder
       UserStock.where(user: user, stock: stock).first_or_create
     end
 
-    # Seeders::HistoricalStockPrices.new.seed
+    Seeders::HistoricalStockPrices.new.seed
     stock_trends_seeder.seed
 
     puts "Consolidation..."

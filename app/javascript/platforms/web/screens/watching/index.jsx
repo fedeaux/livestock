@@ -17,16 +17,7 @@ import Icon5 from "react-native-vector-icons/FontAwesome5";
 
 const tableGrid = ["w-2/12", "w-2/12", "w-2/12", "w-2/12", "w-2/12"];
 
-const strongBuys = [
-  "CMIG4",
-  "ENBR3",
-  "BBSE3",
-  "KLBN4",
-  "TIMS3",
-  "GOAU3",
-  "WIZS3",
-  "VBBR3",
-];
+const strongBuys = [];
 
 function round(n) {
   return Math.round((n + Number.EPSILON) * 100) / 100;
