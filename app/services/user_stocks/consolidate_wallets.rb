@@ -6,6 +6,8 @@ class UserStocks::ConsolidateWallets
   end
 
   def do
+    duct_tapped_ensure_user_stock_wallets
+
     wallets = user.wallets
     price = 0
     market_price = 0
@@ -46,18 +48,14 @@ class UserStocks::ConsolidateWallets
 
   def duct_tapped_ensure_user_stock_wallets
     @dividends_wallet = user.wallets.where(name: 'Dividends').first_or_create
-    @dividends_wallet.update(target_percentage: 0.54, key: :dividends)
+    @dividends_wallet.update(target_percentage: 0.5, key: :dividends)
 
     @real_estate_wallet = user.wallets.where(name: 'Real Estate').first_or_create
-    @real_estate_wallet.update(target_percentage: 0.27, key: :real_estate)
-
-    # @gambling_wallet = user.wallets.where(name: 'Gambling').first_or_create
-    # @gambling_wallet.update(target_percentage: 0.03, key: :gambling)
+    @real_estate_wallet.update(target_percentage: 0.01, key: :real_estate)
 
     @growth_wallet = user.wallets.where(name: 'Growth').first_or_create
-    @growth_wallet.update(target_percentage: 0.09, key: :dividends)
+    @growth_wallet.update(target_percentage: 0.49, key: :growth)
 
-    @international_wallet = user.wallets.where(name: 'International').first_or_create
-    @international_wallet.update(target_percentage: 0.10, key: :international)
+    user.wallets.where(name: 'International').destroy_all
   end
 end

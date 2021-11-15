@@ -23,15 +23,16 @@ gem 'puma', '~> 5.0'
 gem 'rack-cors'
 gem 'recursive-open-struct'
 gem 'ruby-cbc'
+gem 'ruby_linear_regression'
 gem 'sass-rails', '>= 6'
 gem 'seedbank'
 gem 'selenium-webdriver'
 gem 'sidekiq'
 gem 'slim'
 gem 'table_print', '~> 1.5'
+gem 'telegram-bot-ruby'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
-gem 'ruby_linear_regression'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
