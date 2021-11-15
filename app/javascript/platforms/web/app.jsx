@@ -1,5 +1,5 @@
 import React from "react";
-import WatchingIndex from "platforms/web/screens/watching";
+import DashboardIndex from "platforms/web/screens/dashboard";
 import MovementsIndex from "platforms/web/screens/movements";
 import AnalyticsIndex from "platforms/web/screens/analytics";
 import WalletsIndex from "platforms/web/screens/wallets";
@@ -34,7 +34,7 @@ export default function App() {
         <Menu />
         <View style={tw("flex flex-grow")}>
           <Switch>
-            <Route exact path="/" component={WatchingIndex} />
+            <Route exact path="/" component={DashboardIndex} />
             <Route path="/movements" component={MovementsIndex} />
             <Route path="/analytics" component={AnalyticsIndex} />
             <Route path="/wallets" component={WalletsIndex} />

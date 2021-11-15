@@ -13,6 +13,12 @@ class UserStocks::ConsolidateWallets
     market_price = 0
     earnings = 0
 
+    UserStock.find_each do |user_stock|
+      last_stock_price = user_stock.stock.last_price
+      user_stock.market_price_per_stock = last_stock_price.close
+      user_stock.save
+    end
+
     wallets.each do |wallet|
       consolidate_wallet wallet
 

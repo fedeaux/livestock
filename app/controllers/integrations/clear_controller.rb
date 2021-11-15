@@ -10,11 +10,15 @@ class Integrations::ClearController < ApplicationController
   end
 
   def prices
+    price_updates = params.permit![:priceUpdates].to_h
+
     ActionCable.server.broadcast "Notifications",
                                  {
                                    type: 'ClearIntegration#prices',
-                                   data: params.permit![:priceUpdates].to_h
+                                   data: price_updates
                                  }
+
+    WatchedPricesNotificationsJob.perform_async price_updates
 
     head :ok
   end

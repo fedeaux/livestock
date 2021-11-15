@@ -377,6 +377,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 6.1.3, >= 6.1.3.2)
   recursive-open-struct
+  redis
   ruby-cbc
   ruby_linear_regression
   sass-rails (>= 6)
