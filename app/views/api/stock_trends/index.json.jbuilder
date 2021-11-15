@@ -4,4 +4,4 @@ json.stock_trends do
   end
 end
 
-json.cache_key StockTrend.cache_key
+json.cache_key StockTrend.cache_key(@query)

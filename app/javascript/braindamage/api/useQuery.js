@@ -22,8 +22,9 @@ export default function useQuery(cacheKey, queryFunc, queryParams) {
       })
     } else {
       setResponse(cached);
+      setIsLoading(false);
     }
-  }, []);
+  }, [cached]);
 
   return { ...response, isLoading };
 }

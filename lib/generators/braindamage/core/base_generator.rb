@@ -13,6 +13,13 @@ class BaseGenerator
     @braindamage_generator = braindamage_generator
   end
 
+  def entities
+    @entities ||= Dir.glob("#{Rails.root.join('app/javascript/generated/schemas/').to_s}*.js").map do |schema_path|
+      singular_underscore_name = schema_path.split('/').last.split('.')[0..-2].join('.')
+      Entity.new singular_underscore_name
+    end
+  end
+
   def pretty_print_thing(thing, indent)
     indentation = '  '*indent
 

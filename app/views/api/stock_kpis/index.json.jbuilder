@@ -4,4 +4,4 @@ json.stock_kpis do
   end
 end
 
-json.cache_key StockKpi.cache_key
+json.cache_key StockKpi.cache_key(@query)

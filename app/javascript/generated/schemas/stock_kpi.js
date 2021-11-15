@@ -25,6 +25,12 @@ export default {
       writeable: true,
       default: null,
     },
+      code: {
+      name: "code",
+      type: "string",
+      writeable: true,
+      default: null,
+    },
       createdAt: {
       name: "createdAt",
       type: "datetime",

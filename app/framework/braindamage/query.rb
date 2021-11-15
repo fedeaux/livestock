@@ -48,6 +48,36 @@ class Braindamage::Query
     @query_params.key?(:includes) && @query_params[:includes][key]
   end
 
+  def apply(current_scope)
+    apply_order apply_scopes current_scope
+  end
+
+  def order?
+    @query_params.key?(:order)
+  end
+
+  def order
+    @query_params[:order]
+  end
+
+  def apply_order(current_scope)
+    current_scope = current_scope.order order if order?
+
+    current_scope
+  end
+
+  def scopes
+    @query_params[:scopes] || []
+  end
+
+  def apply_scopes(current_scope)
+    scopes.each do |scope_name|
+      current_scope = current_scope.send scope_name
+    end
+
+    current_scope
+  end
+
   def default_query_params
     {}
   end

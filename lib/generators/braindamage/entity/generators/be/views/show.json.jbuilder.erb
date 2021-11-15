@@ -2,4 +2,4 @@ json.<%= singular_underscore_name %> do
   json.partial! "member", <%= singular_underscore_name %>: @<%= singular_underscore_name %>
 end
 
-json.cache_key @<%= singular_underscore_name %>.cache_key
+json.cache_key @<%= singular_underscore_name %>.cache_key(@query)

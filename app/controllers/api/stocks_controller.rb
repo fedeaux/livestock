@@ -1,6 +1,4 @@
 class Api::StocksController < ApiController
-  before_action :set_query, only: [:show, :index]
-
   def show
     @stock = Stock.c(params[:id])
 
@@ -23,13 +21,5 @@ class Api::StocksController < ApiController
 
   def index
     @stocks = Stock.all.limit(20)
-  end
-
-  def query
-    Braindamage::Query.from_json params[:query]
-  end
-
-  def set_query
-    @query = query
   end
 end

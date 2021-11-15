@@ -10,4 +10,4 @@ json.wallets do
   end
 end
 
-json.cache_key Wallet.cache_key
+json.cache_key Wallet.cache_key(@query)

@@ -30,4 +30,4 @@ json.stock do
   end
 end
 
-json.cache_key @stock.cache_key @query
+json.cache_key @stock.cache_key(@query)

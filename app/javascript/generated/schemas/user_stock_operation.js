@@ -31,6 +31,13 @@ export default {
       writeable: true,
       default: null,
     },
+      stock: {
+      name: "stock",
+      type: "has_one",
+      writeable: true,
+      default: null,
+      model: "Stock",
+    },
       stockCount: {
       name: "stockCount",
       type: "integer",
@@ -96,6 +103,7 @@ export default {
       valueMap: {
         buy: 0,
         sell: 10,
+        bonus: 20,
       },
       options: {
       },

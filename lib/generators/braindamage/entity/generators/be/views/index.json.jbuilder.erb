@@ -4,4 +4,4 @@ json.<%= plural_underscore_name %> do
   end
 end
 
-json.cache_key <%= singular_class_name %>.cache_key
+json.cache_key <%= singular_class_name %>.cache_key(@query)

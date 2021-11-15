@@ -4,4 +4,4 @@ json.stock_earnings do
   end
 end
 
-json.cache_key StockEarning.cache_key
+json.cache_key StockEarning.cache_key(@query)

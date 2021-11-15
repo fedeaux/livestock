@@ -1,4 +1,3 @@
-# BD-TODO: Interpret Includes
 json.user_stock do
   json.partial! "member", user_stock: @user_stock
 
@@ -28,4 +27,4 @@ json.user_stock do
   end
 end
 
-json.cache_key @user_stock.cache_key
+json.cache_key @user_stock.cache_key(@query)

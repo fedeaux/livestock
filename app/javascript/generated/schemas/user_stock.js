@@ -204,15 +204,6 @@ export default {
         "stock",
       ],
     },
-    {
-      className: "ActiveRecord::Validations::PresenceValidator",
-      options: {
-        message: "required",
-      },
-      attributes: [
-        "wallet",
-      ],
-    },
   ],
   enums: {
   },
