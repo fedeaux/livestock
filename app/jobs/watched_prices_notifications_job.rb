@@ -8,11 +8,12 @@ class BuyAtPrice
     current_price = prices['currentPrice'].to_f
 
     if current_price <= @target_price
-      return "#{@stock_code} caiu pra #{'%.2f' % @target_price}!"
+      # return Message.new("buy-at-price-hit-#{@stock_code}", )
+      return "#{@stock_code}. Alvo atingido: #{'%.2f' % @target_price}"
     end
 
-    if current_price <= (@target_price * 1.02)
-      return "Fique de olho em #{@stock_code}, #{'%.2f' % current_price} tá quase #{'%.2f' % @target_price}"
+    if current_price <= (@target_price * 1.015)
+      return "#{@stock_code}. Em zona de compra: #{'%.2f' % current_price}, alvo: #{'%.2f' % @target_price}"
     end
   end
 
@@ -66,6 +67,15 @@ class WatchedPricesNotificationsJob < ApplicationJob
   end
 
   def perform(price_updates)
+    # Track stocks "in the buying zone".
+    # ITSA4 Just entered buying zone at 10.05.
+    # TAEE11 Just left buying zone at 35.84.
+    # CSAN3 Is still in the buying zone at 20.28: "Current position compared to the last 5 prices".
+
+    # TODO:
+    # ENBR3 Just signaled top of channel reversal.
+
+
     luna_messages = begin
                       JSON.parse(redis.get("LUNA_ALERT_MESSAGES") || '{}').map do |message, at|
                         [message, Time.parse(at)]
