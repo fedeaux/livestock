@@ -1,4 +1,5 @@
 task release: :environment do
+  PriceAlerts::SyncSpreadsheetJob.perform_async
 end
 
 task daily_job: :environment do

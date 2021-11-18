@@ -18,7 +18,7 @@ class Integrations::ClearController < ApplicationController
                                    data: price_updates
                                  }
 
-    WatchedPricesNotificationsJob.perform_async price_updates
+    PriceAlerts::LunaJob.perform_async price_updates
 
     head :ok
   end
