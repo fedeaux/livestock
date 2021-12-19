@@ -26,9 +26,6 @@ class StockPriceAlert
 
     if current_price <= buy_price
       self.status = 'buy'
-      ap self.stock_code
-      ap last_status
-      ap last_price
       return nil if last_status == 'buy'
 
       return "Buy #{stock_code} @ #{'%.2f' % current_price}/#{'%.2f' % buy_price}"

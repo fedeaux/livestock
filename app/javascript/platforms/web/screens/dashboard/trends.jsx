@@ -15,7 +15,7 @@ import useApiStockList from "generated/useApiStockList";
 import WatchedStockPrice from "pojos/WatchedStockPrice";
 import Icon5 from "react-native-vector-icons/FontAwesome5";
 
-const tableGrid = ["w-3/12", "w-3/12", "w-3/12", "w-3/12", "w-3/12", "w-3/12"];
+const tableGrid = ["w-2/12", "w-2/12", "w-2/12", "w-2/12", "w-2/12", "w-2/12"];
 
 function round(n) {
   return Math.round((n + Number.EPSILON) * 100) / 100;
@@ -276,8 +276,6 @@ function WatchListItemFields({ stock, watchedStockPrice }) {
         <Text style={tw("text-lg text-gray-700")}>
           {watchedStockPrice.code}
         </Text>
-      </TableCell>
-      <TableCell twp={tableGrid[0]}>
         {userStock && (
           <View style={tw("mt-2")}>
             <Text style={tw("text-xs text-gray-300")}>
@@ -349,22 +347,9 @@ function WatchListItem({ stock, watchedStockPrice, trend }) {
   );
 }
 
-import Dividends from "data/projected_dividends.json";
-
 function evalWatchedStock(stock, watchedAttributes) {
-  const extraAttributes = {};
-
-  const stockDividends = Dividends.find((dividend) => {
-    return dividend.stock_code == stock.code;
-  });
-
-  if (stockDividends) {
-    extraAttributes.projectedDividendsPerShare = stockDividends.dpa;
-  }
-
   const watchedStockPrice = new WatchedStockPrice({
     ...watchedAttributes,
-    ...extraAttributes,
     code: stock.code,
   });
 
@@ -475,59 +460,6 @@ function WatchListCategory({ title, watchedStocks }) {
   );
 }
 
-function DyWatchListItemFields({ code, stock, watchedStockPrice }) {
-  return (
-    <TableCell twp={tableGrid[1]}>
-      <View style={tw("flex")}>
-        <Text style={tw("text-xs")}>
-          {formatErrorableMoney(watchedStockPrice.lowerDyPrice)}
-          {" - "}
-          {formatPercentage(watchedStockPrice.lowerDy)}
-        </Text>
-        <Text style={tw("text-lg my-2")}>
-          {formatPercentage(watchedStockPrice.dyAtPrice)}
-        </Text>
-        <Text style={tw("text-xs")}>
-          {formatErrorableMoney(watchedStockPrice.upperDyPrice)}
-          {" - "}
-          {formatPercentage(watchedStockPrice.upperDy)}
-        </Text>
-      </View>
-    </TableCell>
-  );
-}
-
-function DyWatchList({ watchedStocks }) {
-  const sortedWatchedStocks = watchedStocks
-    .filter((watchedStock) => {
-      return watchedStock.watchedStockPrice.projectedDividendsPerShare > 0;
-    })
-    .sort((wsa, wsb) => {
-      return wsb.watchedStockPrice.dyAtPrice - wsa.watchedStockPrice.dyAtPrice;
-    });
-
-  return (
-    <>
-      {sortedWatchedStocks.map((watchedStock) => {
-        return (
-          <TableRow key={watchedStock.watchedStockPrice.code}>
-            <WatchListItemFields
-              code={watchedStock.watchedStockPrice.code}
-              stock={watchedStock.stock}
-              watchedStockPrice={watchedStock.watchedStockPrice}
-            />
-            <DyWatchListItemFields
-              code={watchedStock.watchedStockPrice.code}
-              stock={watchedStock.stock}
-              watchedStockPrice={watchedStock.watchedStockPrice}
-            />
-          </TableRow>
-        );
-      })}
-    </>
-  );
-}
-
 function WatchList({ watchList }) {
   const { stocks, isLoading } = useApiStockList(Object.keys(watchList), {
     includes: {
@@ -552,9 +484,13 @@ function WatchList({ watchList }) {
     })
     .filter((watchedStock) => watchedStock);
 
+  const watchedStocksByCategory = categorizeWatchedStocks(watchedStocks);
+
   return (
-    <View style={tw("p-4 w-1/2")}>
-      <DyWatchList watchedStocks={watchedStocks} />
+    <View style={tw("flex-row flex-wrap")}>
+      {watchedStocksByCategory.map((category) => {
+        return <WatchListCategory key={category.title} {...category} />;
+      })}
     </View>
   );
 }

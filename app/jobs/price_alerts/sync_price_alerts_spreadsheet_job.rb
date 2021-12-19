@@ -1,4 +1,4 @@
-class PriceAlerts::SyncSpreadsheetJob < ApplicationJob
+class PriceAlerts::SyncPriceAlertsSpreadsheetJob < ApplicationJob
   def perform
     (2..worksheet.num_rows).map do |i|
       StockPriceAlert.new(
